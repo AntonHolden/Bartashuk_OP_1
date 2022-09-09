@@ -35,10 +35,7 @@
             int rez = 0;
             for (int i=0;i<s.Length;i++)
             {   
-                if (int.TryParse(s[i].ToString(),out int temp))
-                {
-                    rez++;
-                }
+                if (int.TryParse(s[i].ToString(),out int temp)) rez++;
             }
             return rez;
         }
@@ -52,7 +49,7 @@
  */
         internal static int CountDigits2(string s)
         {
-            return s.Count(x=>char.IsDigit(x));
+            return s.Count(symbol=>char.IsDigit(symbol));
         }
         
 /*
@@ -62,14 +59,14 @@
  */
         internal static int CalcDigits(string expr) {
             int rez = 0;
-            string[] nums_to_sum = expr.Split('+');
-            for (int i = 0; i < nums_to_sum.Length; i++)
+            string[] nums_sum = expr.Split('+');
+            for (int i = 0; i < nums_sum.Length; i++)
             {
-                string[] nums_to_sub = nums_to_sum[i].Split('-');
-                rez += int.Parse(nums_to_sub[0]);
-                for (int j=1;j<nums_to_sub.Length;j++)
+                string[] nus_substract = nums_sum[i].Split('-');
+                rez += int.Parse(nus_substract[0]);
+                for (int j=1;j<nus_substract.Length;j++)
                 {
-                    rez -= int.Parse(nums_to_sub[j]);
+                    rez -= int.Parse(nus_substract[j]);
                 }
             }
             return rez;
@@ -81,13 +78,13 @@
         internal static string ReplaceWithString(string s, string s1, string s2) {
             string[] splitter = s.Split(s1);
             string rez = splitter[0];
-            try
+            if (splitter.Length > 1)
             {
                 rez = String.Concat(splitter[0], s2, splitter[1]);
-            } catch { }
-            for (int i=2;i<splitter.Length;i++)
-            {
-                rez = String.Concat(rez, s1, splitter[i]);
+                for (int i = 2; i < splitter.Length; i++)
+                {
+                    rez = String.Concat(rez, s1, splitter[i]);
+                }
             }
             return rez;
         }

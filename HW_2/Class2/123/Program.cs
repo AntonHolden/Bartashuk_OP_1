@@ -1,18 +1,18 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Text;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
-        string s = "abcdab", s1 = "ab", s2 = "xxx";
-        string[] splitter = s.Split(s1);
-        try
+        int n = 4;
+        int gap = n.ToString().Length + (n * n).ToString().Length + 1;
+        StringBuilder table = new StringBuilder();
+        for (int current_n = 1; current_n <= n; current_n++)
         {
-            string rez = String.Concat(splitter[0], s2, splitter[1]);
+            var str_n = current_n.ToString();
+            table.Append(str_n).Append((current_n * current_n).ToString().PadLeft(gap - str_n.Length)).Append('\n');
         }
-        catch
-        {
-            Console.WriteLine(splitter[0]);
-        }
+        Console.WriteLine(table.ToString());
     }
 }
