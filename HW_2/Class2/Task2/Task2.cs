@@ -44,7 +44,7 @@ namespace Task2
             for (int current_n=2;current_n<=n;current_n++)
             {
                 var str_n = current_n.ToString();
-                table.Append("\r\n").Append(str_n).Append((current_n * current_n).ToString().PadLeft(gap - str_n.Length));
+                table.Append('\n').Append(str_n).Append((current_n * current_n).ToString().PadLeft(gap - str_n.Length));
             }
             return table.ToString();
         }

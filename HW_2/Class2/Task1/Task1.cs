@@ -1,4 +1,7 @@
-﻿namespace Task1
+﻿using System.Text;
+using static System.Net.Mime.MediaTypeNames;
+
+namespace Task1
 {
     public class Task1
     {
@@ -23,13 +26,15 @@
         
         private static char? First(string s) => s[0];
         private static char? Last(string s) => s[s.Length-1];
-        private static int? Code(char? c) => (int)c;
-       
 
-/*
- * Задание 1.3. Дана строка. Подсчитать количество содержащихся в ней цифр.
- * В решении необходимо воспользоваться циклом for.
- */
+        //private static int? Code(char? c) => (int)c;
+        //private static int? Code(char? c) => Encoding.ASCII.GetBytes(c.ToString())[0];
+        private static int? Code(char? c) => Char.ConvertToUtf32(c.ToString(), 0);
+
+        /*
+         * Задание 1.3. Дана строка. Подсчитать количество содержащихся в ней цифр.
+         * В решении необходимо воспользоваться циклом for.
+         */
         internal static int CountDigits(string s)
         {
             int rez = 0;
