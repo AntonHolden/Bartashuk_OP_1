@@ -62,11 +62,11 @@
             string[] nums_sum = expr.Split('+');
             for (int i = 0; i < nums_sum.Length; i++)
             {
-                string[] nus_substract = nums_sum[i].Split('-');
-                rez += int.Parse(nus_substract[0]);
-                for (int j=1;j<nus_substract.Length;j++)
+                string[] nums_substract = nums_sum[i].Split('-');
+                rez += int.Parse(nums_substract[0]);
+                for (int j=1;j<nums_substract.Length;j++)
                 {
-                    rez -= int.Parse(nus_substract[j]);
+                    rez -= int.Parse(nums_substract[j]);
                 }
             }
             return rez;
