@@ -29,7 +29,8 @@ namespace Task1
 
         //private static int? Code(char? c) => (int)c;
         //private static int? Code(char? c) => Encoding.ASCII.GetBytes(c.ToString())[0];
-        private static int? Code(char? c) => Char.ConvertToUtf32(c.ToString(), 0);
+        //private static int? Code(char? c) => Char.ConvertToUtf32(c.ToString(), 0);
+        private static int? Code(char? c) => Convert.ToInt32(c);
 
         /*
          * Задание 1.3. Дана строка. Подсчитать количество содержащихся в ней цифр.
@@ -39,8 +40,8 @@ namespace Task1
         {
             int rez = 0;
             for (int i=0;i<s.Length;i++)
-            {   
-                if (int.TryParse(s[i].ToString(),out int temp)) rez++;
+            {
+                if (int.TryParse(s[i].ToString(),out _)) rez++;
             }
             return rez;
         }

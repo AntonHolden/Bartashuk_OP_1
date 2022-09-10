@@ -39,8 +39,8 @@ namespace Task2
  */
         internal static string TabulateSquares(int n)
         {
-            int gap=n.ToString().Length+(n*n).ToString().Length+1;
-            StringBuilder table=new StringBuilder(1.ToString()).Append(1.ToString().PadLeft(gap - 1));
+            int gap = n.ToString().Length + (n*n).ToString().Length+1;
+            StringBuilder table = new StringBuilder(1.ToString()).Append(1.ToString().PadLeft(gap - 1));
             for (int current_n=2;current_n<=n;current_n++)
             {
                 var str_n = current_n.ToString();
