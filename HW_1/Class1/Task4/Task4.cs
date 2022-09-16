@@ -17,12 +17,12 @@
  */
         internal static void PrintFrame(int width, int height, char frameChar = '*')
         {
-            Console.Write(String.Concat(Enumerable.Repeat(frameChar, width)) + '\n');
+            Console.WriteLine(String.Concat(Enumerable.Repeat(frameChar, width)));
             for (int i=0;i<height-2;i++)
             {
-                Console.Write((frameChar + String.Concat(Enumerable.Repeat(" ",width-2))+frameChar) + '\n');
+                Console.WriteLine((frameChar + String.Concat(Enumerable.Repeat(" ",width-2))+frameChar));
             }
-            Console.Write(String.Concat(Enumerable.Repeat(frameChar, width)) + '\n');
+            Console.WriteLine(String.Concat(Enumerable.Repeat(frameChar, width)));
         }
 
 /*
@@ -31,13 +31,13 @@
         internal static void PrintFrame2(int width, int height, char frameChar = '*')
         {
             int ind = 0;
-            Console.Write(String.Concat(Enumerable.Repeat(frameChar, width)) + '\n');
+            Console.WriteLine(String.Concat(Enumerable.Repeat(frameChar, width)));
             while (ind < height - 2)
             {
-                Console.Write((frameChar + String.Concat(Enumerable.Repeat(" ", width - 2)) + frameChar) + '\n');
+                Console.WriteLine((frameChar + String.Concat(Enumerable.Repeat(" ", width - 2)) + frameChar));
                 ind++;
             }
-            Console.Write(String.Concat(Enumerable.Repeat(frameChar, width)));
+            Console.WriteLine(String.Concat(Enumerable.Repeat(frameChar, width)));
         }
 
 
