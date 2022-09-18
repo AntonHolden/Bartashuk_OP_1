@@ -38,12 +38,12 @@ namespace Task1
          */
         internal static int CountDigits(string s)
         {
-            int rez = 0;
+            int res = 0;
             for (int i = 0; i < s.Length; i++)
             {
-                if (int.TryParse(s[i].ToString(), out _)) rez++;
+                if (int.TryParse(s[i].ToString(), out _)) res++;
             }
-            return rez;
+            return res;
         }
 
         /*
@@ -65,18 +65,18 @@ namespace Task1
          */
         internal static int CalcDigits(string expr)
         {
-            int rez = 0;
-            string[] nums_sum = expr.Split('+');
-            for (int i = 0; i < nums_sum.Length; i++)
+            int res = 0;
+            string[] numsSum = expr.Split('+');
+            for (int i = 0; i < numsSum.Length; i++)
             {
-                string[] nums_substract = nums_sum[i].Split('-');
-                rez += int.Parse(nums_substract[0]);
-                for (int j = 1; j < nums_substract.Length; j++)
+                string[] numsSubstract = numsSum[i].Split('-');
+                res += int.Parse(numsSubstract[0]);
+                for (int j = 1; j < numsSubstract.Length; j++)
                 {
-                    rez -= int.Parse(nums_substract[j]);
+                    res -= int.Parse(numsSubstract[j]);
                 }
             }
-            return rez;
+            return res;
         }
 
         /*
@@ -85,16 +85,16 @@ namespace Task1
         internal static string ReplaceWithString(string s, string s1, string s2)
         {
             string[] splitter = s.Split(s1);
-            string rez = splitter[0];
+            string res = splitter[0];
             if (splitter.Length > 1)
             {
-                rez = String.Concat(splitter[0], s2, splitter[1]);
+                res = String.Concat(splitter[0], s2, splitter[1]);
                 for (int i = 2; i < splitter.Length; i++)
                 {
-                    rez = String.Concat(rez, s1, splitter[i]);
+                    res = String.Concat(res, s1, splitter[i]);
                 }
             }
-            return rez;
+            return res;
         }
 
 

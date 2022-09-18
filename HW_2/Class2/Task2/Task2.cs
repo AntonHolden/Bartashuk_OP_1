@@ -16,12 +16,12 @@ namespace Task2
          */
         internal static string FillWithAsterisks(string s, int n)
         {
-            StringBuilder rez = new StringBuilder(s[0].ToString());
+            StringBuilder res = new StringBuilder(s[0].ToString());
             for (int i = 1; i < s.Length; i++)
             {
-                rez.Append(String.Concat(Enumerable.Repeat('*', n))).Append(s[i]);
+                res.Append(String.Concat(Enumerable.Repeat('*', n))).Append(s[i]);
             }
-            return rez.ToString();
+            return res.ToString();
         }
 
         /*
@@ -41,10 +41,10 @@ namespace Task2
         {
             int gap = n.ToString().Length + (n * n).ToString().Length + 1;
             StringBuilder table = new StringBuilder(1.ToString()).Append(1.ToString().PadLeft(gap - 1));
-            for (int current_n = 2; current_n <= n; current_n++)
+            for (int currentN = 2; currentN <= n; currentN++)
             {
-                var str_n = current_n.ToString();
-                table.Append('\n').Append(str_n).Append((current_n * current_n).ToString().PadLeft(gap - str_n.Length));
+                var strN = currentN.ToString();
+                table.Append('\n').Append(strN).Append((currentN * currentN).ToString().PadLeft(gap - strN.Length));
             }
             return table.ToString();
         }
