@@ -33,13 +33,13 @@
         {
             static int GetIndex(char side)
             {
-                var directions_to_index = new Dictionary<char, int>() { { 'С', 3 }, { 'В', 2 }, { 'Ю', 1 }, { 'З', 0 } };
-                return directions_to_index[side];
+                var directionsToIndex = new Dictionary<char, int>() { { 'С', 3 }, { 'В', 2 }, { 'Ю', 1 }, { 'З', 0 } };
+                return directionsToIndex[side];
             }
             static Dictionary<int, char> Directions()
             {
-                var index_to_directions = new Dictionary<int, char>() { { 3, 'С' }, { 2, 'В' }, { 1, 'Ю' }, { 0, 'З' }, { -1, 'С' }, { -2, 'В' }, { -3, 'Ю' } };
-                return index_to_directions;
+                var indexToDirections = new Dictionary<int, char>() { { 3, 'С' }, { 2, 'В' }, { 1, 'Ю' }, { 0, 'З' }, { -1, 'С' }, { -2, 'В' }, { -3, 'Ю' } };
+                return indexToDirections;
             }
 
             char rotate1(char orientation, int cmd) => Directions()[(GetIndex(orientation) + cmd) % 4];
@@ -59,21 +59,21 @@
         internal static String AgeDescription(int age)
         {
             var beginningsOfTens = new Dictionary<int, string>() { { 2, "два" }, { 3, "три" }, { 4, "сорок" }, { 5, "пять" }, { 6, "шесть" } };
-            var endings_of_tens = new Dictionary<int, string>() { { 2, "дцать" }, { 3, "дцать" }, { 4, "" }, { 5, "десят" }, { 6, "десят" } };
+            var endingsOfTens = new Dictionary<int, string>() { { 2, "дцать" }, { 3, "дцать" }, { 4, "" }, { 5, "десят" }, { 6, "десят" } };
             var units = new Dictionary<int, string>() { { 0, "" }, { 1, " один" }, { 2, " два" }, { 3, " три" }, { 4, " четыре" }, { 5, " пять" }, { 6, " шесть" }, { 7, " семь" }, { 8, " восемь" }, { 9, " девять" } };
-            var name_of_age = new Dictionary<int, string>() { { 0, " лет" }, { 1, " год" } };
-            
+            var nameOfAge = new Dictionary<int, string>() { { 0, " лет" }, { 1, " год" } };
+
             for (int i = 2; i < 5; i++)
             {
-                name_of_age.Add(i, " года");
+                nameOfAge.Add(i, " года");
             }
-            
+
             for (int i = 5; i < 10; i++)
             {
-                name_of_age.Add(i, " лет");
+                nameOfAge.Add(i, " лет");
             }
-            
-            return beginningsOfTens[age / 10] + endings_of_tens[age / 10] + units[age % 10] + name_of_age[age % 10];
+
+            return beginningsOfTens[age / 10] + endingsOfTens[age / 10] + units[age % 10] + nameOfAge[age % 10];
         }
 
         public static void Main(string[] args)
