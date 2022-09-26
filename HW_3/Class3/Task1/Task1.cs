@@ -17,11 +17,11 @@ internal enum Suit
 // Значение
 internal enum Rank
 {
-    _6 = 2,
-    _7,
-    _8,
-    _9,
-    _10,
+    six = 6,
+    seven,
+    eight,
+    nine,
+    ten,
     J,
     Q,
     K,
@@ -31,10 +31,10 @@ internal enum Rank
 // Карта
 record Card
 {
-    public Player player;
+    public Player player { get; private set; }
+    public void SetPlayer(Player player) => this.player = player;
     private Suit suit;
     public Rank rank { get; private set; }
-    public Card(Player player) => this.player = player;
     public Card(Rank rank, Suit suit)
     {
         this.suit = suit;
@@ -105,8 +105,8 @@ namespace Task1
             for (int i = 0; i < 36; i++)
             {
                 int ind = randomizer.Next(deckCurrentLen--);
-                deck[ind].player = currentPlayer;
-                hands[currentPlayer = 3 - currentPlayer].Insert(0,pop(ref deck,ind));
+                deck[ind].SetPlayer(currentPlayer);
+                hands[currentPlayer = 3 - currentPlayer].Insert(0, pop(ref deck, ind));
             }
             return hands;
         }
@@ -115,12 +115,12 @@ namespace Task1
         // Возвращается победитель раунда и набор карт, выложенных на стол.
         internal static Tuple<Player?, Table> Round(ref Dictionary<Player, Hand> hands)
         {
-            
+
             Player? winner = null;
             Table table = new Table();
-            while (winner==null)
+            while (winner == null)
             {
-                if (!hands[Player.P1].Any() && !hands[Player.P1].Any()) return new Tuple<Player?, Table>(null, table);
+                if (!hands[Player.P1].Any() && !hands[Player.P2].Any()) return new Tuple<Player?, Table>(null, table);
                 else if (!hands[Player.P1].Any()) return new Tuple<Player?, Table>(Player.P2, table);
                 else if (!hands[Player.P2].Any()) return new Tuple<Player?, Table>(Player.P1, table);
                 table.Add(hands[Player.P1][0]);
