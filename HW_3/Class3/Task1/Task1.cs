@@ -54,12 +54,12 @@ namespace Task1
 {
     public class Task1
     {
-        public static T pop<T>(ref List<T> list, int ind = 0)
-        {
-            T element = list[ind];
-            list.RemoveAt(ind);
-            return element;
-        }
+        //public static T pop<T>(ref List<T> list, int ind = 0)
+        //{
+        //    T element = list[ind];
+        //    list.RemoveAt(ind);
+        //    return element;
+        //}
         /*
         * Реализуйте игру "Пьяница" (в простейшем варианте, на колоде в 36 карт)
         * https://ru.wikipedia.org/wiki/%D0%9F%D1%8C%D1%8F%D0%BD%D0%B8%D1%86%D0%B0_(%D0%BA%D0%B0%D1%80%D1%82%D0%BE%D1%87%D0%BD%D0%B0%D1%8F_%D0%B8%D0%B3%D1%80%D0%B0)
@@ -83,13 +83,11 @@ namespace Task1
         internal static Deck FullDeck()
         {
             Deck deck = new Deck();
-            int i = 0;
             foreach (Rank rank in Enum.GetValues(typeof(Rank)))
             {
                 foreach (Suit suit in Enum.GetValues(typeof(Suit)))
                 {
                     deck.Add(new Card(rank, suit));
-                    i++;
                 }
             }
             return deck;
@@ -106,7 +104,8 @@ namespace Task1
             {
                 int ind = randomizer.Next(deckCurrentLen--);
                 deck[ind].SetPlayer(currentPlayer);
-                hands[currentPlayer = 3 - currentPlayer].Insert(0, pop(ref deck, ind));
+                //hands[currentPlayer = 3 - currentPlayer].Insert(0, pop(ref deck, ind));  --- is it necessary to pop cards from deck?
+                hands[currentPlayer = 3 - currentPlayer].Insert(0, deck[ind]);
             }
             return hands;
         }
@@ -115,14 +114,19 @@ namespace Task1
         // Возвращается победитель раунда и набор карт, выложенных на стол.
         internal static Tuple<Player?, Table> Round(ref Dictionary<Player, Hand> hands)
         {
-
-            Player? winner = null;
             Table table = new Table();
+
+            table.Add(hands[Player.P1][0]);
+            table.Add(hands[Player.P2][0]);
+            Player? winner = RoundWinner(hands[Player.P1][0], hands[Player.P2][0]);
+            hands[Player.P1].RemoveAt(0);
+            hands[Player.P2].RemoveAt(0);
             while (winner == null)
             {
                 if (!hands[Player.P1].Any() && !hands[Player.P2].Any()) return new Tuple<Player?, Table>(null, table);
                 else if (!hands[Player.P1].Any()) return new Tuple<Player?, Table>(Player.P2, table);
                 else if (!hands[Player.P2].Any()) return new Tuple<Player?, Table>(Player.P1, table);
+
                 table.Add(hands[Player.P1][0]);
                 table.Add(hands[Player.P2][0]);
                 winner = RoundWinner(hands[Player.P1][0], hands[Player.P2][0]);
@@ -139,7 +143,6 @@ namespace Task1
             var winnerTable = Round(ref hands);
             while (hands[Player.P1].Any() && hands[Player.P1].Any())
             {
-                if (winnerTable.Item1 == null) return null;
                 hands[(Player)winnerTable.Item1].AddRange(winnerTable.Item2);
                 winnerTable = Round(ref hands);
             }
