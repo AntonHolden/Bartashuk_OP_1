@@ -17,11 +17,11 @@ internal enum Suit
 // Значение
 internal enum Rank
 {
-    six = 6,
-    seven,
-    eight,
-    nine,
-    ten,
+    Six = 6,
+    Seven,
+    Eight,
+    Nine,
+    Ten,
     J,
     Q,
     K,
@@ -33,7 +33,7 @@ record Card
 {
     public Player player { get; private set; }
     public void SetPlayer(Player player) => this.player = player;
-    private Suit suit;
+    public Suit suit { get; init; }
     public Rank rank { get; private set; }
     public Card(Rank rank, Suit suit)
     {
@@ -54,12 +54,12 @@ namespace Task1
 {
     public class Task1
     {
-        //public static T pop<T>(ref List<T> list, int ind = 0)
-        //{
-        //    T element = list[ind];
-        //    list.RemoveAt(ind);
-        //    return element;
-        //}
+        public static T pop<T>(ref List<T> list, int ind = 0)
+        {
+            T element = list[ind];
+            list.RemoveAt(ind);
+            return element;
+        }
         /*
         * Реализуйте игру "Пьяница" (в простейшем варианте, на колоде в 36 карт)
         * https://ru.wikipedia.org/wiki/%D0%9F%D1%8C%D1%8F%D0%BD%D0%B8%D1%86%D0%B0_(%D0%BA%D0%B0%D1%80%D1%82%D0%BE%D1%87%D0%BD%D0%B0%D1%8F_%D0%B8%D0%B3%D1%80%D0%B0)
@@ -97,6 +97,12 @@ namespace Task1
         internal static Dictionary<Player, Hand> Deal(Deck deck)
         {
             var hands = new Dictionary<Player, Hand>();
+
+            foreach (Player player in Enum.GetValues(typeof(Player)))
+            {
+                hands[player] = new Hand();
+            }
+
             var randomizer = new Random();
             int deckCurrentLen = 36;
             var currentPlayer = Player.P1;
@@ -104,8 +110,8 @@ namespace Task1
             {
                 int ind = randomizer.Next(deckCurrentLen--);
                 deck[ind].SetPlayer(currentPlayer);
-                //hands[currentPlayer = 3 - currentPlayer].Insert(0, pop(ref deck, ind));  --- is it necessary to pop cards from deck?
-                hands[currentPlayer = 3 - currentPlayer].Insert(0, deck[ind]);
+                hands[currentPlayer].Insert(0, pop(ref deck, ind));
+                currentPlayer = 3 - currentPlayer;
             }
             return hands;
         }
@@ -118,21 +124,38 @@ namespace Task1
 
             table.Add(hands[Player.P1][0]);
             table.Add(hands[Player.P2][0]);
+
+            Console.WriteLine($"{Player.P1} pulled out the {hands[Player.P1][0].rank} of {hands[Player.P1][0].suit}!");
+            Console.WriteLine($"{Player.P2} pulled out the {hands[Player.P2][0].rank} of {hands[Player.P2][0].suit}!");
+
             Player? winner = RoundWinner(hands[Player.P1][0], hands[Player.P2][0]);
             hands[Player.P1].RemoveAt(0);
             hands[Player.P2].RemoveAt(0);
             while (winner == null)
             {
-                if (!hands[Player.P1].Any() && !hands[Player.P2].Any()) return new Tuple<Player?, Table>(null, table);
+                if (!hands[Player.P1].Any() && !hands[Player.P2].Any())
+                {
+                    Console.WriteLine("The players have run out of cards!");
+                    return new Tuple<Player?, Table>(null, table);
+                }
                 else if (!hands[Player.P1].Any()) return new Tuple<Player?, Table>(Player.P2, table);
                 else if (!hands[Player.P2].Any()) return new Tuple<Player?, Table>(Player.P1, table);
 
+                Console.WriteLine("A draw!");
+                Console.WriteLine("\nPress Enter to make a move.\n");
+                Console.ReadLine();
+
                 table.Add(hands[Player.P1][0]);
                 table.Add(hands[Player.P2][0]);
+
+                Console.WriteLine($"{Player.P1} pulled out the {hands[Player.P1][0].rank} of {hands[Player.P1][0].suit}!");
+                Console.WriteLine($"{Player.P2} pulled out the {hands[Player.P2][0].rank} of {hands[Player.P2][0].suit}!");
+
                 winner = RoundWinner(hands[Player.P1][0], hands[Player.P2][0]);
                 hands[Player.P1].RemoveAt(0);
                 hands[Player.P2].RemoveAt(0);
             }
+            Console.WriteLine($"--------------------\nWinner of the round is: {winner}!\n--------------------");
             return new Tuple<Player?, Table>(winner, table);
         }
 
@@ -140,10 +163,47 @@ namespace Task1
         // в процессе игры печатаются ходы
         internal static Player? Game(Dictionary<Player, Hand> hands)
         {
+            Console.WriteLine("\n############################");
+            Console.WriteLine("P1 cards:");
+            foreach (var x in hands[Player.P1])
+            {
+                Console.Write($"({x.rank},{x.suit}) ");
+            }
+            Console.WriteLine("\n");
+            Console.WriteLine("P2 cards:");
+            foreach (var x in hands[Player.P2])
+            {
+                Console.Write($"({x.rank},{x.suit}) ");
+            }
+            Console.WriteLine();
+            Console.WriteLine("############################\n");
+
+            Console.WriteLine("The game has started!");
+            Console.WriteLine("\nPress Enter to start a new round.\n");
+            Console.ReadLine();
             var winnerTable = Round(ref hands);
             while (hands[Player.P1].Any() && hands[Player.P1].Any())
             {
-                hands[(Player)winnerTable.Item1].AddRange(winnerTable.Item2);
+                hands[(Player)winnerTable.Item1!].AddRange(winnerTable.Item2);
+
+                Console.WriteLine("\nPress Enter to start a new round.\n");
+                Console.ReadLine();
+
+                Console.WriteLine("\n############################");
+                Console.WriteLine("P1 cards:");
+                foreach (var x in hands[Player.P1])
+                {
+                    Console.Write($"({x.rank},{x.suit}) ");
+                }
+                Console.WriteLine("\n");
+                Console.WriteLine("P2 cards:");
+                foreach (var x in hands[Player.P2])
+                {
+                    Console.Write($"({x.rank},{x.suit}) ");
+                }
+                Console.WriteLine();
+                Console.WriteLine("############################\n");
+
                 winnerTable = Round(ref hands);
             }
             return winnerTable.Item1;
@@ -154,8 +214,8 @@ namespace Task1
             var deck = FullDeck();
             var hands = Deal(deck);
             var winner = Game(hands);
-            if (winner == null) Console.WriteLine("Ничья!");
-            else Console.WriteLine($"Победитель: {winner}");
+            if (winner == null) Console.WriteLine("\n****************************\nThe game ended in a draw!");
+            else Console.WriteLine($"\n****************************\nThe winner of the game is: {winner}!");
         }
     }
 }
