@@ -141,8 +141,12 @@ namespace Task1
                 else if (!hands[Player.P1].Any()) return new Tuple<Player?, Table>(Player.P2, table);
                 else if (!hands[Player.P2].Any()) return new Tuple<Player?, Table>(Player.P1, table);
 
-                Console.WriteLine("A draw!");
-                Console.WriteLine("\nPress Enter to make a move.\n");
+                Console.WriteLine("\nA draw!\n");
+
+                Console.WriteLine($"Player {Player.P1} has {hands[Player.P1].Count()} cards.");
+                Console.WriteLine($"Player {Player.P2} has {hands[Player.P2].Count()} cards.\n");
+
+                Console.WriteLine("Press Enter to make a move.\n");
                 Console.ReadLine();
 
                 table.Add(hands[Player.P1][0]);
@@ -155,7 +159,7 @@ namespace Task1
                 hands[Player.P1].RemoveAt(0);
                 hands[Player.P2].RemoveAt(0);
             }
-            Console.WriteLine($"--------------------\nWinner of the round is: {winner}!\n--------------------");
+            Console.WriteLine($"--------------------\nWinner of the round is: {winner}!\n--------------------\n");
             return new Tuple<Player?, Table>(winner, table);
         }
 
@@ -163,50 +167,78 @@ namespace Task1
         // в процессе игры печатаются ходы
         internal static Player? Game(Dictionary<Player, Hand> hands)
         {
-            Console.WriteLine("\n############################");
-            Console.WriteLine("P1 cards:");
-            foreach (var x in hands[Player.P1])
-            {
-                Console.Write($"({x.rank},{x.suit}) ");
-            }
-            Console.WriteLine("\n");
-            Console.WriteLine("P2 cards:");
-            foreach (var x in hands[Player.P2])
-            {
-                Console.Write($"({x.rank},{x.suit}) ");
-            }
-            Console.WriteLine();
-            Console.WriteLine("############################\n");
+            //Console.WriteLine("\n############################");
+            //Console.WriteLine("P1 cards:");
+            //foreach (var x in hands[Player.P1])
+            //{
+            //    Console.Write($"({x.rank},{x.suit}) ");
+            //}
+            //Console.WriteLine("\n");
+            //Console.WriteLine("P2 cards:");
+            //foreach (var x in hands[Player.P2])
+            //{
+            //    Console.Write($"({x.rank},{x.suit}) ");
+            //}
+            //Console.WriteLine();
+            //Console.WriteLine("############################\n");
 
             Console.WriteLine("The game has started!");
-            Console.WriteLine("\nPress Enter to start a new round.\n");
-            Console.ReadLine();
-            var winnerTable = Round(ref hands);
-            while (hands[Player.P1].Any() && hands[Player.P1].Any())
-            {
-                hands[(Player)winnerTable.Item1!].AddRange(winnerTable.Item2);
 
-                Console.WriteLine("\nPress Enter to start a new round.\n");
+            Console.WriteLine($"\nPlayer {Player.P1} has {hands[Player.P1].Count()} cards.");
+            Console.WriteLine($"Player {Player.P2} has {hands[Player.P2].Count()} cards.\n");
+
+            Console.WriteLine("Press Enter to start a new round.\n");
+            Console.ReadLine();
+
+            while (true)
+            {
+                var winnerTable = Round(ref hands);
+
+                if (winnerTable.Item1==null)
+                {
+                    return winnerTable.Item1;
+                }
+
+                //randomly taking the cards on the table
+
+                var table = winnerTable.Item2;
+                var randomizer = new Random();
+                while (table.Count()!=0)
+                {
+                    int ind = randomizer.Next(table.Count());
+                    hands[(Player)winnerTable.Item1!].Add(pop(ref table, ind));
+                }
+
+                // NOT randomly taking...
+                //hands[(Player)winnerTable.Item1!].AddRange(winnerTable.Item2);
+
+                Console.WriteLine($"Player {Player.P1} has {hands[Player.P1].Count()} cards.");
+                Console.WriteLine($"Player {Player.P2} has {hands[Player.P2].Count()} cards.\n");
+
+                Console.WriteLine("Press Enter to start a new round.\n");
                 Console.ReadLine();
 
-                Console.WriteLine("\n############################");
-                Console.WriteLine("P1 cards:");
-                foreach (var x in hands[Player.P1])
-                {
-                    Console.Write($"({x.rank},{x.suit}) ");
-                }
-                Console.WriteLine("\n");
-                Console.WriteLine("P2 cards:");
-                foreach (var x in hands[Player.P2])
-                {
-                    Console.Write($"({x.rank},{x.suit}) ");
-                }
-                Console.WriteLine();
-                Console.WriteLine("############################\n");
+                //Console.WriteLine("\n############################");
+                //Console.WriteLine("P1 cards:");
+                //foreach (var x in hands[Player.P1])
+                //{
+                //    Console.Write($"({x.rank},{x.suit}) ");
+                //}
+                //Console.WriteLine("\n");
+                //Console.WriteLine("P2 cards:");
+                //foreach (var x in hands[Player.P2])
+                //{
+                //    Console.Write($"({x.rank},{x.suit}) ");
+                //}
+                //Console.WriteLine();
+                //Console.WriteLine("############################\n");
 
-                winnerTable = Round(ref hands);
+                if (!hands[Player.P1].Any() || !hands[Player.P2].Any())
+                {
+                    return winnerTable.Item1;
+                }
+                
             }
-            return winnerTable.Item1;
         }
 
         public static void Main(string[] args)
@@ -214,8 +246,8 @@ namespace Task1
             var deck = FullDeck();
             var hands = Deal(deck);
             var winner = Game(hands);
-            if (winner == null) Console.WriteLine("\n****************************\nThe game ended in a draw!");
-            else Console.WriteLine($"\n****************************\nThe winner of the game is: {winner}!");
+            if (winner == null) Console.WriteLine("\n****************************\n****************************\nThe game ended in a draw!");
+            else Console.WriteLine($"\n****************************\n****************************\nThe winner of the game is: {winner}!");
         }
     }
 }
