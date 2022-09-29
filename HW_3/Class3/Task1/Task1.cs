@@ -125,12 +125,15 @@ namespace Task1
             table.Add(hands[Player.P1][0]);
             table.Add(hands[Player.P2][0]);
 
+
             Console.WriteLine($"{Player.P1} pulled out the {hands[Player.P1][0].rank} of {hands[Player.P1][0].suit}!");
             Console.WriteLine($"{Player.P2} pulled out the {hands[Player.P2][0].rank} of {hands[Player.P2][0].suit}!");
+
 
             Player? winner = RoundWinner(hands[Player.P1][0], hands[Player.P2][0]);
             hands[Player.P1].RemoveAt(0);
             hands[Player.P2].RemoveAt(0);
+
             while (winner == null)
             {
                 if (!hands[Player.P1].Any() && !hands[Player.P2].Any())
@@ -141,25 +144,31 @@ namespace Task1
                 else if (!hands[Player.P1].Any()) return new Tuple<Player?, Table>(Player.P2, table);
                 else if (!hands[Player.P2].Any()) return new Tuple<Player?, Table>(Player.P1, table);
 
+
                 Console.WriteLine("\nA draw!\n");
 
                 Console.WriteLine($"Player {Player.P1} has {hands[Player.P1].Count()} cards.");
                 Console.WriteLine($"Player {Player.P2} has {hands[Player.P2].Count()} cards.\n");
 
                 Console.WriteLine("Press Enter to make a move.\n");
-                Console.ReadLine();
+                //Console.ReadLine();  //comment this line to pass the RoundTest and the Game2CardsTest
+
 
                 table.Add(hands[Player.P1][0]);
                 table.Add(hands[Player.P2][0]);
 
+
                 Console.WriteLine($"{Player.P1} pulled out the {hands[Player.P1][0].rank} of {hands[Player.P1][0].suit}!");
                 Console.WriteLine($"{Player.P2} pulled out the {hands[Player.P2][0].rank} of {hands[Player.P2][0].suit}!");
+
 
                 winner = RoundWinner(hands[Player.P1][0], hands[Player.P2][0]);
                 hands[Player.P1].RemoveAt(0);
                 hands[Player.P2].RemoveAt(0);
             }
+
             Console.WriteLine($"--------------------\nWinner of the round is: {winner}!\n--------------------\n");
+
             return new Tuple<Player?, Table>(winner, table);
         }
 
@@ -188,13 +197,13 @@ namespace Task1
             Console.WriteLine($"Player {Player.P2} has {hands[Player.P2].Count()} cards.\n");
 
             Console.WriteLine("Press Enter to start a new round.\n");
-            Console.ReadLine();
+            //Console.ReadLine();  //comment this line to pass the Game2CardsTest
 
             while (true)
             {
                 var winnerTable = Round(ref hands);
 
-                if (winnerTable.Item1==null)
+                if (winnerTable.Item1 == null)
                 {
                     return winnerTable.Item1;
                 }
@@ -203,20 +212,20 @@ namespace Task1
 
                 var table = winnerTable.Item2;
                 var randomizer = new Random();
-                while (table.Count()!=0)
+                while (table.Count() != 0)
                 {
                     int ind = randomizer.Next(table.Count());
                     hands[(Player)winnerTable.Item1!].Add(pop(ref table, ind));
                 }
 
-                // NOT randomly taking...
+                // NOT randomly taking the cards on the table
                 //hands[(Player)winnerTable.Item1!].AddRange(winnerTable.Item2);
 
                 Console.WriteLine($"Player {Player.P1} has {hands[Player.P1].Count()} cards.");
                 Console.WriteLine($"Player {Player.P2} has {hands[Player.P2].Count()} cards.\n");
 
                 Console.WriteLine("Press Enter to start a new round.\n");
-                Console.ReadLine();
+                //Console.ReadLine();  //comment this line to pass the Game2CardsTest
 
                 //Console.WriteLine("\n############################");
                 //Console.WriteLine("P1 cards:");
@@ -237,7 +246,7 @@ namespace Task1
                 {
                     return winnerTable.Item1;
                 }
-                
+
             }
         }
 
