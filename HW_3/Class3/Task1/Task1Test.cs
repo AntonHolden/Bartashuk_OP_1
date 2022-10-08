@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Numerics;
 using static NUnit.Framework.Assert;
 using static Task1.Task1;
 
@@ -77,8 +78,10 @@ public class Tests
     [Test]
     public void Game2CardsTest()
     {
-        var six = TODO(Rank.Six, Player.P1);
-        var ace = TODO(Rank.A, Player.P2);
+        var six = new Card(Rank.Six, Suit.Hearts);
+        six.SetPlayer(Player.P1);
+        var ace = new Card(Rank.A, Suit.Clubs);
+        ace.SetPlayer(Player.P2);
         Dictionary<Player, List<Card>> hands = new Dictionary<Player, List<Card>>
         {
             { Player.P1, new List<Card> {six} },
@@ -86,13 +89,6 @@ public class Tests
         };
         var gameWinner = Game(hands);
         That(gameWinner, Is.EqualTo(Player.P2));
-    }
-
-    private static Card TODO(Rank rank, Player player)
-    {
-        var card = new Card(rank, Suit.Hearts);
-        card.SetPlayer(player);
-        return card;
     }
 
 }

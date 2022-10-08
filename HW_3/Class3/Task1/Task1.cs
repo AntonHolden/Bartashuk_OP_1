@@ -29,18 +29,10 @@ internal enum Rank
 }
 
 // Карта
-record Card
+record Card(Rank rank, Suit suit)
 {
     public Player player { get; private set; }
     public void SetPlayer(Player player) => this.player = player;
-    public Suit suit { get; init; }
-    public Rank rank { get; private set; }
-    public Card(Rank rank, Suit suit)
-    {
-        this.suit = suit;
-        this.rank = rank;
-    }
-
 };
 
 // Тип для обозначения игрока (первый, второй)
@@ -208,7 +200,7 @@ namespace Task1
                     return winnerTable.Item1;
                 }
 
-                //randomly taking the cards on the table
+                //randomly taking the cards from the table
 
                 var table = winnerTable.Item2;
                 var randomizer = new Random();
