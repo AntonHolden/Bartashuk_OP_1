@@ -43,7 +43,7 @@ public class Tests
     public void LoadRangesTest()
     {
         var ranges = LoadRanges(new List<string> { "data/1.iprs", "data/2.iprs" });
-        That(ranges, Has.Count.EqualTo(108));
+        That(ranges, Has.Length.EqualTo(108*4));
     }
     
     [Test]
@@ -56,7 +56,7 @@ public class Tests
     [Test]
     public void LoadFindRangeTest()
     {
-        var ranges = LoadRanges(new List<string>{"../../../data/1.iprs"});
+        var ranges = LoadRanges(new List<string>{"data/1.iprs"});
         That(FindRange(ranges, new IPv4Addr("60.161.226.166")), Is.Not.Null);
         That(FindRange(ranges, new IPv4Addr("127.0.0.1")), Is.Null);
     }

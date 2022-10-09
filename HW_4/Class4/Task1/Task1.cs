@@ -14,7 +14,8 @@ namespace Task1
         * ещё и целочисленное значение соответствующего адреса. Например, для адреса
          * 127.0.0.1 должно храниться число 1 + 0 * 2^8 + 0 * 2^16 + 127 * 2^24 = 2130706433.
         */
-        internal record IPv4Addr : IComparable<IPv4Addr>
+
+        public record IPv4Addr : IComparable<IPv4Addr>
         {
             internal ulong IntValue;
             private string StrValue { get; init; }
@@ -50,6 +51,33 @@ namespace Task1
             public override string ToString()
             {
                 return StrValue;
+            }
+            public static bool operator <(IPv4Addr query1, IPv4Addr query2)
+            {
+                return (query1.IntValue < query2.IntValue);
+            }
+            public static bool operator >(IPv4Addr query1, IPv4Addr query2)
+            {
+                return (query1.IntValue > query2.IntValue);
+            }
+
+            public static bool operator <=(IPv4Addr query1, IPv4Addr query2)
+            {
+                return (query1.IntValue <= query2.IntValue);
+            }
+            public static bool operator >=(IPv4Addr query1, IPv4Addr query2)
+            {
+                return (query1.IntValue >= query2.IntValue);
+            }
+
+            public static IPv4Addr Max(IPv4Addr query1, IPv4Addr query2)
+            {
+                return (query2 > query1) ? query2 : query1;
+            }
+
+            public static IPv4Addr Min(IPv4Addr query1, IPv4Addr query2)
+            {
+                return (query2 < query1) ? query2 : query1;
             }
         }
 
@@ -88,7 +116,7 @@ namespace Task1
             return File.ReadAllLines(dirPath + filename).ToList();
         }
 
-        internal static IPRangesDatabase LoadRanges(List<String> filenames)
+        internal static Tuple<IPv4Addr, IPv4Addr>[]? LoadRanges(List<String> filenames)
         {
             string dirPath = Directory.GetCurrentDirectory();
             dirPath = dirPath.Substring(0, dirPath.Length - 16);
@@ -106,38 +134,82 @@ namespace Task1
             {
                 var splitter = range.Split(',');
 
-                res.Add(new Tuple<IPv4Addr, IPv4Addr> (new IPv4Addr(splitter[0]), new IPv4Addr(splitter[1])));
+                res.Add(new Tuple<IPv4Addr, IPv4Addr>(new IPv4Addr(splitter[0]), new IPv4Addr(splitter[1])));
             }
 
-            return res;
+            if (res.Count==0) return null;
+
+            var tree = new Tuple<IPv4Addr, IPv4Addr>[4 * res.Count];
+            build(res, 1, 0, res.Count - 1, ref tree);
+
+            return tree;
         }
 
-        internal static IPRange? FindRange(IPRangesDatabase ranges, IPv4Addr query)
+        public static void build(IPRangesDatabase a, int v, int l, int r, ref Tuple<IPv4Addr, IPv4Addr>[] tree)
         {
-            throw new NotImplementedException();
+            if (l == r) tree[v] = a[l];
+            else
+            {
+                int m = (r + l) / 2;
+                build(a, v * 2, l, m, ref tree);
+                build(a, v * 2 + 1, m + 1, r, ref tree);
+
+                tree[v] = new Tuple<IPv4Addr, IPv4Addr>(IPv4Addr.Min(tree[v * 2].Item1, tree[v * 2 + 1].Item1), IPv4Addr.Max(tree[v * 2].Item2, tree[v * 2 + 1].Item2));
+            }
+        }
+
+        public static Tuple<IPv4Addr, IPv4Addr>? FindInTree(int v, int l, int r, IPv4Addr x, Tuple<IPv4Addr, IPv4Addr>[] tree)
+        {
+            if ((l == r) && ((x >= tree[v].Item1) && (x <= tree[v].Item2))) return tree[v];
+            if (!((x >= tree[v].Item1) && (x <= tree[v].Item2))) return null;
+
+            int m = (r + l) / 2;
+
+            Tuple<IPv4Addr, IPv4Addr>? findLeft = FindInTree(v * 2, l, m, x, tree);
+
+            if (findLeft == null)
+            {
+                Tuple<IPv4Addr, IPv4Addr>? findRight = FindInTree(v * 2 + 1, m + 1, r, x, tree);
+
+                if (findRight == null) return null;
+                return findRight;
+            }
+            return findLeft;
+        }
+
+        internal static IPRange? FindRange(Tuple<IPv4Addr, IPv4Addr>[] tree, IPv4Addr query)
+        {
+            if (tree == null) return null;
+
+            var range = FindInTree(1, 0, (tree.Length/4) - 1, query, tree);
+            if (range == null) return null;
+
+            return new IPRange(range.Item1, range.Item2);
         }
 
         public static void Main(string[] args)
         {
-            var ipLookupArgs = ParseArgs(args);
-            if (ipLookupArgs == null)
-            {
-                return;
-            }
+            var ipLookupArgs = ParseArgs(new[] { "data/query.ips", "data/1.iprs", "data/2.iprs" });
+            //var ipLookupArgs = ParseArgs(args);
+            //if (ipLookupArgs == null)
+            //{
+            //    return;
+            //}
 
             var queries = LoadQuery(ipLookupArgs.IpsFile);
             var ranges = LoadRanges(ipLookupArgs.IprsFiles);
+
             foreach (var ip in queries)
             {
                 var findRange = FindRange(ranges, new IPv4Addr(ip));
-                var result = TODO<string>();
-                Console.WriteLine($"{ip}: {result}");
+                if (findRange == null) Console.WriteLine("NO");
+                else
+                {
+                    var result = findRange.ToString();
+                    Console.WriteLine($"{ip}: {result}");
+                }
             }
         }
 
-        private static T TODO<T>()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
