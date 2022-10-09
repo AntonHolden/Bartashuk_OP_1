@@ -20,7 +20,7 @@ namespace Task2
         internal static Dictionary<FunctionName, OneVariableFunction> AvailableFunctions =
                     new Dictionary<FunctionName, OneVariableFunction>
                     {
-                { "square", x => x * x },
+                { "sqr", x => x * x },
                 { "sin", Math.Sin },
                 { "cos", Math.Cos },
                 { "tg", Math.Tan },
@@ -28,7 +28,7 @@ namespace Task2
                 { "abs", Math.Abs },
                 { "ln", Math.Log },
                 { "sqrt", Math.Sqrt },
-                { "cube", x => x * x * x },
+                { "cbr", x => x * x * x },
                 { "cbrt", Math.Cbrt }
                     };
 
@@ -51,7 +51,7 @@ namespace Task2
                 mainArgs = Console.ReadLine().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             }
 
-            if (mainArgs.Length<3)
+            if (mainArgs.Length < 3)
             {
                 Console.WriteLine("Вы ввели слишком мало чисел!");
                 return null;
@@ -70,7 +70,7 @@ namespace Task2
             }
 
             int numberOfPoints;
-            if ((!int.TryParse(mainArgs[2], out numberOfPoints)) || (numberOfPoints < 0))
+            if ((!int.TryParse(mainArgs[2], out numberOfPoints)) || (numberOfPoints < 0) || (numberOfPoints > 15))
             {
                 Console.WriteLine("Вы ввели некорректно ввели количество знаков после десятичной точки!");
                 return null;
@@ -83,11 +83,6 @@ namespace Task2
                 functionNames.Add(mainArgs[i]);
             }
 
-            //if (!functionNames.Any())
-            //{
-            //    Console.WriteLine("Вы не ввели никаких функций!");
-            //    return null;
-            //}
             return new InputData(fromX, toX, numberOfPoints, functionNames);
 
         }
@@ -104,6 +99,7 @@ namespace Task2
 
             private int blank, numberOfPoints, numberOfFunctions;
             private StringBuilder table = new StringBuilder();
+
             public FunctionTable(InputData input)
             {
                 double sample = input.ToX;
@@ -115,7 +111,7 @@ namespace Task2
                 {
                     sample *= sample;
                 }
-                blank = Math.Max(Math.Floor(sample).ToString().Length + input.NumberOfPoints + 4, 6);
+                blank = Math.Max(Math.Floor(sample).ToString().Length + input.NumberOfPoints + 2, 6);
 
                 numberOfPoints = input.NumberOfPoints;
                 numberOfFunctions = input.FunctionNames.Count;
@@ -136,20 +132,22 @@ namespace Task2
             {
                 table.Append('|').Append('\n').Append(String.Concat(Enumerable.Repeat('-', blank * (numberOfFunctions + 1) + numberOfFunctions + 2))).Append('\n');
 
-                double res = Math.Round(x, numberOfPoints, MidpointRounding.AwayFromZero);
-
-                table.Append('|').Append(res.ToString().PadRight(blank));
+                table.Append('|').Append(x.ToString().PadRight(blank));
             }
             public void AddFuncValue(double x)
             {
-                double res = Math.Round(x, Math.Max(numberOfPoints,2), MidpointRounding.AwayFromZero);
+                double res = Math.Round(x, numberOfPoints, MidpointRounding.AwayFromZero);
 
                 table.Append('|').Append(res.ToString().PadLeft(blank));
             }
 
-            public override string ToString()
+            public void DrawLastHorizontalLine()
             {
                 table.Append('|').Append('\n').Append(String.Concat(Enumerable.Repeat('-', blank * (numberOfFunctions + 1) + numberOfFunctions + 2)));
+            }
+
+            public override string ToString()
+            {
                 return table.ToString();
             }
         }
@@ -163,9 +161,7 @@ namespace Task2
             var table = new FunctionTable(input);
             try
             {
-                double summand = 1.0 / Math.Pow(10.0, input.NumberOfPoints);
-
-                for (double currentX = input.FromX; currentX <= input.ToX; currentX = Math.Round(currentX + summand,input.NumberOfPoints))
+                for (double currentX = Math.Floor(input.FromX); currentX <= Math.Ceiling(input.ToX); currentX = Math.Round(currentX + 1))
                 {
                     table.AddValue(currentX);
                     foreach (string function in input.FunctionNames)
@@ -176,9 +172,11 @@ namespace Task2
             }
             catch
             {
+                Console.WriteLine("Вы некорректно ввели название какой-то функции!");
                 return null;
             }
 
+            table.DrawLastHorizontalLine();
             return table;
         }
 
@@ -187,15 +185,28 @@ namespace Task2
             // Входные данные принимаются в аргументах командной строки
             // fromX fromY numberOfPoints function1 function2 function3 ...
 
+            if (args.Length == 0)
+            {
+                Console.WriteLine("Введите границы отрезка и количество знаков (от 0 до 15 включительно) после десятичной точки (через пробел).\n");
+                Console.WriteLine("После этого введите одно или несколько из следующих названий функций:\n");
+                Console.WriteLine("sqr (квадрат числа)\n");
+                Console.WriteLine("sqrt (квадратный корень из числа)\n");
+                Console.WriteLine("cqr (куб числа)\n");
+                Console.WriteLine("cqrt (кубический корень из числа)\n");
+                Console.WriteLine("sin (синус)\n");
+                Console.WriteLine("cos (косинус)\n");
+                Console.WriteLine("tg (тангенс)\n");
+                Console.WriteLine("ctg (котангенс)\n");
+                Console.WriteLine("abs (модуль)\n");
+                Console.WriteLine("ln (натуральный логарифм)\n\n");
+            }
+
             var input = prepareData(args);
             if (input == null) return;
 
             var table = tabulate(input);
 
-            if (table == null)
-            {
-                Console.WriteLine("Вы некорректно ввели название какой-то функции!");
-            }
+            if (table == null) return;
             else
             {
                 // Собственно табулирование и печать результата (что надо поменять в этой строке?):
