@@ -103,11 +103,11 @@ namespace Task2
             public FunctionTable(InputData input)
             {
                 double sample = input.ToX;
-                if (input.FunctionNames.Contains("cube"))
+                if (input.FunctionNames.Contains("cbr"))
                 {
                     sample *= sample * sample;
                 }
-                else if (input.FunctionNames.Contains("square"))
+                else if (input.FunctionNames.Contains("sqr"))
                 {
                     sample *= sample;
                 }
