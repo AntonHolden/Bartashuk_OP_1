@@ -116,7 +116,7 @@ namespace Task1
             return File.ReadAllLines(dirPath + filename).ToList();
         }
 
-        internal static Tuple<IPv4Addr, IPv4Addr>[]? LoadRanges(List<String> filenames)
+        internal static IPRangesDatabase LoadRanges(List<String> filenames)
         {
             string dirPath = Directory.GetCurrentDirectory();
             dirPath = dirPath.Substring(0, dirPath.Length - 16);
@@ -137,76 +137,76 @@ namespace Task1
                 res.Add(new Tuple<IPv4Addr, IPv4Addr>(new IPv4Addr(splitter[0]), new IPv4Addr(splitter[1])));
             }
 
-            if (res.Count==0) return null;
-
-            var tree = new Tuple<IPv4Addr, IPv4Addr>[4 * res.Count];
-            build(res, 1, 0, res.Count - 1, ref tree);
-
-            return tree;
+            return res;
         }
 
-        public static void build(IPRangesDatabase a, int v, int l, int r, ref Tuple<IPv4Addr, IPv4Addr>[] tree)
+        internal static IPRange? FindRange(IPRangesDatabase ranges, IPv4Addr query)
         {
-            if (l == r) tree[v] = a[l];
-            else
+            foreach (var range in ranges)
             {
-                int m = (r + l) / 2;
-                build(a, v * 2, l, m, ref tree);
-                build(a, v * 2 + 1, m + 1, r, ref tree);
-
-                tree[v] = new Tuple<IPv4Addr, IPv4Addr>(IPv4Addr.Min(tree[v * 2].Item1, tree[v * 2 + 1].Item1), IPv4Addr.Max(tree[v * 2].Item2, tree[v * 2 + 1].Item2));
+                if ((query >= range.Item1) && (query <= range.Item2)) return new IPRange(range.Item1, range.Item2);
             }
-        }
 
-        public static Tuple<IPv4Addr, IPv4Addr>? FindInTree(int v, int l, int r, IPv4Addr x, Tuple<IPv4Addr, IPv4Addr>[] tree)
-        {
-            if ((l == r) && ((x >= tree[v].Item1) && (x <= tree[v].Item2))) return tree[v];
-            if (!((x >= tree[v].Item1) && (x <= tree[v].Item2))) return null;
-
-            int m = (r + l) / 2;
-
-            Tuple<IPv4Addr, IPv4Addr>? findLeft = FindInTree(v * 2, l, m, x, tree);
-
-            if (findLeft == null)
-            {
-                Tuple<IPv4Addr, IPv4Addr>? findRight = FindInTree(v * 2 + 1, m + 1, r, x, tree);
-
-                if (findRight == null) return null;
-                return findRight;
-            }
-            return findLeft;
-        }
-
-        internal static IPRange? FindRange(Tuple<IPv4Addr, IPv4Addr>[] tree, IPv4Addr query)
-        {
-            if (tree == null) return null;
-
-            var range = FindInTree(1, 0, (tree.Length/4) - 1, query, tree);
-            if (range == null) return null;
-
-            return new IPRange(range.Item1, range.Item2);
+            return null;
         }
 
         public static void Main(string[] args)
         {
             var ipLookupArgs = ParseArgs(new[] { "data/query.ips", "data/1.iprs", "data/2.iprs" });
+
             //var ipLookupArgs = ParseArgs(args);
-            //if (ipLookupArgs == null)
-            //{
-            //    return;
-            //}
+            if (ipLookupArgs == null)
+            {
+                return;
+            }
 
             var queries = LoadQuery(ipLookupArgs.IpsFile);
             var ranges = LoadRanges(ipLookupArgs.IprsFiles);
 
+            string dirPath = Directory.GetCurrentDirectory();
+            dirPath = dirPath.Substring(0, dirPath.Length - 16);
+
+            string[] splitter = ipLookupArgs.IpsFile.Split('.');
+            if (splitter.Length == 0) return;
+
+            string extension = splitter[splitter.Length - 1];
+            string outFileName = ipLookupArgs.IpsFile.Substring(0, ipLookupArgs.IpsFile.Length - extension.Length - 1) + "Out." + extension;
+
+            bool isThisTheFirstIp = true;
+
+            File.WriteAllText(dirPath + outFileName, "");
             foreach (var ip in queries)
             {
                 var findRange = FindRange(ranges, new IPv4Addr(ip));
-                if (findRange == null) Console.WriteLine("NO");
+                if (findRange == null)
+                {
+                    if (isThisTheFirstIp)
+                    {
+                        Console.WriteLine($"{ip}: NO");
+                        File.AppendAllText(dirPath + outFileName, $"{ip}: NO");
+                        isThisTheFirstIp = false;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"\n{ip}: NO");
+                        File.AppendAllText(dirPath + outFileName, $"\n{ip}: NO");
+                    }
+                }
                 else
                 {
                     var result = findRange.ToString();
-                    Console.WriteLine($"{ip}: {result}");
+
+                    if (isThisTheFirstIp)
+                    {
+                        Console.WriteLine($"{ip}: YES ({result})");
+                        File.AppendAllText(dirPath + outFileName, $"{ip}: YES ({result})");
+                        isThisTheFirstIp = false;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"\n{ip}: YES ({result})");
+                        File.AppendAllText(dirPath + outFileName, $"\n{ip}: YES ({result})");
+                    }
                 }
             }
         }
