@@ -21,7 +21,7 @@ public class Tests
         That(new IPv4Addr("127.0.0.1"), Is.LessThan(new IPv4Addr("127.0.0.2")));
         That(new IPv4Addr("127.0.0.0"), Is.GreaterThan(new IPv4Addr("126.255.255.255")));
     }
-    
+
     [Test]
     public void ParseArgsTest()
     {
@@ -38,25 +38,25 @@ public class Tests
     {
         That(LoadQuery(@"data\query.ips").ToList(), Has.Count.EqualTo(5));
     }
-    
+
     [Test]
     public void LoadRangesTest()
     {
         var ranges = LoadRanges(new List<string> { "data/1.iprs", "data/2.iprs" });
         That(ranges, Has.Count.EqualTo(108));
     }
-    
+
     [Test]
     public void LoadRangesEmptyTest()
     {
         var ranges = LoadRanges(new List<string>());
         That(FindRange(ranges, new IPv4Addr("60.161.226.166")), Is.Null);
     }
-    
+
     [Test]
     public void LoadFindRangeTest()
     {
-        var ranges = LoadRanges(new List<string>{"data/1.iprs"});
+        var ranges = LoadRanges(new List<string> { "data/1.iprs" });
         That(FindRange(ranges, new IPv4Addr("60.161.226.166")), Is.Not.Null);
         That(FindRange(ranges, new IPv4Addr("127.0.0.1")), Is.Null);
     }
