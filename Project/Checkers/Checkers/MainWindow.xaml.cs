@@ -38,7 +38,11 @@ namespace Checkers
 
         /// <TODO>
         /// 1. Make a better window size;
-        /// 2. Take care of MouseOverColor
+        /// 
+        /// Buisness Logic:
+        /// 1. Реализовать передвижение шашек (хоть куда-нибудь)
+        /// 2. Реализовать возможность кликания только на определённые клетки
+        /// 3. 
         /// 
         /// </TODO>
 
@@ -82,9 +86,6 @@ namespace Checkers
 
                 StackPanel stackPanel = new StackPanel();
 
-
-                //stackPanel.Orientation = Orientation.Horizontal;
-                //stackPanel.Margin = new Thickness(10);
                 stackPanel.Children.Add(image);
                 button.Content = stackPanel;
                 button.Click += Button_White;
@@ -97,9 +98,6 @@ namespace Checkers
 
                 StackPanel stackPanel = new StackPanel();
 
-
-                //stackPanel.Orientation = Orientation.Horizontal;
-                //stackPanel.Margin = new Thickness(10);
                 stackPanel.Children.Add(image);
                 button.Content = stackPanel;
                 button.Click += Button_Black;
@@ -107,7 +105,6 @@ namespace Checkers
             else
             {
                 button.Click += Button_Click;
-
             }
 
             addButtonToGrid(button, row, column);
