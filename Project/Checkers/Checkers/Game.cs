@@ -14,27 +14,43 @@ namespace Checkers
 {
     public static class Game
     {
-        static UIElement GetGridElement(Grid g, int r, int c)
+        static UIElement? GetGridButton(Grid grid, int row, int column)
         {
-            for (int i = 0; i < g.Children.Count; i++)
+            for (int i = 0; i < grid.Children.Count; i++)
             {
-                UIElement e = g.Children[i];
-                if (Grid.GetRow(e) == r && Grid.GetColumn(e) == c && e is Button)
-                    return e;
+                UIElement child = grid.Children[i];
+                if (Grid.GetRow(child) == row && Grid.GetColumn(child) == column && child is Button)
+                    return child;
             }
             return null;
         }
 
         static Grid CellsGrid = Init.CellsGrid!;
-
+        static Player currentPlayer = Init.currentPlayer;
         static Checker[,] board = Init.board;
 
         static int whiteCheckersLeft = 12;
         static int blackCheckersLeft = 12;
 
+        
+        
+        
+        
+        public static void ChangePlayer()
+        {
+            currentPlayer = 3 - currentPlayer;
+        }
+
+
+
         public static void DoSmth()
         {
-            var smth = GetGridElement(CellsGrid, 3, 3);
+            int row = 3;
+            int column = 3;
+            Button? smth = (Button?)GetGridButton(CellsGrid, row, column);
+
+            if (smth == null) throw new Exception($"There is no button in grid in {row} row in {column} column!");
+
             smth.IsEnabled = true;
         }
 

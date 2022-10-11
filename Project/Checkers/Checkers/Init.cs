@@ -16,7 +16,7 @@ namespace Checkers
         public static Grid? CellsGrid;
 
         public static Checker[,] board = Data.board;
-        static Player currentPlayer = Player.White;
+        public static Player currentPlayer = Player.White;
 
         public static void InitAll(ref Grid CellsGridMain)
         {
