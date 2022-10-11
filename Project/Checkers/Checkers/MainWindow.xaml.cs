@@ -72,6 +72,7 @@ namespace Checkers
         public void InitChecker(int row, int column)
         {
             Button button = new Button();
+            button.Style = (Style)button.FindResource("ButtonStyle1");
 
             if (board[row, column] == 1)
             {
