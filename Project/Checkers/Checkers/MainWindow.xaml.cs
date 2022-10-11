@@ -15,6 +15,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static Checkers.Data;
 using static Checkers.Init;
+using static Checkers.Game;
+
 namespace Checkers
 {
     /// <summary>
@@ -33,8 +35,9 @@ namespace Checkers
 
             if ((Data.boardSize != CellsGrid.RowDefinitions.Count) || (Data.boardSize != CellsGrid.RowDefinitions.Count)) throw new Exception("Change the number of cells!");
 
-            InitCells(ref CellsGrid);
-            Game();
+
+            InitAll(ref CellsGrid);
+            //DoSmth();
         }
 
         /// <TODO>

@@ -7,19 +7,28 @@ using static Checkers.Data;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows;
+using System.Runtime.CompilerServices;
 
 namespace Checkers
 {
     public static class Init
     {
+        static Grid? CellsGrid;
+
         public static Checker[,] board = Data.board;
         static Player currentPlayer = Player.White;
 
-        public static void InitCells(ref Grid CellsGrid)
+        public static void InitAll(ref Grid CellsGridMain)
+        {
+            CellsGrid = CellsGridMain;
+            InitCells();
+        }
+
+        public static void InitCells()
         {
             for (int i = 0; i < boardSize; i++)
             {
-                for (int j = 0; j < boardSize; j++) InitCell(i, j, ref CellsGrid);
+                for (int j = 0; j < boardSize; j++) InitCell(i, j);
             }
         }
 
@@ -40,13 +49,16 @@ namespace Checkers
             return ((row + column) % 2 != 0);
         }
 
-        public static void addButtonToGrid(ref Button button, int row, int column, ref Grid CellsGrid)
+        public static void addButtonToGrid(ref Button button, int row, int column)
         {
             Grid.SetColumn(button, column);
             Grid.SetRow(button, row);
+
+            if (CellsGrid == null) throw new Exception("CellsGrid==null");
+
             CellsGrid.Children.Add(button);
         }
-        public static void InitCell(int row, int column, ref Grid CellsGrid)
+        public static void InitCell(int row, int column)
         {
             Button button = new Button();
             button.Style = (Style)button.FindResource("CellStyle");
@@ -65,7 +77,7 @@ namespace Checkers
                 button.IsEnabled = false;
             }
 
-            addButtonToGrid(ref button, row, column, ref CellsGrid);
+            addButtonToGrid(ref button, row, column);
 
         }
 
