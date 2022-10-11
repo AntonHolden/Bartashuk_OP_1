@@ -37,7 +37,8 @@ namespace Checkers
         }
 
         /// <TODO>
-        /// 1. Make "checkersButtons", not "cellButtons";
+        /// 1. Make a better window size;
+        /// 2. Take care of MouseOverColor
         /// 
         /// </TODO>
 
@@ -63,44 +64,63 @@ namespace Checkers
             {
                 for (int j = 0; j < boardSize; j++)
                 {
-                    Button button = new Button();
-
-                    //Image whiteFigure = new Image();
-                    //whiteFigure.Source = new BitmapImage(new Uri("whiteChecker.png"));
-
-                    //StackPanel stackPanel = new StackPanel();
-
-                    //stackPanel.Children.Add(whiteFigure);
-                    //stackPanel.Orientation = Orientation.Horizontal;
-                    //stackPanel.Margin = new Thickness(10);
-                    //button.Content = stackPanel;
-
-                    
-                    button.Background = Brushes.Transparent;
-
-                    if (board[i, j] == 1)
-                    {
-                        button.Style = (Style)Application.Current.FindResource("whiteChecker");
-                        button.Click += Button_White;
-                    }
-                    else if (board[i, j] == 2)
-                    {
-                        button.Style = (Style)Application.Current.FindResource("blackChecker");
-                        button.Click += Button_Black;
-                    }
-                    else
-                    {
-                        button.Click += Button_Click;
-                    }
-
-                    Grid.SetColumn(button, j);
-                    Grid.SetRow(button, i);
-                    CellsGrid.Children.Add(button);
-
-
+                    InitChecker(i, j);
                 }
             }
         }
+
+        public void InitChecker(int row, int column)
+        {
+            Button button = new Button();
+            button.Background = Brushes.Transparent;
+
+            if (board[row, column] == 1)
+            {
+                Image image = new Image();
+                image.Source = new BitmapImage(new Uri("Resources/whiteChecker.png", UriKind.Relative));
+                image.Width = 80;
+
+                StackPanel stackPanel = new StackPanel();
+
+
+                //stackPanel.Orientation = Orientation.Horizontal;
+                //stackPanel.Margin = new Thickness(10);
+                stackPanel.Children.Add(image);
+                button.Content = stackPanel;
+                button.Click += Button_White;
+            }
+            else if (board[row, column] == 2)
+            {
+                Image image = new Image();
+                image.Source = new BitmapImage(new Uri("Resources/blackChecker.png", UriKind.Relative));
+                image.Width = 80;
+
+                StackPanel stackPanel = new StackPanel();
+
+
+                //stackPanel.Orientation = Orientation.Horizontal;
+                //stackPanel.Margin = new Thickness(10);
+                stackPanel.Children.Add(image);
+                button.Content = stackPanel;
+                button.Click += Button_Black;
+            }
+            else
+            {
+                button.Click += Button_Click;
+
+            }
+
+            addButtonToGrid(button, row, column);
+
+        }
+
+        public void addButtonToGrid(Button button, int row, int column)
+        {
+            Grid.SetColumn(button, column);
+            Grid.SetRow(button, row);
+            CellsGrid.Children.Add(button);
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Кнопка нажата");
