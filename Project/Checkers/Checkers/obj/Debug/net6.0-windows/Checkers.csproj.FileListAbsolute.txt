@@ -47,9 +47,9 @@ C:\Users\robsm\Desktop\СП\Git\Bartashuk_OP_1\Project\Checkers\Checkers\obj\Deb
 C:\Users\robsm\Desktop\СП\Git\Bartashuk_OP_1\Project\Checkers\Checkers\obj\Debug\net6.0-windows\Checkers.genruntimeconfig.cache
 C:\Users\robsm\Desktop\СП\Git\Bartashuk_OP_1\Project\Checkers\Checkers\obj\Debug\net6.0-windows\ref\Checkers.dll
 C:\Users\Антон\Desktop\СП\GIT\Bartashuk_OP_1\Project\Checkers\Checkers\bin\Debug\net6.0-windows\Checkers.exe
+C:\Users\Антон\Desktop\СП\GIT\Bartashuk_OP_1\Project\Checkers\Checkers\bin\Debug\net6.0-windows\Checkers.dll
 C:\Users\Антон\Desktop\СП\GIT\Bartashuk_OP_1\Project\Checkers\Checkers\bin\Debug\net6.0-windows\Checkers.deps.json
 C:\Users\Антон\Desktop\СП\GIT\Bartashuk_OP_1\Project\Checkers\Checkers\bin\Debug\net6.0-windows\Checkers.runtimeconfig.json
-C:\Users\Антон\Desktop\СП\GIT\Bartashuk_OP_1\Project\Checkers\Checkers\bin\Debug\net6.0-windows\Checkers.dll
 C:\Users\Антон\Desktop\СП\GIT\Bartashuk_OP_1\Project\Checkers\Checkers\bin\Debug\net6.0-windows\Checkers.pdb
 C:\Users\Антон\Desktop\СП\GIT\Bartashuk_OP_1\Project\Checkers\Checkers\obj\Debug\net6.0-windows\Checkers.csproj.AssemblyReference.cache
 C:\Users\Антон\Desktop\СП\GIT\Bartashuk_OP_1\Project\Checkers\Checkers\obj\Debug\net6.0-windows\MainWindow.g.cs
