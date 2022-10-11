@@ -13,7 +13,7 @@ namespace Checkers
 {
     public static class Init
     {
-        static Grid? CellsGrid;
+        public static Grid? CellsGrid;
 
         public static Checker[,] board = Data.board;
         static Player currentPlayer = Player.White;
