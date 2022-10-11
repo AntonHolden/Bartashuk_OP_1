@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\robsm\\Desktop\\СП\\Git\\Bartashuk_OP_1\\Project\\Checkers\\Checkers\\Checkers.csproj": {}
+    "C:\\Users\\Антон\\Desktop\\СП\\GIT\\Bartashuk_OP_1\\Project\\Checkers\\Checkers\\Checkers.csproj": {}
   },
   "projects": {
-    "C:\\Users\\robsm\\Desktop\\СП\\Git\\Bartashuk_OP_1\\Project\\Checkers\\Checkers\\Checkers.csproj": {
+    "C:\\Users\\Антон\\Desktop\\СП\\GIT\\Bartashuk_OP_1\\Project\\Checkers\\Checkers\\Checkers.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\robsm\\Desktop\\СП\\Git\\Bartashuk_OP_1\\Project\\Checkers\\Checkers\\Checkers.csproj",
+        "projectUniqueName": "C:\\Users\\Антон\\Desktop\\СП\\GIT\\Bartashuk_OP_1\\Project\\Checkers\\Checkers\\Checkers.csproj",
         "projectName": "Checkers",
-        "projectPath": "C:\\Users\\robsm\\Desktop\\СП\\Git\\Bartashuk_OP_1\\Project\\Checkers\\Checkers\\Checkers.csproj",
-        "packagesPath": "C:\\Users\\robsm\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\robsm\\Desktop\\СП\\Git\\Bartashuk_OP_1\\Project\\Checkers\\Checkers\\obj\\",
+        "projectPath": "C:\\Users\\Антон\\Desktop\\СП\\GIT\\Bartashuk_OP_1\\Project\\Checkers\\Checkers\\Checkers.csproj",
+        "packagesPath": "C:\\Users\\Антон\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Антон\\Desktop\\СП\\GIT\\Bartashuk_OP_1\\Project\\Checkers\\Checkers\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\robsm\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Антон\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
