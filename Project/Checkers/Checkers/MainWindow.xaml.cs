@@ -72,7 +72,6 @@ namespace Checkers
         public void InitChecker(int row, int column)
         {
             Button button = new Button();
-            button.Background = Brushes.Transparent;
 
             if (board[row, column] == 1)
             {
