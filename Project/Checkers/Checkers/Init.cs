@@ -63,19 +63,19 @@ namespace Checkers
 
             else if ((IsCellBlack(row, column)) && (row >= boardSize - 3))
             {
-                MakeImage(ref button, currentPlayer);
+                MakeImage(ref button, currentPlayer,false);
                 board[row, column] = new Checker(currentPlayer, row, column);
+                if (currentPlayer != Player.White) button.IsEnabled = false;
             }
             else
             {
-                MakeImage(ref button, 3 - currentPlayer);
+                MakeImage(ref button, 3 - currentPlayer,false);
                 board[row, column] = new Checker(3 - currentPlayer, row, column);
-                button.IsEnabled = false;
+                if (currentPlayer == Player.White) button.IsEnabled = false;
             }
 
             addButtonToGrid(ref button, row, column);
 
         }
-
     }
 }

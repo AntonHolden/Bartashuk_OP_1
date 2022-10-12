@@ -26,7 +26,7 @@ namespace Checkers
             public bool IsQueen { get; private set; }
             public int row, column;
             public List<Tuple<int, int>> possibleMoves = new List<Tuple<int, int>>();
-            public List<Tuple<int, int>> possibleEats = new List<Tuple<int, int>>();
+            public Dictionary<Tuple<int, int>, Tuple<int, int>> possibleEats = new Dictionary<Tuple<int, int>, Tuple<int, int>>(); //key - empty cell, value - checker to eat
 
 
             public Checker(Player player, int row, int column)
@@ -38,7 +38,16 @@ namespace Checkers
 
             }
 
-            public void MakeAQueen() => IsQueen = true;
+            public void UpdateChecker()
+            {
+                CheckForQueen();
+                UpdatePossibleMoves();
+            }
+
+            public void CheckForQueen()
+            {
+                if ((!IsQueen) && (((Init.currentPlayer == Player) && (row == 0)) || ((Init.currentPlayer != Player) && (row == boardSize - 1)))) IsQueen = true;
+            }
 
             public void UpdatePossibleMoves()
             {
@@ -49,18 +58,18 @@ namespace Checkers
                 }
                 possibleEats.Clear();
                 possibleMoves.Clear();
-                foreach (int possibleRowDiff in new List<int> { -1, 1 })
+                foreach (int rowDiff in new List<int> { -1, 1 })
                 {
-                    foreach (int possibleColumnDiff in new List<int> { -1, 1 })
+                    foreach (int columnDiff in new List<int> { -1, 1 })
                     {
-                        if ((row + possibleRowDiff <= boardSize - 1) && (row + possibleRowDiff >= 0) && (column + possibleColumnDiff <= boardSize - 1) && (column + possibleColumnDiff >= 0))
+                        if ((row + rowDiff <= boardSize - 1) && (row + rowDiff >= 0) && (column + columnDiff <= boardSize - 1) && (column + columnDiff >= 0))
                         {
-                            if (board[row + possibleRowDiff, column + possibleColumnDiff] == null)
+                            if (board[row + rowDiff, column + columnDiff] == null)
                             {
-                                if ((Player == Init.currentPlayer) && (possibleRowDiff == -1)) possibleMoves.Add(new Tuple<int, int>(row + possibleRowDiff, column + possibleColumnDiff));
-                                else if ((Player != Init.currentPlayer) && (possibleRowDiff == 1)) possibleMoves.Add(new Tuple<int, int>(row + possibleRowDiff, column + possibleColumnDiff));
+                                if ((Player == Init.currentPlayer) && (rowDiff == -1)) possibleMoves.Add(new Tuple<int, int>(row + rowDiff, column + columnDiff));
+                                else if ((Player != Init.currentPlayer) && (rowDiff == 1)) possibleMoves.Add(new Tuple<int, int>(row + rowDiff, column + columnDiff));
                             }
-                            else if ((board[row + possibleRowDiff, column + possibleColumnDiff].Player == 3 - Player) && (row + 2 * possibleRowDiff <= boardSize - 1) && (row + 2 * possibleRowDiff >= 0) && (column + 2 * possibleColumnDiff <= boardSize - 1) && (column + 2 * possibleColumnDiff >= 0) && (board[row + 2 * possibleRowDiff, column + 2 * possibleColumnDiff] == null)) possibleEats.Add(new Tuple<int, int>(row + 2 * possibleRowDiff, column + 2 * possibleColumnDiff));
+                            else if ((board[row + rowDiff, column + columnDiff].Player == 3 - Player) && (row + 2 * rowDiff <= boardSize - 1) && (row + 2 * rowDiff >= 0) && (column + 2 * columnDiff <= boardSize - 1) && (column + 2 * columnDiff >= 0) && (board[row + 2 * rowDiff, column + 2 * columnDiff] == null)) possibleEats[new Tuple<int, int>(row + 2 * rowDiff, column + 2 * columnDiff)] = new Tuple<int, int>(row + rowDiff, column + columnDiff);
                         }
                     }
                 }
@@ -71,20 +80,36 @@ namespace Checkers
             {
                 possibleEats.Clear();
                 possibleMoves.Clear();
-                foreach (int possibleRowDiff in new List<int> { -1, 1 })
+
+                foreach (int rowDiff in new List<int> { -1, 1 })
                 {
-                    foreach (int possibleColumnDiff in new List<int> { -1, 1 })
+                    foreach (int columnDiff in new List<int> { -1, 1 })
                     {
-                        if ((row + possibleRowDiff <= boardSize - 1) && (row + possibleRowDiff >= 0) && (column + possibleColumnDiff <= boardSize - 1) && (column + possibleColumnDiff >= 0))
+                        for (int diff = 1; diff < boardSize; diff++)
                         {
-                            if (board[row + possibleRowDiff, column + possibleColumnDiff] == null) possibleMoves.Add(new Tuple<int, int>(row + possibleRowDiff, column + possibleColumnDiff));
-                            else if ((board[row + possibleRowDiff, column + possibleColumnDiff].Player == 3 - Player) && (row + 2 * possibleRowDiff <= boardSize - 1) && (row + 2 * possibleRowDiff >= 0) && (column + 2 * possibleColumnDiff <= boardSize - 1) && (column + 2 * possibleColumnDiff >= 0) && (board[row + 2 * possibleRowDiff, column + 2 * possibleColumnDiff] == null)) possibleEats.Add(new Tuple<int, int>(row + 2 * possibleRowDiff, column + 2 * possibleColumnDiff));
+                            int currentRow = row + (diff * rowDiff);
+                            int currentColumn = column + (diff * columnDiff);
+                            
+                            if ((currentRow <= boardSize - 1) && (currentRow >= 0) && (currentColumn <= boardSize - 1) && (currentColumn >= 0))
+                            {
+                                if (board[currentRow, currentColumn] == null) possibleMoves.Add(new Tuple<int, int>(currentRow, currentColumn));
+                                else if (board[currentRow, currentColumn].Player == 3 - Player)
+                                {
+                                    for (int mult = 1; mult < boardSize; mult++)
+                                    {
+                                        if ((currentRow + (mult * rowDiff) <= boardSize - 1) && (currentRow + (mult * rowDiff) >= 0) && (currentColumn + (mult * columnDiff) <= boardSize - 1) && (currentColumn + (mult * columnDiff) >= 0) && (board[currentRow + (mult * rowDiff), currentColumn + (mult * columnDiff)] == null)) possibleEats[new Tuple<int, int>(currentRow + (mult * rowDiff), currentColumn + (mult * columnDiff))] = new Tuple<int, int>(currentRow, currentColumn);
+                                        else break;
+                                    }
+                                    break;
+                                }
+                                else break;
+                            }
+                            else break;
                         }
                     }
                 }
                 if (possibleEats.Any()) canEat[Player] = true;
             }
-
         }
 
         public const int boardSize = 8;
@@ -98,26 +123,49 @@ namespace Checkers
 
         public static void PaintPossibleMoves(int row, int column)
         {
-            foreach (var possibleMove in board[row, column].possibleEats.Any() ? board[row, column].possibleEats : board[row, column].possibleMoves)
+            if (board[row, column].possibleEats.Any())
             {
-                buttons[possibleMove.Item1, possibleMove.Item2].IsEnabled = true;
-                buttons[possibleMove.Item1, possibleMove.Item2].BorderBrush = Brushes.Red;
+                foreach (var possibleMove in board[row, column].possibleEats)
+                {
+                    buttons[possibleMove.Key.Item1, possibleMove.Key.Item2].IsEnabled = true;
+                    buttons[possibleMove.Key.Item1, possibleMove.Key.Item2].BorderBrush = Brushes.Red;
+                }
+            }
+            else
+            {
+                foreach (var possibleMove in board[row, column].possibleMoves)
+                {
+                    buttons[possibleMove.Item1, possibleMove.Item2].IsEnabled = true;
+                    buttons[possibleMove.Item1, possibleMove.Item2].BorderBrush = Brushes.Red;
+                }
             }
         }
 
         public static void UnPaintPossibleMoves(int row, int column)
         {
-            foreach (var possibleMove in board[row, column].possibleEats.Any() ? board[row, column].possibleEats : board[row, column].possibleMoves)
+            if (board[row, column].possibleEats.Any())
             {
-                buttons[possibleMove.Item1, possibleMove.Item2].IsEnabled = false;
-                buttons[possibleMove.Item1, possibleMove.Item2].BorderBrush = Brushes.Transparent;
+                foreach (var possibleMove in board[row, column].possibleEats)
+                {
+                    buttons[possibleMove.Key.Item1, possibleMove.Key.Item2].IsEnabled = false;
+                    buttons[possibleMove.Key.Item1, possibleMove.Key.Item2].BorderBrush = Brushes.Transparent;
+                }
+            }
+            else
+            {
+                foreach (var possibleMove in board[row, column].possibleMoves)
+                {
+                    buttons[possibleMove.Item1, possibleMove.Item2].IsEnabled = false;
+                    buttons[possibleMove.Item1, possibleMove.Item2].BorderBrush = Brushes.Transparent;
+                }
             }
         }
 
-        public static void MakeImage(ref Button button, Player player) //what about a queen?
+        public static void MakeImage(ref Button button, Player player, bool isQueen)
         {
             Image image = new Image();
-            image.Source = (player == Player.White) ? new BitmapImage(new Uri("Resources/whiteChecker.png", UriKind.Relative)) : new BitmapImage(new Uri("Resources/blackChecker.png", UriKind.Relative));
+            if (!isQueen) image.Source = (player == Player.White) ? new BitmapImage(new Uri("Resources/whiteChecker.png", UriKind.Relative)) : new BitmapImage(new Uri("Resources/blackChecker.png", UriKind.Relative));
+            else image.Source = (player == Player.White) ? new BitmapImage(new Uri("Resources/whiteCheckerQueen.png", UriKind.Relative)) : new BitmapImage(new Uri("Resources/blackCheckerQueen.png", UriKind.Relative));
             image.Width = 80;
 
             StackPanel stackPanel = new StackPanel();
@@ -125,8 +173,15 @@ namespace Checkers
             stackPanel.Children.Add(image);
             button.Content = stackPanel;
         }
+
         public static void ClickOnChecker(object sender, EventArgs e, int row, int column)
         {
+            if ((isContinue) && (board[row, column] != null))
+            {
+                MessageBox.Show("Вы должны обязательно съесть шашку!");
+                return;
+            }
+
             if (prevButton != null)
             {
                 prevButton.Background = Brushes.Transparent;
@@ -149,11 +204,10 @@ namespace Checkers
             //pressed the second time
             else if ((isMoving) && (board[row, column] == null))
             {
-                if (canEat[currentPlayer]) DeleteChecker((int)prevCoord.Item1 + ((row - (int)prevCoord.Item1) / 2), (int)prevCoord.Item2 + ((column - (int)prevCoord.Item2) / 2));
-
+                if (canEat[currentPlayer]) DeleteChecker(board[(int)prevCoord.Item1, (int)prevCoord.Item2].possibleEats[new Tuple<int, int>(row, column)].Item1, board[(int)prevCoord.Item1, (int)prevCoord.Item2].possibleEats[new Tuple<int, int>(row, column)].Item2);
                 ChangePosition((int)prevCoord.Item1, (int)prevCoord.Item2, row, column);
                 prevButton.Content = null;
-                MakeImage(ref pressedButton, currentPlayer);
+                MakeImage(ref pressedButton, currentPlayer, board[row, column].IsQueen);
 
                 if (isContinue)
                 {

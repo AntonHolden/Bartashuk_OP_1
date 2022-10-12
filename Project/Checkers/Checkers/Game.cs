@@ -71,7 +71,7 @@ namespace Checkers
             board[prevRow, prevColumn] = null;
             board[newRow, newColumn].row = newRow;
             board[newRow, newColumn].column = newColumn;
-            board[newRow, newColumn].UpdatePossibleMoves();
+            board[newRow, newColumn].UpdateChecker();
             if ((canEat[currentPlayer]) && (isEating)) isContinue = true;
         }
 
