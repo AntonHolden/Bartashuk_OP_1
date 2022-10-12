@@ -74,6 +74,7 @@ namespace Checkers
                     }
                 }
                 if (possibleEats.Any()) canEat[Player] = true;
+                if (possibleMoves.Any() || possibleEats.Any()) canMove[Player] = true;
             }
 
             public void UpdatePossibleMovesForQueen()
@@ -109,6 +110,7 @@ namespace Checkers
                     }
                 }
                 if (possibleEats.Any()) canEat[Player] = true;
+                if (possibleMoves.Any()||possibleEats.Any()) canMove[Player] = true;
             }
         }
 

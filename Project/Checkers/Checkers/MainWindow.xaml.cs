@@ -33,11 +33,10 @@ namespace Checkers
         {
             InitializeComponent();
 
-            if ((Data.boardSize != CellsGrid.RowDefinitions.Count) || (Data.boardSize != CellsGrid.RowDefinitions.Count)) throw new Exception("Change the number of cells!");
-
+            if ((boardSize != CellsGrid.RowDefinitions.Count) || (boardSize != CellsGrid.RowDefinitions.Count)) throw new Exception("Change the number of cells!");
 
             InitAll(ref CellsGrid);
-            UpdateAllMoves();
+            Start();
         }
 
         /// <TODO>

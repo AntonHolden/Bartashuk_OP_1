@@ -30,12 +30,20 @@ namespace Checkers
             { Player.Black, false }
         };
 
+        public static Dictionary<Player, bool> canMove = new Dictionary<Player, bool>()
+        {
+            { Player.White, false },
+            { Player.Black, false }
+        };
+
         public static Dictionary<Player, int> checkersLeft = new Dictionary<Player, int>()
         {
             { Player.White, 12 },
             { Player.Black, 12 }
         };
 
+
+        public static void Start() { UpdateAllMoves(); End(); }
 
         public static void ChangePlayer()
         {
@@ -80,12 +88,21 @@ namespace Checkers
             isMoving = false;
             isContinue = false;
             isEating = false;
-            canEat[currentPlayer] = false;
-            canEat[3 - currentPlayer] = false;
+            canEat[Player.White] = false;
+            canEat[Player.Black] = false;
+            canMove[Player.White] = false;
+            canMove[Player.Black] = false;
 
             ChangePlayer();
             ResetButtons();
             UpdateAllMoves();
+
+            if (!((canMove[Player.White] == true) && (canMove[Player.Black] == true))) End();
+        }
+
+        public static void End()
+        {
+            Window closingWindow = new Window();
         }
 
         public static void ResetButtons()
