@@ -36,7 +36,7 @@ namespace Checkers
             if ((boardSize != CellsGrid.RowDefinitions.Count) || (boardSize != CellsGrid.RowDefinitions.Count)) throw new Exception("Change the number of cells!");
 
             InitAll(ref CellsGrid);
-            Start();
+            Start(this);
         }
 
         /// <TODO>
