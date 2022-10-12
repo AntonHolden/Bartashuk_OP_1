@@ -102,7 +102,7 @@ namespace Checkers
             ResetButtons();
             UpdateAllMoves();
 
-            if (!((canMove[Player.White] == true) && (canMove[Player.Black] == true))) End();
+            if (canMove[currentPlayer]==false) End();
         }
 
         public static void End()
