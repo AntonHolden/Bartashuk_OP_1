@@ -23,6 +23,7 @@ namespace Checkers
         public static bool isMoving = false;
         public static bool isContinue = false;
         public static bool isEating = false;
+        //static Window MainWindow;
 
         public static Dictionary<Player, bool> canEat = new Dictionary<Player, bool>()
         {
@@ -43,7 +44,10 @@ namespace Checkers
         };
 
 
-        public static void Start() { UpdateAllMoves(); End(); }
+        public static void Start()
+        {
+            UpdateAllMoves();
+        }
 
         public static void ChangePlayer()
         {
