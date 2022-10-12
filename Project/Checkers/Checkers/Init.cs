@@ -8,6 +8,9 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows;
 using System.Runtime.CompilerServices;
+using System.Drawing;
+using System.Windows.Media;
+
 
 namespace Checkers
 {
@@ -17,7 +20,9 @@ namespace Checkers
 
         public static Checker[,] board = Data.board;
         public static Player currentPlayer = Player.White;
+        public static Button[,] buttons = Data.buttons;
 
+            
         public static void InitAll(ref Grid CellsGridMain)
         {
             CellsGrid = CellsGridMain;
@@ -30,18 +35,6 @@ namespace Checkers
             {
                 for (int j = 0; j < boardSize; j++) InitCell(i, j);
             }
-        }
-
-        public static void MakeImage(ref Button button, Player player)
-        {
-            Image image = new Image();
-            image.Source = (player == Player.White) ? new BitmapImage(new Uri("Resources/whiteChecker.png", UriKind.Relative)) : new BitmapImage(new Uri("Resources/blackChecker.png", UriKind.Relative));
-            image.Width = 80;
-
-            StackPanel stackPanel = new StackPanel();
-
-            stackPanel.Children.Add(image);
-            button.Content = stackPanel;
         }
 
         public static bool IsCellBlack(int row, int column)
@@ -57,11 +50,14 @@ namespace Checkers
             if (CellsGrid == null) throw new Exception("CellsGrid==null");
 
             CellsGrid.Children.Add(button);
+
+            buttons[row, column] = button;
         }
         public static void InitCell(int row, int column)
         {
             Button button = new Button();
             button.Style = (Style)button.FindResource("CellStyle");
+            button.Click += new RoutedEventHandler((sender, e) => ClickOnChecker(sender, e, row, column));
 
             if (((row > 2) && (row < boardSize - 3)) || (!IsCellBlack(row, column))) button.IsEnabled = false;
 
@@ -80,7 +76,6 @@ namespace Checkers
             addButtonToGrid(ref button, row, column);
 
         }
-
 
     }
 }

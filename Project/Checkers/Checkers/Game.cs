@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using static Checkers.Data;
 using static Checkers.Init;
@@ -14,46 +15,109 @@ namespace Checkers
 {
     public static class Game
     {
-        static UIElement? GetGridButton(Grid grid, int row, int column)
-        {
-            for (int i = 0; i < grid.Children.Count; i++)
-            {
-                UIElement child = grid.Children[i];
-                if (Grid.GetRow(child) == row && Grid.GetColumn(child) == column && child is Button)
-                    return child;
-            }
-            return null;
-        }
 
         static Grid CellsGrid = Init.CellsGrid!;
-        static Player currentPlayer = Init.currentPlayer;
+        public static Player currentPlayer = Init.currentPlayer;
         static Checker[,] board = Init.board;
+        static Button[,] buttons = Init.buttons;
+        public static bool isMoving = false;
+        public static bool isContinue = false;
+        public static bool isEating = false;
 
-        static int whiteCheckersLeft = 12;
-        static int blackCheckersLeft = 12;
+        public static Dictionary<Player, bool> canEat = new Dictionary<Player, bool>()
+        {
+            { Player.White, false },
+            { Player.Black, false }
+        };
 
-        
-        
-        
-        
+        public static Dictionary<Player, int> checkersLeft = new Dictionary<Player, int>()
+        {
+            { Player.White, 12 },
+            { Player.Black, 12 }
+        };
+
+
         public static void ChangePlayer()
         {
             currentPlayer = 3 - currentPlayer;
         }
 
 
-
-        public static void DoSmth()
+        public static void UpdateAllMoves()
         {
-            int row = 3;
-            int column = 3;
-            Button? smth = (Button?)GetGridButton(CellsGrid, row, column);
-
-            if (smth == null) throw new Exception($"There is no button in grid in {row} row in {column} column!");
-
-            smth.IsEnabled = true;
+            for (int i = 0; i < boardSize; i++)
+            {
+                for (int j = 0; j < boardSize; j++)
+                {
+                    if (board[i, j] != null) board[i, j].UpdatePossibleMoves();
+                }
+            }
         }
 
-        
+        public static void DeleteChecker(int row, int column)
+        {
+            checkersLeft[board[row, column].Player]--;
+            board[row, column] = null;
+            buttons[row, column].Content = null;
+            isContinue = false;
+            canEat[currentPlayer] = false;
+            isEating = true;
+        }
+
+        public static void ChangePosition(int prevRow, int prevColumn, int newRow, int newColumn)
+        {
+
+            board[newRow, newColumn] = board[prevRow, prevColumn];
+            board[prevRow, prevColumn] = null;
+            board[newRow, newColumn].row = newRow;
+            board[newRow, newColumn].column = newColumn;
+            board[newRow, newColumn].UpdatePossibleMoves();
+            if ((canEat[currentPlayer]) && (isEating)) isContinue = true;
+        }
+
+        public static void ExitMoveMode(int row, int column)
+        {
+            isMoving = false;
+            isContinue = false;
+            isEating = false;
+            canEat[currentPlayer] = false;
+            canEat[3 - currentPlayer] = false;
+
+            ChangePlayer();
+            ResetButtons();
+            UpdateAllMoves();
+        }
+
+        public static void ResetButtons()
+        {
+            for (int i = 0; i < boardSize; i++)
+            {
+                for (int j = 0; j < boardSize; j++)
+                {
+                    if ((board[i, j] != null) && (board[i, j].Player == currentPlayer)) buttons[i, j].IsEnabled = true;
+                    else buttons[i, j].IsEnabled = false;
+                }
+            }
+        }
+        public static void DisableAllButtons()
+        {
+            for (int i = 0; i < boardSize; i++)
+            {
+                for (int j = 0; j < boardSize; j++) buttons[i, j].IsEnabled = false;
+            }
+        }
+
+        public static void EnableButtons()
+        {
+            for (int i = 0; i < boardSize; i++)
+            {
+                for (int j = 0; j < boardSize; j++)
+                {
+                    if ((board[i, j] != null) && (board[i, j].Player == currentPlayer)) buttons[i, j].IsEnabled = true;
+                }
+            }
+        }
+
     }
 }
+

@@ -37,7 +37,7 @@ namespace Checkers
 
 
             InitAll(ref CellsGrid);
-            DoSmth();
+            UpdateAllMoves();
         }
 
         /// <TODO>
