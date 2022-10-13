@@ -3,10 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:Checkers"
-        mc:Ignorable="d"
-        Title="ClosingWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        mc:Ignorable="d" Height="178" Width="524" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False">
+    
+    <StackPanel>
+        <TextBlock x:Name="Result" FontSize="24" Margin="10,10,10,10" TextWrapping="Wrap" FontFamily="Pericles" Height="58" Width="252">
+            
+        </TextBlock>
+        <TextBlock FontSize="24" Margin="10,-25,10,-10" TextWrapping="Wrap" FontFamily="Pericles" Height="58" Width="179">
+            Начать заново?
+        </TextBlock>
+        <Button Width="193" Margin="0,-5,250,-30" Height="30" Content="Новая игра" Click="ClickOnNewGame" >
+
+        </Button>
+        <Button Width="199" Margin="0,-5,-250,-30" Height="30" Content="Выход" Click="ClickOnEnding" />
+    </StackPanel>
 </Window>

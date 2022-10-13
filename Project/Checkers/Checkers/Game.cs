@@ -48,8 +48,8 @@ namespace Checkers
         {
             mainWindow = window;
             UpdateAllMoves();
-            End();
         }
+
 
         public static void ChangePlayer()
         {
@@ -109,7 +109,9 @@ namespace Checkers
         public static void End()
         {
             ClosingWindow closingWindow = new ClosingWindow();
-            closingWindow.Show();
+            
+            closingWindow.Result.Text += "Ничья!";
+            closingWindow.ShowDialog();
         }
 
         public static void ResetButtons()

@@ -176,8 +176,11 @@ namespace Checkers
             button.Content = stackPanel;
         }
 
+
+
         public static void ClickOnChecker(object sender, EventArgs e, int row, int column)
         {
+            End();
             if ((isContinue) && (board[row, column] != null))
             {
                 MessageBox.Show("Вы должны обязательно съесть шашку!");
