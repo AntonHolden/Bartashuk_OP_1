@@ -195,7 +195,6 @@ namespace Checkers
 
         public static void ClickOnChecker(object sender, EventArgs e, int row, int column)
         {
-            End();
             if ((isContinue) && (board[row, column] != null))
             {
                 MessageBox.Show("Вы должны обязательно съесть шашку!");
@@ -205,7 +204,7 @@ namespace Checkers
             if (prevButton != null)
             {
                 prevButton.Background = Brushes.Transparent;
-                UnPaintPossibleMoves((int)prevCoord.Item1, (int)prevCoord.Item2);
+                UnPaintPossibleMoves((int)prevCoord.Item1!, (int)prevCoord.Item2!);
             }
 
             Button? pressedButton = sender as Button;
@@ -218,15 +217,16 @@ namespace Checkers
             {
                 isMoving = false;
                 prevButton = null;
+                prevCoord = new Tuple<int?, int?>(null, null);
             }
             //pressed the first time, but player is able to eat with another checker
             else if ((canEat[currentPlayer]) && (!isMoving) && (!board[row, column].possibleEats.Any())) MessageBox.Show("Вы должны обязательно съесть шашку!");
             //pressed the second time
             else if ((isMoving) && (board[row, column] == null))
             {
-                if (canEat[currentPlayer]) DeleteChecker(board[(int)prevCoord.Item1, (int)prevCoord.Item2].possibleEats[new Tuple<int, int>(row, column)].Item1, board[(int)prevCoord.Item1, (int)prevCoord.Item2].possibleEats[new Tuple<int, int>(row, column)].Item2);
-                ChangePosition((int)prevCoord.Item1, (int)prevCoord.Item2, row, column);
-                prevButton.Content = null;
+                if (canEat[currentPlayer]) DeleteChecker(board[(int)prevCoord.Item1!, (int)prevCoord.Item2!].possibleEats[new Tuple<int, int>(row, column)].Item1, board[(int)prevCoord.Item1, (int)prevCoord.Item2].possibleEats[new Tuple<int, int>(row, column)].Item2);
+                ChangePosition((int)prevCoord.Item1!, (int)prevCoord.Item2!, row, column);
+                prevButton!.Content = null;
                 MakeImage(ref pressedButton, currentPlayer, board[row, column].IsQueen);
 
                 if (isContinue)
