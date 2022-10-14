@@ -24,7 +24,7 @@ namespace Checkers
     /// </summary>
     /// 
 
-    
+
 
     public partial class MainWindow : Window
     {
@@ -38,13 +38,11 @@ namespace Checkers
 
             InitAll(ref CellsGrid);
             Start(this);
-            
+
         }
 
         /// <TODO>
-        /// 1. Make a better window size;
-        /// 2. Fix the ClosingWindow - remove the icon, think about that cross
-        /// 3. Fix the bug with one opponent-checker left and the game is kinda ended.
+        /// 1. Make a better window size (?);
         /// </TODO>
 
     }

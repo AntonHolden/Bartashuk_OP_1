@@ -29,7 +29,6 @@ namespace Checkers
         public ClosingWindow()
         {
             InitializeComponent();
-            this.SourceInitialized += new EventHandler(BlockingTheCloseButton);
         }
         public void ClickOnNewGame(object sender, EventArgs e)
         {
@@ -46,31 +45,57 @@ namespace Checkers
         //blocking the close button
         // --------------------
 
-        [DllImport("user32.dll", EntryPoint = "GetSystemMenu")]
-        private static extern IntPtr GetSystemMenu(IntPtr hwnd, int revert);
-
-        [DllImport("user32.dll", EntryPoint = "GetMenuItemCount")]
-        private static extern int GetMenuItemCount(IntPtr hmenu);
-
-        [DllImport("user32.dll", EntryPoint = "RemoveMenu")]
-        private static extern int RemoveMenu(IntPtr hmenu, int npos, int wflags);
-
-        [DllImport("user32.dll", EntryPoint = "DrawMenuBar")]
-        private static extern int DrawMenuBar(IntPtr hwnd);
-
-        private const int MF_BYPOSITION = 0x0400;
-        private const int MF_DISABLED = 0x0002;
-
-        void BlockingTheCloseButton(object sender, EventArgs e)
+        protected override void OnSourceInitialized(EventArgs e)
         {
-            WindowInteropHelper helper = new WindowInteropHelper(this);
-            IntPtr windowHandle = helper.Handle;
-            IntPtr hmenu = GetSystemMenu(windowHandle, 0);
-            int cnt = GetMenuItemCount(hmenu);
-            RemoveMenu(hmenu, cnt - 1, MF_DISABLED | MF_BYPOSITION);
-            RemoveMenu(hmenu, cnt - 2, MF_DISABLED | MF_BYPOSITION);
-            DrawMenuBar(windowHandle);
+            base.OnSourceInitialized(e);
+
+            HwndSource? hwndSource = PresentationSource.FromVisual(this) as HwndSource;
+
+            if (hwndSource != null)
+            {
+                hwndSource.AddHook(BlockingTheCloseButton);
+            }
+
         }
+
+        private bool allowClosing = false;
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+        [DllImport("user32.dll")]
+        private static extern bool EnableMenuItem(IntPtr hMenu, uint uIDEnableItem, uint uEnable);
+
+        private const uint MF_BYCOMMAND = 0x00000000;
+        private const uint MF_GRAYED = 0x00000001;
+
+        private const uint SC_CLOSE = 0xF060;
+
+        private const int WM_SHOWWINDOW = 0x00000018;
+        private const int WM_CLOSE = 0x10;
+
+        private IntPtr BlockingTheCloseButton(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            switch (msg)
+            {
+                case WM_SHOWWINDOW:
+                    {
+                        IntPtr hMenu = GetSystemMenu(hwnd, false);
+                        if (hMenu != IntPtr.Zero)
+                        {
+                            EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_GRAYED);
+                        }
+                    }
+                    break;
+                case WM_CLOSE:
+                    if (!allowClosing)
+                    {
+                        handled = true;
+                    }
+                    break;
+            }
+            return IntPtr.Zero;
+        }
+
         // --------------------
     }
 

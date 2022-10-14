@@ -5,7 +5,7 @@
     ResizeMode="CanMinimize"
     Title="Checkers" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" Width="824" Height="848" >
 
-    
+
 
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center" >
         <Border  HorizontalAlignment="Left" VerticalAlignment="Top"  BorderBrush="Black" BorderThickness="2">

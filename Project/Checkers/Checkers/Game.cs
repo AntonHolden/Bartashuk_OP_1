@@ -45,7 +45,7 @@ namespace Checkers
 
         public static void Start(MainWindow window)
         {
-            mainWindow = window;
+            if (mainWindow != window) mainWindow = window;
             UpdateAllMoves();
         }
 
@@ -128,24 +128,6 @@ namespace Checkers
                 }
             }
         }
-        //public static void DisableAllButtons()
-        //{
-        //    for (int i = 0; i < boardSize; i++)
-        //    {
-        //        for (int j = 0; j < boardSize; j++) buttons[i, j].IsEnabled = false;
-        //    }
-        //}
-
-        //public static void EnableButtons()
-        //{
-        //    for (int i = 0; i < boardSize; i++)
-        //    {
-        //        for (int j = 0; j < boardSize; j++)
-        //        {
-        //            if ((board[i, j] != null) && (board[i, j].Player == currentPlayer)) buttons[i, j].IsEnabled = true;
-        //        }
-        //    }
-        //}
 
     }
 }

@@ -78,18 +78,6 @@ namespace Checkers
 
         }
 
-        //public static void ClearButtons()
-        //{
-        //    for (int i=0;i<boardSize; i++)
-        //    {
-        //        for (int j=0;j<boardSize; j++)
-        //        {
-        //            buttons[i, j].IsEnabled = false;
-        //            buttons[i, j].BorderBrush = Brushes.Transparent;
-        //            buttons[i, j].Background = Brushes.Transparent;
-        //        }
-        //    }
-        //}
         public static void Reset()
         {
             cellsGrid.Children.OfType<Button>().ToList().ForEach(b => cellsGrid.Children.Remove(b));
@@ -98,7 +86,6 @@ namespace Checkers
             currentPlayer = Player.White;
             buttons = Data.buttons;
             InitCells();
-
 
             Game.currentPlayer = currentPlayer;
             Game.board = board;

@@ -62,14 +62,23 @@ namespace Checkers
                 {
                     foreach (int columnDiff in new List<int> { -1, 1 })
                     {
-                        if ((row + rowDiff <= boardSize - 1) && (row + rowDiff >= 0) && (column + columnDiff <= boardSize - 1) && (column + columnDiff >= 0))
+                        if ((row + rowDiff <= boardSize - 1) &&
+                            (row + rowDiff >= 0) &&
+                            (column + columnDiff <= boardSize - 1) &&
+                            (column + columnDiff >= 0))
                         {
                             if (board[row + rowDiff, column + columnDiff] == null)
                             {
                                 if ((Player == Init.currentPlayer) && (rowDiff == -1)) possibleMoves.Add(new Tuple<int, int>(row + rowDiff, column + columnDiff));
                                 else if ((Player != Init.currentPlayer) && (rowDiff == 1)) possibleMoves.Add(new Tuple<int, int>(row + rowDiff, column + columnDiff));
                             }
-                            else if ((board[row + rowDiff, column + columnDiff].Player == 3 - Player) && (row + 2 * rowDiff <= boardSize - 1) && (row + 2 * rowDiff >= 0) && (column + 2 * columnDiff <= boardSize - 1) && (column + 2 * columnDiff >= 0) && (board[row + 2 * rowDiff, column + 2 * columnDiff] == null)) possibleEats[new Tuple<int, int>(row + 2 * rowDiff, column + 2 * columnDiff)] = new Tuple<int, int>(row + rowDiff, column + columnDiff);
+                            else if ((board[row + rowDiff, column + columnDiff].Player == 3 - Player) &&
+                                (row + 2 * rowDiff <= boardSize - 1) &&
+                                (row + 2 * rowDiff >= 0) &&
+                                (column + 2 * columnDiff <= boardSize - 1) &&
+                                (column + 2 * columnDiff >= 0) &&
+                                (board[row + 2 * rowDiff, column + 2 * columnDiff] == null))
+                                possibleEats[new Tuple<int, int>(row + 2 * rowDiff, column + 2 * columnDiff)] = new Tuple<int, int>(row + rowDiff, column + columnDiff);
                         }
                     }
                 }
@@ -90,15 +99,23 @@ namespace Checkers
                         {
                             int currentRow = row + (diff * rowDiff);
                             int currentColumn = column + (diff * columnDiff);
-                            
-                            if ((currentRow <= boardSize - 1) && (currentRow >= 0) && (currentColumn <= boardSize - 1) && (currentColumn >= 0))
+
+                            if ((currentRow <= boardSize - 1) &&
+                                (currentRow >= 0) &&
+                                (currentColumn <= boardSize - 1) &&
+                                (currentColumn >= 0))
                             {
                                 if (board[currentRow, currentColumn] == null) possibleMoves.Add(new Tuple<int, int>(currentRow, currentColumn));
                                 else if (board[currentRow, currentColumn].Player == 3 - Player)
                                 {
                                     for (int mult = 1; mult < boardSize; mult++)
                                     {
-                                        if ((currentRow + (mult * rowDiff) <= boardSize - 1) && (currentRow + (mult * rowDiff) >= 0) && (currentColumn + (mult * columnDiff) <= boardSize - 1) && (currentColumn + (mult * columnDiff) >= 0) && (board[currentRow + (mult * rowDiff), currentColumn + (mult * columnDiff)] == null)) possibleEats[new Tuple<int, int>(currentRow + (mult * rowDiff), currentColumn + (mult * columnDiff))] = new Tuple<int, int>(currentRow, currentColumn);
+                                        if ((currentRow + (mult * rowDiff) <= boardSize - 1) &&
+                                            (currentRow + (mult * rowDiff) >= 0) &&
+                                            (currentColumn + (mult * columnDiff) <= boardSize - 1) &&
+                                            (currentColumn + (mult * columnDiff) >= 0) &&
+                                            (board[currentRow + (mult * rowDiff), currentColumn + (mult * columnDiff)] == null))
+                                            possibleEats[new Tuple<int, int>(currentRow + (mult * rowDiff), currentColumn + (mult * columnDiff))] = new Tuple<int, int>(currentRow, currentColumn);
                                         else break;
                                     }
                                     break;
@@ -110,7 +127,7 @@ namespace Checkers
                     }
                 }
                 if (possibleEats.Any()) canEat[Player] = true;
-                if (possibleMoves.Any()||possibleEats.Any()) canMove[Player] = true;
+                if (possibleMoves.Any() || possibleEats.Any()) canMove[Player] = true;
             }
         }
 
@@ -178,6 +195,7 @@ namespace Checkers
 
         public static void ClickOnChecker(object sender, EventArgs e, int row, int column)
         {
+            End();
             if ((isContinue) && (board[row, column] != null))
             {
                 MessageBox.Show("Вы должны обязательно съесть шашку!");

@@ -73,3 +73,7 @@ C:\Users\Антон\Desktop\СП\GIT\Bartashuk_OP_1\Project\Checkers\Checkers\ob
 C:\Users\Антон\Desktop\СП\GIT\Bartashuk_OP_1\Project\Checkers\Checkers\obj\Debug\net6.0-windows\Checkers.pdb
 C:\Users\Антон\Desktop\СП\GIT\Bartashuk_OP_1\Project\Checkers\Checkers\obj\Debug\net6.0-windows\Checkers.genruntimeconfig.cache
 C:\Users\Антон\Desktop\СП\GIT\Bartashuk_OP_1\Project\Checkers\Checkers\obj\Debug\net6.0-windows\ref\Checkers.dll
+C:\Users\robsm\Desktop\СП\Git\Bartashuk_OP_1\Project\Checkers\Checkers\obj\Debug\net6.0-windows\Checkers_Content.g.cs
+C:\Users\robsm\Desktop\СП\Git\Bartashuk_OP_1\Project\Checkers\Checkers\obj\Debug\net6.0-windows\ClosingWindow.g.cs
+C:\Users\robsm\Desktop\СП\Git\Bartashuk_OP_1\Project\Checkers\Checkers\obj\Debug\net6.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\robsm\Desktop\СП\Git\Bartashuk_OP_1\Project\Checkers\Checkers\obj\Debug\net6.0-windows\ClosingWindow.baml
