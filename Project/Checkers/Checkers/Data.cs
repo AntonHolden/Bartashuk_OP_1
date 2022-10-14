@@ -86,11 +86,12 @@ namespace Checkers
                 if (possibleMoves.Any() || possibleEats.Any()) canMove[Player] = true;
             }
 
+            //@TODO simplify
             public void UpdatePossibleMovesForQueen()
             {
                 possibleEats.Clear();
                 possibleMoves.Clear();
-
+                  
                 foreach (int rowDiff in new List<int> { -1, 1 })
                 {
                     foreach (int columnDiff in new List<int> { -1, 1 })
@@ -193,6 +194,8 @@ namespace Checkers
             button.Content = stackPanel;
         }
 
+        // @TODO split method
+        // @TODO message box change to label
         public static void ClickOnChecker(object sender, EventArgs e, int row, int column)
         {
             if ((isContinue) && (board[row, column] != null))
@@ -209,9 +212,7 @@ namespace Checkers
 
             Button? pressedButton = sender as Button;
 
-
             if (pressedButton == null) throw new Exception("You clicked on a non-existent button");
-
 
             if (pressedButton == prevButton) //pressed the same button
             {
@@ -254,7 +255,6 @@ namespace Checkers
                 prevButton = pressedButton;
                 prevCoord = new Tuple<int?, int?>(row, column);
             }
-
         }
     }
 }
