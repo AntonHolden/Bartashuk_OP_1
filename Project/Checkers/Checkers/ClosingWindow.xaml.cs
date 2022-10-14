@@ -16,6 +16,8 @@ using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
+using static Checkers.Game;
+using static Checkers.Init;
 
 namespace Checkers
 {
@@ -27,17 +29,22 @@ namespace Checkers
         public ClosingWindow()
         {
             InitializeComponent();
-            this.SourceInitialized += new EventHandler(Window1_SourceInitialized);
+            this.SourceInitialized += new EventHandler(BlockingTheCloseButton);
         }
         public void ClickOnNewGame(object sender, EventArgs e)
         {
-
+            Reset();
+            Start(mainWindow);
+            Close();
         }
 
         public void ClickOnEnding(object sender, EventArgs e)
         {
             Environment.Exit(0);
         }
+
+        //blocking the close button
+        // --------------------
 
         [DllImport("user32.dll", EntryPoint = "GetSystemMenu")]
         private static extern IntPtr GetSystemMenu(IntPtr hwnd, int revert);
@@ -54,18 +61,17 @@ namespace Checkers
         private const int MF_BYPOSITION = 0x0400;
         private const int MF_DISABLED = 0x0002;
 
-        void Window1_SourceInitialized(object sender, EventArgs e)
+        void BlockingTheCloseButton(object sender, EventArgs e)
         {
             WindowInteropHelper helper = new WindowInteropHelper(this);
-            IntPtr windowHandle = helper.Handle; //Get the handle of this window
+            IntPtr windowHandle = helper.Handle;
             IntPtr hmenu = GetSystemMenu(windowHandle, 0);
             int cnt = GetMenuItemCount(hmenu);
-            //remove the button
             RemoveMenu(hmenu, cnt - 1, MF_DISABLED | MF_BYPOSITION);
-            //remove the extra menu line
             RemoveMenu(hmenu, cnt - 2, MF_DISABLED | MF_BYPOSITION);
-            DrawMenuBar(windowHandle); //Redraw the menu bar
+            DrawMenuBar(windowHandle);
         }
+        // --------------------
     }
 
 }

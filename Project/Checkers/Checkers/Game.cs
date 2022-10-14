@@ -16,14 +16,13 @@ namespace Checkers
     public static class Game
     {
 
-        static Grid CellsGrid = Init.CellsGrid!;
         public static Player currentPlayer = Init.currentPlayer;
-        static Checker[,] board = Init.board;
-        static Button[,] buttons = Init.buttons;
+        public static Checker[,] board = Init.board;
+        public static Button[,] buttons = Init.buttons;
         public static bool isMoving = false;
         public static bool isContinue = false;
         public static bool isEating = false;
-        static MainWindow mainWindow;
+        public static MainWindow mainWindow;
 
         public static Dictionary<Player, bool> canEat = new Dictionary<Player, bool>()
         {
@@ -103,14 +102,18 @@ namespace Checkers
             ResetButtons();
             UpdateAllMoves();
 
-            if (canMove[currentPlayer]==false) End();
+            if (canMove[currentPlayer] == false) End();
         }
 
         public static void End()
         {
             ClosingWindow closingWindow = new ClosingWindow();
-            
-            closingWindow.Result.Text += "Ничья!";
+
+            closingWindow.Owner = mainWindow;
+            if ((canMove[Player.Black] == false) && (canMove[Player.White] == false)) closingWindow.Result.Text += "Ничья!";
+            else if (currentPlayer == Player.White) closingWindow.Result.Text += "Чёрные шашки выиграли!";
+            else closingWindow.Result.Text += "Белые шашки выиграли!";
+
             closingWindow.ShowDialog();
         }
 
@@ -125,24 +128,24 @@ namespace Checkers
                 }
             }
         }
-        public static void DisableAllButtons()
-        {
-            for (int i = 0; i < boardSize; i++)
-            {
-                for (int j = 0; j < boardSize; j++) buttons[i, j].IsEnabled = false;
-            }
-        }
+        //public static void DisableAllButtons()
+        //{
+        //    for (int i = 0; i < boardSize; i++)
+        //    {
+        //        for (int j = 0; j < boardSize; j++) buttons[i, j].IsEnabled = false;
+        //    }
+        //}
 
-        public static void EnableButtons()
-        {
-            for (int i = 0; i < boardSize; i++)
-            {
-                for (int j = 0; j < boardSize; j++)
-                {
-                    if ((board[i, j] != null) && (board[i, j].Player == currentPlayer)) buttons[i, j].IsEnabled = true;
-                }
-            }
-        }
+        //public static void EnableButtons()
+        //{
+        //    for (int i = 0; i < boardSize; i++)
+        //    {
+        //        for (int j = 0; j < boardSize; j++)
+        //        {
+        //            if ((board[i, j] != null) && (board[i, j].Player == currentPlayer)) buttons[i, j].IsEnabled = true;
+        //        }
+        //    }
+        //}
 
     }
 }

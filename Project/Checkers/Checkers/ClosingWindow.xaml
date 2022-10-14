@@ -6,17 +6,23 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:Checkers"
         mc:Ignorable="d" Height="178" Width="524" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False">
-    
+
     <StackPanel>
-        <TextBlock x:Name="Result" FontSize="24" Margin="10,10,10,10" TextWrapping="Wrap" FontFamily="Pericles" Height="58" Width="252">
-            
+        <TextBlock x:Name="Result" FontSize="24" Margin="10,15,10,10" TextWrapping="Wrap" HorizontalAlignment="Center" FontFamily="Adobe Hebrew" Height="53" Width="Auto">
+
         </TextBlock>
-        <TextBlock FontSize="24" Margin="10,-25,10,-10" TextWrapping="Wrap" FontFamily="Pericles" Height="58" Width="179">
+        <TextBlock FontSize="24" Margin="10,-25,10,-10" TextWrapping="Wrap" FontFamily="Adobe Hebrew" Height="53" Width="179">
             Начать заново?
         </TextBlock>
-        <Button Width="193" Margin="0,-5,250,-30" Height="30" Content="Новая игра" Click="ClickOnNewGame" >
-
+        <Button Width="193" Margin="0,-5,250,-30" Height="30" Click="ClickOnNewGame" >
+            <TextBlock FontFamily="Adobe Hebrew" Margin="0,2,0,0">
+                Новая игра
+            </TextBlock>
         </Button>
-        <Button Width="199" Margin="0,-5,-250,-30" Height="30" Content="Выход" Click="ClickOnEnding" />
+        <Button Width="199" Margin="0,-5,-250,-30" Height="30" Click="ClickOnEnding">
+            <TextBlock FontFamily="Adobe Hebrew" Margin="0,2,0,0">
+                Выход
+            </TextBlock>
+        </Button>
     </StackPanel>
 </Window>

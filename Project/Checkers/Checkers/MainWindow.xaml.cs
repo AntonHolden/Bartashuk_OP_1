@@ -35,12 +35,16 @@ namespace Checkers
 
             if ((boardSize != CellsGrid.RowDefinitions.Count) || (boardSize != CellsGrid.RowDefinitions.Count)) throw new Exception("Change the number of cells!");
 
+
             InitAll(ref CellsGrid);
             Start(this);
+            
         }
 
         /// <TODO>
         /// 1. Make a better window size;
+        /// 2. Fix the ClosingWindow - remove the icon, think about that cross
+        /// 3. Fix the bug with one opponent-checker left and the game is kinda ended.
         /// </TODO>
 
     }
