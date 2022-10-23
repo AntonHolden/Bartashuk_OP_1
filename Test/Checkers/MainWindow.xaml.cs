@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static Battleship.Data;
+using static Battleship.Init;
 
 namespace Battleship
 {
@@ -23,11 +25,26 @@ namespace Battleship
         public MainWindow()
         {
             InitializeComponent();
+
+            InitAll(ref PlayerGrid, ref OpponentGrid);
+
+
+            ChangeCellsColor((Brush)(new BrushConverter().ConvertFrom("#FF2F4F4F")));
         }
 
         void ChangeCellsColor(Brush color)
         {
-            for (int i=1;i)
+            for (int i = 1; i <= fieldSize; i++)
+            {
+                for (int j = 1; j <= fieldSize; j++)
+                {
+                    Border? border = (Border?)GetGridBorder(PlayerGrid, i, j);
+                    if (border != null) border.BorderBrush=color;
+
+                    border = (Border?)GetGridBorder(OpponentGrid, i, j);
+                    if (border != null) border.BorderBrush = color;
+                }
+            }
         }
     }
 }
