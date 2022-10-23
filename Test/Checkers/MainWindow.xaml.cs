@@ -26,12 +26,15 @@ namespace Battleship
         {
             InitializeComponent();
 
-            InitAll(ref PlayerGrid, ref OpponentGrid);
+            InitAll(this);
 
 
             ChangeCellsColor((Brush)(new BrushConverter().ConvertFrom("#FF2F4F4F")));
         }
-
+        //--------------
+        // TODO:
+        // 1.Make
+        //--------------
         void ChangeCellsColor(Brush color)
         {
             for (int i = 1; i <= fieldSize; i++)

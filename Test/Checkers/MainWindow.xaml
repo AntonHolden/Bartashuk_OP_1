@@ -3,12 +3,24 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:Battleship"
     ResizeMode="CanMinimize"
-    Title="Battleship" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" Width="1328" Height="753" >
+    Title="Battleship" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" Width="1328" Height="803" >
 
 
 
     <Grid HorizontalAlignment="Center" Width="1328"  >
-        <Border  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,66,0,0" BorderBrush="Black" BorderThickness="2">
+        <TextBlock x:Name="Note" FontSize="24" Margin="50,19,165,634" TextWrapping="Wrap" FontFamily="Adobe Hebrew" Width="Auto" Height="Auto" Foreground="DarkRed">
+            
+        </TextBlock>
+
+        <TextBlock FontSize="20" Margin="15,86,736,634" TextWrapping="Wrap" FontFamily="Adobe Hebrew" HorizontalAlignment="Left" FontStyle="Italic" Width="Auto" Height="Auto" >
+            Ваше поле
+        </TextBlock>
+
+        <TextBlock FontSize="20" Margin="858,86,15,634" TextWrapping="Wrap" FontStyle="Italic" HorizontalAlignment="Right" FontFamily="Adobe Hebrew" Width="Auto" Height="Auto">
+            Поле противника
+        </TextBlock>
+
+        <Border  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,115,0,0" BorderBrush="Black" BorderThickness="2">
             <Grid Name="PlayerGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="40" />
@@ -260,7 +272,7 @@
 
             </Grid>
         </Border>
-        <Border  HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,66,10,0" BorderBrush="Black" BorderThickness="2">
+        <Border  HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,115,15,0" BorderBrush="Black" BorderThickness="2">
             <Grid Name="OpponentGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="40" />

@@ -24,14 +24,16 @@ namespace Battleship
         public static Grid opponentGrid;
         public static Button[,] playerButtons = Data.playerButtons;
         public static Button[,] opponentButtons = Data.opponentButtons;
+        public static MainWindow mainWindow;
 
 
-        public static void InitAll(ref Grid PlayerGrid, ref Grid OpponentGrid)
+        public static void InitAll(MainWindow mainWindow)
         {
-            if ((PlayerGrid == null) || (OpponentGrid == null)) throw new Exception("Some grid is null!");
+            if (mainWindow==null) throw new Exception("MainWindow is null!");
 
-            playerGrid = PlayerGrid;
-            opponentGrid = OpponentGrid;
+            Init.mainWindow = mainWindow;
+            playerGrid = mainWindow.PlayerGrid;
+            opponentGrid = mainWindow.OpponentGrid;
             InitCells();
             StartPlacement();
         }

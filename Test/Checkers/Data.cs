@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using static Battleship.Placement;
 
 namespace Battleship
 {
@@ -17,6 +18,18 @@ namespace Battleship
         {
             Player = 1,
             Opponent
+        }
+
+        public class Ship
+        {
+            public int shipSize;
+            public List<Tuple<int, int>> shipCoord;
+
+            public Ship(int shipSize, List<Tuple<int, int>> shipCoord)
+            {
+                this.shipSize = shipSize;
+                this.shipCoord = shipCoord;
+            }
         }
 
         public static UIElement? GetGridBorder(Grid grid, int row, int column)
@@ -35,17 +48,15 @@ namespace Battleship
         public static Button[,] playerButtons = new Button[fieldSize + 1, fieldSize + 1];
         public static Button[,] opponentButtons = new Button[fieldSize + 1, fieldSize + 1];
 
+        public static Ship[,] playerField = new Ship[fieldSize + 1, fieldSize + 1];
+        public static Ship[,] opponentField = new Ship[fieldSize + 1, fieldSize + 1];
+
         public static Button? prevButton = null;
         public static Tuple<int?, int?> prevCoord = new Tuple<int?, int?>(null, null);
 
         public static void ClickOnOpponentCell(object sender, EventArgs e, int row, int column)
         {
             
-        }
-
-        public static void PlaceModeClicker(object sender, EventArgs e, int row, int column)
-        {
-
         }
     }
 }

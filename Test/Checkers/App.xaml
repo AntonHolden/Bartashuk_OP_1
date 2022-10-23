@@ -15,7 +15,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            <SolidColorBrush x:Key="Button.Static.Background" Color="Transparent"/>
+            <SolidColorBrush x:Key="Button.Static.Background" Color="#FF6A5ACD"/>
             <SolidColorBrush x:Key="Button.Static.Border" Color="Transparent"/>
             <SolidColorBrush x:Key="Button.MouseOver.Background" Color="Transparent"/>
             <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
