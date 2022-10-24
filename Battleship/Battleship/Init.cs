@@ -24,7 +24,7 @@ namespace Battleship
         public static Grid opponentGrid;
         public static Dictionary<Player, Button[,]> buttons = Data.buttons;
         public static MainWindow mainWindow;
-
+        public static Dictionary<int, int> shipsLeft = Data.shipsLeft;
 
         public static void InitAll(MainWindow mainWindow)
         {
@@ -52,6 +52,7 @@ namespace Battleship
         {
             Button button = new Button();
             button.Style = (Style)button.FindResource("CellStyle");
+            button.IsEnabled = false;
 
             Grid.SetColumn(button, column);
             Grid.SetRow(button, row);
@@ -68,7 +69,6 @@ namespace Battleship
 
             button = MakeButton(row, column);
             button.Click += new RoutedEventHandler((sender, e) => ClickOnOpponentCell(sender, e, row, column));
-            button.IsEnabled = false;
 
             opponentGrid.Children.Add(button);
             buttons[Player.Opponent][row, column] = button;
