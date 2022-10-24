@@ -63,9 +63,39 @@ namespace Battleship.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Byte[].
         /// </summary>
+        internal static byte[] defeat {
+            get {
+                object obj = ResourceManager.GetObject("defeat", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] hit {
+            get {
+                object obj = ResourceManager.GetObject("hit", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
         internal static byte[] icon {
             get {
                 object obj = ResourceManager.GetObject("icon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] miss {
+            get {
+                object obj = ResourceManager.GetObject("miss", resourceCulture);
                 return ((byte[])(obj));
             }
         }

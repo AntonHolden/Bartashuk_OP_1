@@ -8,46 +8,63 @@
 
 
     <Grid HorizontalAlignment="Center" Width="1328"  >
-        <TextBlock x:Name="Note" FontSize="24" Margin="15,10,165,634" TextWrapping="Wrap" FontFamily="Adobe Hebrew" Width="Auto" Height="Auto" Foreground="DarkRed">
-
-        </TextBlock>
 
         <TextBlock FontSize="20" Margin="15,86,736,634" TextWrapping="Wrap" FontFamily="Adobe Hebrew" HorizontalAlignment="Left" FontStyle="Italic" Width="Auto" Height="Auto" >
             Ваше поле
         </TextBlock>
 
-        <Button Name="PlacementButton4" Margin="158,86,1085,651" >
+        <Button Name="PlacementButton4" Margin="158,86,1065,651" >
             <TextBlock FontFamily="Adobe Hebrew" Margin="0,2,0,0">
                 4-палубный
             </TextBlock>
         </Button>
 
-        <TextBlock Name="PlacementNote4" FontFamily="Adobe Hebrew" Margin="158,70,836,677" Width="Auto" Height="Auto" HorizontalAlignment="Left">
+        <TextBlock Name="PlacementNote4" FontSize="19" FontFamily="Adobe Hebrew" Margin="158,62,0,677" Width="105" Height="Auto" HorizontalAlignment="Left">
                 Осталось: 1
         </TextBlock>
 
-        <Button Name="PlacementButton3" Margin="248,86,995,651"  >
+        <Button Name="PlacementButton3" Margin="268,86,955,651"  >
             <TextBlock FontFamily="Adobe Hebrew" Margin="0,2,0,0">
                 3-палубный
             </TextBlock>
         </Button>
 
-        <TextBlock Name="PlacementNote3" FontFamily="Adobe Hebrew" Margin="248,70,0,677" Width="89" Height="Auto" HorizontalAlignment="Left">
+        <TextBlock Name="PlacementNote3" FontSize="19" FontFamily="Adobe Hebrew" Margin="268,62,0,677" Width="107" Height="Auto" HorizontalAlignment="Left">
                 Осталось: 2
         </TextBlock>
 
-        <Button Name="PlacementButton2" Margin="338,86,905,651" >
+        <TextBlock Name="State" FontSize="40" TextWrapping="Wrap" Margin="0,17,0,634" HorizontalAlignment="Center" FontFamily="Adobe Hebrew" Height="Auto" Width="Auto" Foreground="DarkRed">
+
+        </TextBlock>
+
+        <TextBlock Name="PlayerShipsLeftNote" FontSize="15" TextWrapping="Wrap" Margin="125,17,0,614" HorizontalAlignment="Left" FontFamily="Adobe Hebrew" Height="Auto" Width="680" Visibility="Hidden">
+            <!--У вас осталось: <LineBreak/>
+            4-палубных кораблей: 1 <LineBreak/>
+            3-палубных кораблей: 2 <LineBreak/>
+            2-палубных кораблей: 3 <LineBreak/>
+            1-палубных кораблей: 4-->
+        </TextBlock>
+
+        <TextBlock Name="OpponentShipsLeftNote" FontSize="15" TextWrapping="Wrap" Margin="968,17,0,614" HorizontalAlignment="Left" FontFamily="Adobe Hebrew" Height="Auto" Width="180" Visibility="Hidden">
+            <!--У противника осталось: <LineBreak/>
+            4-палубных кораблей: 1 <LineBreak/>
+            3-палубных кораблей: 2 <LineBreak/>
+            2-палубных кораблей: 3 <LineBreak/>
+            1-палубных кораблей: 4-->
+        </TextBlock>
+
+        <Button Name="PlacementButton2" Margin="378,86,845,651" >
             <TextBlock FontFamily="Adobe Hebrew" Margin="0,2,0,0">
                 2-палубный
             </TextBlock>
         </Button>
 
-        <TextBlock Name="PlacementNote2" FontFamily="Adobe Hebrew" Margin="338,70,0,677" Width="89" Height="Auto" HorizontalAlignment="Left">
+        <TextBlock Name="PlacementNote2" FontSize="19" FontFamily="Adobe Hebrew" Margin="380,62,0,677" Width="103" Height="Auto" HorizontalAlignment="Left">
                 Осталось: 3
         </TextBlock>
 
 
-        <Button Name="PlacementButton1" Margin="428,86,815,651"  >
+        <Button Name="PlacementButton1" Margin="488,86,735,651"  >
             <TextBlock FontFamily="Adobe Hebrew" Margin="0,2,0,0">
                 1-палубный
             </TextBlock>
@@ -65,7 +82,7 @@
             </TextBlock>
         </Button>
 
-        <TextBlock Name="PlacementNote1" FontFamily="Adobe Hebrew" Margin="428,70,0,677" Width="89" Height="Auto" HorizontalAlignment="Left">
+        <TextBlock Name="PlacementNote1" FontSize="19" FontFamily="Adobe Hebrew" Margin="488,62,0,677" Width="106" Height="Auto" HorizontalAlignment="Left">
                 Осталось: 4
         </TextBlock>
 

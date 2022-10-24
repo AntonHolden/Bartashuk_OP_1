@@ -18,17 +18,6 @@ namespace Battleship
 
         public static int selectedShipSize = -1;
 
-        public static bool IsFull(Player player, int size) => shipsPlaced[player][size] == 5 - size;
-
-        public static bool AllFull(Player player)
-        {
-            foreach (var ship in shipsPlaced[player])
-            {
-                if (!IsFull(player, ship.Key)) return false;
-            }
-            return true;
-        }
-
         public static List<Tuple<int, int>> prevPlacementCoords = new List<Tuple<int, int>>();
 
         public static void PlaceModeClicker(object sender, EventArgs e, int row, int column)
@@ -51,7 +40,10 @@ namespace Battleship
             }
             else
             {
-                Border border = (Border)GetGridBorder(grids[Player.Player], row, column);
+                Border? border = (Border?)GetGridBorder(grids[Player.Player], row, column);
+
+                if (border == null) throw new Exception($"Can't PaintBorder in {row} row in {column} column in PlaceModeClicker!");
+
                 border.Background = Brushes.Blue;
                 prevPlacementCoords.Add(new Tuple<int, int>(row, column));
                 PaintCells();
@@ -67,7 +59,6 @@ namespace Battleship
                 prevPlacementButton = null;
                 DisableEmptyCells(Player.Player);
                 selectedShipSize = -1;
-                //if (AllFull) // ClearNote(); DisableButtons(); StartGame();
             }
         }
 
@@ -83,8 +74,8 @@ namespace Battleship
         {
             UpdatePlacementsNotes();
 
-            if (!AllFull(Player.Player)) mainWindow.Note.Text = "Расставьте корабли!";
-            else mainWindow.Note.Text = string.Empty;
+            if (!AllFull(Player.Player)) mainWindow.State.Text = "Расставьте корабли!";
+            else mainWindow.State.Text = string.Empty;
         }
 
         public static void UpdatePlacementButtons()
@@ -146,13 +137,19 @@ namespace Battleship
 
         public static void UnPaintBorder(int row,int column)
         {
-            Border border = (Border)GetGridBorder(grids[Player.Player], row, column);
+            Border? border = (Border?)GetGridBorder(grids[Player.Player], row, column);
+
+            if (border == null) throw new Exception($"Can't UnPaintBorder in {row} row in {column} column!");
+
             border.Background = Brushes.Transparent;
         }
 
         public static void PaintBorder(int row, int column)
         {
-            Border border = (Border)GetGridBorder(grids[Player.Player], row, column);
+            Border? border = (Border?)GetGridBorder(grids[Player.Player], row, column);
+
+            if (border == null) throw new Exception($"Can't PaintBorder in {row} row in {column} column!");
+
             border.Background = (Brush)(new BrushConverter().ConvertFrom("#FF6A5ACD"));
         }
         public static void AllowToPlace(int row, int column)

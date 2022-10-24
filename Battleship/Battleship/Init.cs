@@ -55,6 +55,7 @@ namespace Battleship
 
             InitCells();
             InitMainWindowButtons();
+            InitColumnToLetter();
             StartBotPlacement();
             StartPlacement();
         }
@@ -93,7 +94,6 @@ namespace Battleship
             Button button = MakeButton(row, column);
             button.Click += new RoutedEventHandler((sender, e) => PlaceModeClicker(sender, e, row, column));
             
-
             grids[Player.Player].Children.Add(button);
             buttons[Player.Player][row, column] = button;
 
@@ -102,11 +102,6 @@ namespace Battleship
 
             grids[Player.Opponent].Children.Add(button);
             buttons[Player.Opponent][row, column] = button;
-        }
-
-        public static void EnableOpponentGrids()
-        {
-
         }
     }
 }

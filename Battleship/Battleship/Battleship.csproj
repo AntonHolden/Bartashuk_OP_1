@@ -9,7 +9,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\defeat.png" />
+    <None Remove="Resources\hit.png" />
+    <None Remove="Resources\miss.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Resources\icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\defeat.png" />
+    <Resource Include="Resources\hit.png" />
+    <Resource Include="Resources\miss.png" />
   </ItemGroup>
 
   <ItemGroup>

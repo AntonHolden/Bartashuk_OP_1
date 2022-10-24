@@ -19,7 +19,7 @@ namespace Battleship
             Vertical
         }
 
-        static Random randomizer = new Random();
+        public static Random randomizer = new Random();
         static int currentSize;
         static Dictionary<Direction, List<Tuple<int, int>>> goodCellsCoord = new Dictionary<Direction, List<Tuple<int, int>>>
         {
@@ -34,7 +34,7 @@ namespace Battleship
             while (!AllFull(Player.Opponent))
             {
                 UpdateGoodCells();
-                //if ((!goodCellsCoord[Direction.Horizontal].Any()) && (!goodCellsCoord[Direction.Vertical].Any())) Restart();
+                if ((!goodCellsCoord[Direction.Horizontal].Any()) && (!goodCellsCoord[Direction.Vertical].Any())) Restart();
 
                 Direction randomDirection = (Direction)randomizer.Next(2);
                 if (!goodCellsCoord[randomDirection].Any()) randomDirection = 1 - randomDirection;
