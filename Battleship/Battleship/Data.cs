@@ -75,8 +75,6 @@ namespace Battleship
             {Player.Opponent,new Ship[fieldSize + 1, fieldSize + 1] }
         };
 
-        public static Player currentPlayer = Player.Player;
-
         static Button? prevButton = null;
         static Tuple<int?, int?> prevCoord = new Tuple<int?, int?>(null, null);
 
@@ -112,10 +110,8 @@ namespace Battleship
             {
                 for (int j = 1; j <= fieldSize; j++)
                 {
-                    buttons[player][i, j].Background = Brushes.Transparent;
-
                     if (field[player][i, j] != null) buttons[player][i, j].IsEnabled = true;
-                    else buttons[player][i, j].IsEnabled = false;
+                    else UnAllowToPlace(player,i,j);
                 }
             }
         }
@@ -141,7 +137,19 @@ namespace Battleship
             prevPlacementCoords.Clear();
         }
 
+        public static void StartButtonClicker(object sender, EventArgs e)
+        {
 
+        }
 
+        public static void RestartButtonClicker(object sender, EventArgs e)
+        {
+            Restart();
+        }
+
+        public static void Restart()
+        {
+
+        }
     }
 }

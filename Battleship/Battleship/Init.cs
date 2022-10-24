@@ -54,14 +54,17 @@ namespace Battleship
             };
 
             InitCells();
-            InitPlacementButtons();
+            InitMainWindowButtons();
             StartBotPlacement();
             StartPlacement();
         }
 
-        public static void InitPlacementButtons()
+        public static void InitMainWindowButtons()
         {
             foreach (var placementButton in placementButtonsToSize) placementButton.Key.Click += new RoutedEventHandler(PlacementButtonsClicker);
+
+            mainWindow.StartButton.Click += new RoutedEventHandler(StartButtonClicker);
+            mainWindow.RestartButton.Click += new RoutedEventHandler(RestartButtonClicker);
         }
         public static void InitCells()
         {
@@ -105,6 +108,5 @@ namespace Battleship
         {
 
         }
-
     }
 }

@@ -53,6 +53,18 @@
             </TextBlock>
         </Button>
 
+        <Button Name="RestartButton" Margin="1148,10,15,708" >
+            <TextBlock FontSize="24" FontFamily="Adobe Hebrew" Margin="0,2,0,0">
+                Рестарт
+            </TextBlock>
+        </Button>
+
+        <Button Name="StartButton" Margin="968,10,195,708" IsEnabled="False" >
+            <TextBlock FontSize="24" FontFamily="Adobe Hebrew" Margin="0,2,0,0">
+                Начать игру
+            </TextBlock>
+        </Button>
+
         <TextBlock Name="PlacementNote1" FontFamily="Adobe Hebrew" Margin="428,70,0,677" Width="89" Height="Auto" HorizontalAlignment="Left">
                 Осталось: 4
         </TextBlock>
