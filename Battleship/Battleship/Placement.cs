@@ -17,13 +17,13 @@ namespace Battleship
 
         public static int selectedShipSize = -1;
 
-        public static bool IsFull(int size) => shipsPlaced[size] == 5 - size;
+        public static bool IsFull(Player player, int size) => shipsPlaced[player][size] == 5 - size;
 
-        public static bool AllFull()
+        public static bool AllFull(Player player)
         {
-            foreach (var ship in shipsPlaced)
+            foreach (var ship in shipsPlaced[player])
             {
-                if (!IsFull(ship.Key)) return false;
+                if (!IsFull(player, ship.Key)) return false;
             }
             return true;
         }
@@ -72,7 +72,7 @@ namespace Battleship
         {
             foreach (var placementButton in placementButtonsToSize)
             {
-                if (IsFull(placementButton.Value)) placementButton.Key.IsEnabled = false;
+                if (IsFull(Player.Player, placementButton.Value)) placementButton.Key.IsEnabled = false;
                 else placementButton.Key.IsEnabled = true;
             }
         }
@@ -82,14 +82,14 @@ namespace Battleship
             foreach (var coord in coords) field[Player.Player][coord.Item1, coord.Item2] = new Ship(selectedShipSize, prevPlacementCoords.Select(i => new Tuple<int, int>(i.Item1, i.Item2)).ToList(), Player.Player);
 
             PaintShip(coords);
-            shipsPlaced[selectedShipSize]++;
+            shipsPlaced[Player.Player][selectedShipSize]++;
         }
 
         public static void RemoveShip(int row, int column)
         {
 
             var coords = field[Player.Player][row, column].shipCoords;
-            shipsPlaced[field[Player.Player][row, column].shipSize]--;
+            shipsPlaced[Player.Player][field[Player.Player][row, column].shipSize]--;
 
             foreach (var coord in coords) field[Player.Player][coord.Item1, coord.Item2] = null;
 
@@ -141,7 +141,7 @@ namespace Battleship
             {
                 for (int column = 1; column <= fieldSize; column++)
                 {
-                    if ((field[Player.Player][row, column] == null) && (IsPlacementGood(row, column))) AllowToPlace(row, column);
+                    if ((field[Player.Player][row, column] == null) && (IsPlacementGood(selectedShipSize, row, column))) AllowToPlace(row, column);
                     else buttons[Player.Player][row, column].IsEnabled = false;
                 }
             }
@@ -152,41 +152,41 @@ namespace Battleship
             buttons[Player.Player][row, column].IsEnabled = true;
             buttons[Player.Player][row, column].Background = (Brush)(new BrushConverter().ConvertFrom("#FF6A5ACD"));
         }
-        public static bool IsPlacementGood(int row, int column)
-        {
-            if ((IsHorizontalPlacementGood(row, column)) || (IsVerticalPlacementGood(row, column))) return true;
+        public static bool IsPlacementGood(int size, int row, int column) => ((IsHorizontalPlacementGood(size, row, column)) || (IsVerticalPlacementGood(size, row, column)));
 
-            return false;
-        }
-
-        public static bool IsVerticalPlacementGood(int row, int column)
+        public static bool IsVerticalPlacementGood(int size, int row, int column)
         {
-            for (int upDiff = -selectedShipSize + 1; upDiff <= 0; upDiff++)
+            for (int upDiff = -size + 1; upDiff <= 0; upDiff++)
             {
-                for (int newRow = row + upDiff; newRow < row + upDiff + selectedShipSize; newRow++)
+                for (int newRow = row + upDiff; newRow < row + upDiff + size; newRow++)
                 {
-                    if (!IsPlaceGood(newRow, column)) break;
-                    if (newRow == row + upDiff + selectedShipSize - 1) return true;
+                    if (!IsPlaceGood(Player.Player, newRow, column)) break;
+                    if (newRow == row + upDiff + size - 1) return true;
                 }
             }
             return false;
         }
 
-        public static bool IsHorizontalPlacementGood(int row, int column)
+        public static bool IsHorizontalPlacementGood(int size, int row, int column)
         {
-            for (int leftDiff = -selectedShipSize + 1; leftDiff <= 0; leftDiff++)
+            for (int leftDiff = -size + 1; leftDiff <= 0; leftDiff++)
             {
-                for (int newColumn = column + leftDiff; newColumn < column + leftDiff + selectedShipSize; newColumn++)
+                for (int newColumn = column + leftDiff; newColumn < column + leftDiff + size; newColumn++)
                 {
-                    if (!IsPlaceGood(row, newColumn)) break;
-                    if (newColumn == column + leftDiff + selectedShipSize - 1) return true;
+                    if (!IsPlaceGood(Player.Player, row, newColumn)) break;
+                    if (newColumn == column + leftDiff + size - 1) return true;
                 }
             }
             return false;
         }
 
-        public static bool IsPlaceGood(int row, int column) => ((InRange(row)) && (InRange(column)) && (field[Player.Player][row, column] == null) && (ShipIsNotAround(row, column)));
-        public static bool ShipIsNotAround(int row, int column)
+        public static bool IsPlaceGood(Player player, int row, int column) =>
+            ((InRange(row)) &&
+            (InRange(column)) &&
+            (field[player][row, column] == null) &&
+            (ShipIsNotAround(player, row, column)));
+
+        public static bool ShipIsNotAround(Player player, int row, int column)
         {
             foreach (int rowDiff in new List<int> { -1, 0, 1 })
             {
@@ -197,7 +197,7 @@ namespace Battleship
                     int newRow = row + rowDiff;
                     int newColumn = column + columnDiff;
 
-                    if ((InRange(newRow)) && (InRange(newColumn)) && (field[Player.Player][newRow, newColumn] != null)) return false;
+                    if ((InRange(newRow)) && (InRange(newColumn)) && (field[player][newRow, newColumn] != null)) return false;
                 }
             }
             return true;
@@ -210,15 +210,15 @@ namespace Battleship
             DisableExtraButtons();
 
             int row = prevPlacementCoords[0].Item1, column = prevPlacementCoords[0].Item2;
-            if (IsHorizontalPlacementGood(row, column))
+            if (IsHorizontalPlacementGood(selectedShipSize, row, column))
             {
-                if (IsPlaceGood(row, column - 1)) AllowToPlace(row, column - 1);
-                if (IsPlaceGood(row, column + 1)) AllowToPlace(row, column + 1);
+                if (IsPlaceGood(Player.Player, row, column - 1)) AllowToPlace(row, column - 1);
+                if (IsPlaceGood(Player.Player, row, column + 1)) AllowToPlace(row, column + 1);
             }
-            if (IsVerticalPlacementGood(row, column))
+            if (IsVerticalPlacementGood(selectedShipSize, row, column))
             {
-                if (IsPlaceGood(row - 1, column)) AllowToPlace(row - 1, column);
-                if (IsPlaceGood(row + 1, column)) AllowToPlace(row + 1, column);
+                if (IsPlaceGood(Player.Player, row - 1, column)) AllowToPlace(row - 1, column);
+                if (IsPlaceGood(Player.Player, row + 1, column)) AllowToPlace(row + 1, column);
             }
         }
 
@@ -236,8 +236,8 @@ namespace Battleship
                     leftCoord = Math.Min(leftCoord, coord.Item2);
                 }
 
-                if (IsPlaceGood(row, leftCoord - 1)) AllowToPlace(row, leftCoord - 1);
-                if (IsPlaceGood(row, rightCoord + 1)) AllowToPlace(row, rightCoord + 1);
+                if (IsPlaceGood(Player.Player, row, leftCoord - 1)) AllowToPlace(row, leftCoord - 1);
+                if (IsPlaceGood(Player.Player, row, rightCoord + 1)) AllowToPlace(row, rightCoord + 1);
             }
             else                                                                    //vertical
             {
@@ -248,8 +248,8 @@ namespace Battleship
                     upCoord = Math.Min(upCoord, coord.Item1);
                 }
 
-                if (IsPlaceGood(upCoord - 1, column)) AllowToPlace(upCoord - 1, column);
-                if (IsPlaceGood(downCoord + 1, column)) AllowToPlace(downCoord + 1, column);
+                if (IsPlaceGood(Player.Player, upCoord - 1, column)) AllowToPlace(upCoord - 1, column);
+                if (IsPlaceGood(Player.Player, downCoord + 1, column)) AllowToPlace(downCoord + 1, column);
             }
         }
 
@@ -280,7 +280,7 @@ namespace Battleship
 
         public static void UpdatePlacementsNotes()
         {
-            foreach (var shipSize in shipsPlaced) sizeToPlacementNotes[shipSize.Key].Text = $"Осталось: {5 - shipSize.Key - shipSize.Value}";
+            foreach (var shipSize in shipsPlaced[Player.Player]) sizeToPlacementNotes[shipSize.Key].Text = $"Осталось: {5 - shipSize.Key - shipSize.Value}";
         }
     }
 }

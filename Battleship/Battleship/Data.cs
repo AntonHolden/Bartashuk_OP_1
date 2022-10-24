@@ -85,12 +85,25 @@ namespace Battleship
 
         }
 
-        public static Dictionary<int, int> shipsPlaced = new Dictionary<int, int>     //key - size, value - count
+        public static Dictionary<Player, Dictionary<int, int>> shipsPlaced = new Dictionary<Player, Dictionary<int, int>>     //value.key - size, value.value - count
         {
-            { 1,0 },
-            { 2,0 },
-            { 3,0 },
-            { 4,0 }
+            {Player.Player, new Dictionary<int, int>()
+            {
+                { 1,0 },
+                { 2,0 },
+                { 3,0 },
+                { 4,0 }
+            }
+            },
+
+            {Player.Opponent, new Dictionary<int, int>()
+            {
+                { 1,0 },
+                { 2,0 },
+                { 3,0 },
+                { 4,0 }
+            }
+            }
         };
 
         public static void DisableEmptyCells(Player player)

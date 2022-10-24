@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static Battleship.Data;
 using static Battleship.Placement;
+using static Battleship.BotPlacement;
 
 namespace Battleship
 {
@@ -54,6 +55,7 @@ namespace Battleship
 
             InitCells();
             InitPlacementButtons();
+            StartBotPlacement();
             StartPlacement();
         }
 
