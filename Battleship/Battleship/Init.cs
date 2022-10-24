@@ -22,8 +22,7 @@ namespace Battleship
     {
         public static Grid playerGrid;
         public static Grid opponentGrid;
-        public static Button[,] playerButtons = Data.playerButtons;
-        public static Button[,] opponentButtons = Data.opponentButtons;
+        public static Dictionary<Player, Button[,]> buttons = Data.buttons;
         public static MainWindow mainWindow;
 
 
@@ -44,8 +43,7 @@ namespace Battleship
             {
                 for (int column = 1; column <= fieldSize; column++)
                 {
-                    InitPlayerButton(row, column);
-                    InitOpponentButton(row, column);
+                    InitButton(row, column);
                 }
             }
         }
@@ -60,24 +58,22 @@ namespace Battleship
 
             return button;
         }
-        public static void InitPlayerButton(int row, int column)
+        public static void InitButton(int row, int column)
         {
             Button button = MakeButton(row, column);
             button.Click += new RoutedEventHandler((sender, e) => PlaceModeClicker(sender, e, row, column));
 
             playerGrid.Children.Add(button);
-            playerButtons[row, column] = button;
-        }
+            buttons[Player.Player][row, column] = button;
 
-        public static void InitOpponentButton(int row, int column)
-        {
-            Button button = MakeButton(row, column);
+            button = MakeButton(row, column);
             button.Click += new RoutedEventHandler((sender, e) => ClickOnOpponentCell(sender, e, row, column));
             button.IsEnabled = false;
 
             opponentGrid.Children.Add(button);
-            opponentButtons[row, column] = button;
+            buttons[Player.Opponent][row, column] = button;
         }
+
         public static void EnableOpponentGrids()
         {
 

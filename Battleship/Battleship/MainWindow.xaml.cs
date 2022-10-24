@@ -33,7 +33,7 @@ namespace Battleship
         }
         //--------------
         // TODO:
-        // 1.Make
+        // 1.Nums istead of painted backgrounds?
         //--------------
         void ChangeCellsColor(Brush color)
         {

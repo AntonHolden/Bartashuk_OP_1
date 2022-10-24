@@ -14,49 +14,83 @@ namespace Battleship
     {
         public static MainWindow mainWindow = Init.mainWindow;
         public static List<int> shipSizes = new List<int>() { 4, 3, 3, 2, 2, 2, 1, 1, 1, 1 };
-        public static Button[,] playerButtons = Init.playerButtons;
-        public static Button[,] opponentButtons = Init.opponentButtons;
+        public static Dictionary<Player, Button[,]> buttons = Init.buttons;
         public static int currentShipInd = 0;
+        public static Dictionary<Player, Ship[,]> field = Data.field;
 
-        public static Ship[,] playerField = Data.playerField;
-        public static Ship[,] opponentField = Data.opponentField;
+        //static Button? prevButton = null;
+        static List<Tuple<int, int>> prevCoord = new List<Tuple<int, int>>();
 
-        public static Button? prevButton = null;
-        public static Tuple<int?, int?> prevCoord = new Tuple<int?, int?>(null, null);
+
 
         public static void PlaceModeClicker(object sender, EventArgs e, int row, int column)
         {
+            Button? pressedButton = sender as Button;
 
+            if (pressedButton == null) throw new Exception("You clicked on a non-existent button");
+
+            if (prevCoord.Contains(new Tuple<int, int>(row, column)))
+            {
+                prevCoord.Remove(new Tuple<int, int>(row, column));
+            }
+            else
+            {
+                pressedButton.Background = Brushes.Blue;
+                prevCoord.Add(new Tuple<int, int>(row, column));
+            }
+            if (prevCoord.Count == shipSizes[currentShipInd])
+            {
+                foreach (var coord in prevCoord)
+                {
+                    field[Player.Player][coord.Item1, coord.Item2] = new Ship(shipSizes[currentShipInd], prevCoord, Player.Player);
+                }
+
+                prevCoord.Clear();
+                currentShipInd++;
+                //if (currentShipInd==shipSizes.Count) //StartGame();
+            }
+            PaintCells();
         }
 
         public static void StartPlacement()
         {
-            PaintPlacements();
-            MakeLabel(shipSizes[currentShipInd]);
+            PaintCells();
+            UpdateNote();
         }
 
-        public static void MakeLabel(int size)
+        public static void UpdateNote()
         {
-            mainWindow.Note.Text = $"Поставьте {size}-палубный корабль";
+            mainWindow.Note.Text = $"Поставьте {shipSizes[currentShipInd]}-палубный корабль";
         }
 
-        public static void RemoveLabel()
+        public static void ClearNote()
         {
             mainWindow.Note.Text = string.Empty;
         }
 
+        public static void PaintCells()
+        {
+            if (prevCoord.Count == 0) PaintPlacements();
+            else if (prevCoord.Count == 1) PaintNextPlacements();
+            else PaintNextNextPlacements();
+        }
         public static void PaintPlacements()
         {
             for (int row = 1; row <= fieldSize; row++)
             {
                 for (int column = 1; column <= fieldSize; column++)
                 {
-                    if ((playerField[row, column] == null) && (IsPlacementGood(row, column))) playerButtons[row, column].IsEnabled = true;
-                    else playerButtons[row, column].IsEnabled = false;
+                    if ((field[Player.Player][row, column] == null) && (IsPlacementGood(row, column))) EnableButton(row, column);
+                    else buttons[Player.Player][row, column].IsEnabled = false;
                 }
             }
         }
 
+        public static void EnableButton(int row,int column)
+        {
+            buttons[Player.Player][row, column].IsEnabled = true;
+            buttons[Player.Player][row, column].Background = (Brush)(new BrushConverter().ConvertFrom("#FF6A5ACD"));
+        }
         public static bool IsPlacementGood(int row, int column)
         {
             if ((IsHorizontalPlacementGood(row, column)) || (IsVerticalPlacementGood(row, column))) return true;
@@ -119,6 +153,16 @@ namespace Battleship
         }
 
         public static void PaintNextNextPlacements()
+        {
+
+        }
+
+        public static void PaintVertical()
+        {
+            PaintUp();
+        }
+
+        public static void PaintHorizontal()
         {
 
         }

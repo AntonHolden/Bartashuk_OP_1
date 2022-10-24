@@ -24,11 +24,28 @@ namespace Battleship
         {
             public int shipSize;
             public List<Tuple<int, int>> shipCoord;
-
-            public Ship(int shipSize, List<Tuple<int, int>> shipCoord)
+            public bool isHitted = false;
+            private Player player;
+            public Ship(int shipSize, List<Tuple<int, int>> shipCoord, Player player)
             {
                 this.shipSize = shipSize;
                 this.shipCoord = shipCoord;
+                this.player = player;
+            }
+
+            public void Hit()
+            {
+                isHitted = true;
+                CheckForDefeat();
+            }
+            private void CheckForDefeat()
+            {
+                foreach (var coord in shipCoord)
+                {
+                    if (!field[player][coord.Item1, coord.Item2].isHitted) return;
+                }
+                //realize info about defeating?
+                //Some kind of "ShipCount[player]--";
             }
         }
 
@@ -45,18 +62,26 @@ namespace Battleship
 
         public const int fieldSize = 10;
 
-        public static Button[,] playerButtons = new Button[fieldSize + 1, fieldSize + 1];
-        public static Button[,] opponentButtons = new Button[fieldSize + 1, fieldSize + 1];
+        public static Dictionary<Player, Button[,]> buttons = new Dictionary<Player, Button[,]>()
+        {
+            {Player.Player, new Button[fieldSize + 1, fieldSize + 1]},
+            {Player.Opponent,new Button[fieldSize + 1, fieldSize + 1] }
+        };
 
-        public static Ship[,] playerField = new Ship[fieldSize + 1, fieldSize + 1];
-        public static Ship[,] opponentField = new Ship[fieldSize + 1, fieldSize + 1];
+        public static Dictionary<Player, Ship[,]> field = new Dictionary<Player, Ship[,]>()
+        {
+            {Player.Player, new Ship[fieldSize + 1, fieldSize + 1]},
+            {Player.Opponent,new Ship[fieldSize + 1, fieldSize + 1] }
+        };
 
-        public static Button? prevButton = null;
-        public static Tuple<int?, int?> prevCoord = new Tuple<int?, int?>(null, null);
+        public static Player currentPlayer = Player.Player;
+
+        static Button? prevButton = null;
+        static Tuple<int?, int?> prevCoord = new Tuple<int?, int?>(null, null);
 
         public static void ClickOnOpponentCell(object sender, EventArgs e, int row, int column)
         {
-            
+
         }
     }
 }
