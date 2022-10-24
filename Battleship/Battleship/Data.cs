@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using static Battleship.Placement;
+using static Battleship.Init;
 
 namespace Battleship
 {
@@ -23,13 +24,13 @@ namespace Battleship
         public class Ship
         {
             public int shipSize;
-            public List<Tuple<int, int>> shipCoord;
+            public List<Tuple<int, int>> shipCoords;
             public bool isHitted = false;
             private Player player;
-            public Ship(int shipSize, List<Tuple<int, int>> shipCoord, Player player)
+            public Ship(int shipSize, List<Tuple<int, int>> shipCoords, Player player)
             {
                 this.shipSize = shipSize;
-                this.shipCoord = shipCoord;
+                this.shipCoords = shipCoords;
                 this.player = player;
             }
 
@@ -40,7 +41,7 @@ namespace Battleship
             }
             private void CheckForDefeat()
             {
-                foreach (var coord in shipCoord)
+                foreach (var coord in shipCoords)
                 {
                     if (!field[player][coord.Item1, coord.Item2].isHitted) return;
                 }
@@ -49,13 +50,6 @@ namespace Battleship
             }
         }
 
-        public static Dictionary<int, int> shipsLeft = new Dictionary<int, int>()
-        {
-            { 1, 4 },
-            { 2, 3 },
-            { 3, 2 },
-            { 4, 1 }
-        };
         public static UIElement? GetGridBorder(Grid grid, int row, int column)
         {
             for (int i = 0; i < grid.Children.Count; i++)
@@ -91,28 +85,25 @@ namespace Battleship
 
         }
 
-        public static Dictionary<Button, int> placementButtonsToSize = new Dictionary<Button, int>()
+        public static Dictionary<int, int> shipsPlaced = new Dictionary<int, int>     //key - size, value - count
         {
-            {mainWindow.PlacementButton1, 1 },
-            {mainWindow.PlacementButton2, 2 },
-            {mainWindow.PlacementButton3, 3 },
-            {mainWindow.PlacementButton4, 4 }
+            { 1,0 },
+            { 2,0 },
+            { 3,0 },
+            { 4,0 }
         };
 
-
-        public static Dictionary<int, TextBlock> sizeToPlacementNotes = new Dictionary<int, TextBlock>()
-        {
-            {1, mainWindow.PlacementNote1 },
-            {2, mainWindow.PlacementNote2 },
-            {3, mainWindow.PlacementNote3 },
-            {4, mainWindow.PlacementNote4 }
-        };
-
-        public static void DisableButtons(Player player)
+        public static void DisableEmptyCells(Player player)
         {
             for (int i = 1; i <= fieldSize; i++)
             {
-                for (int j = 1; j <= fieldSize; j++) buttons[player][i, j].IsEnabled = false;
+                for (int j = 1; j <= fieldSize; j++)
+                {
+                    buttons[player][i, j].Background = Brushes.Transparent;
+
+                    if (field[player][i, j] != null) buttons[player][i, j].IsEnabled = true;
+                    else buttons[player][i, j].IsEnabled = false;
+                }
             }
         }
 
@@ -122,9 +113,9 @@ namespace Battleship
             Button? pressedButton = sender as Button;
             if (pressedButton == null) throw new Exception("You clicked on a non-existent placementButton");
 
-            if (pressedButton==prevPlacementButton)
+            if (pressedButton == prevPlacementButton)
             {
-                DisableButtons(Player.Player);
+                DisableEmptyCells(Player.Player);
                 prevPlacementButton = null;
                 selectedShipSize = 0;
             }
@@ -134,7 +125,10 @@ namespace Battleship
                 selectedShipSize = placementButtonsToSize[pressedButton];
                 PaintCells();
             }
+            prevPlacementCoords.Clear();
         }
-        
+
+
+
     }
 }

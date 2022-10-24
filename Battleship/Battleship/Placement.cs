@@ -12,17 +12,7 @@ namespace Battleship
 {
     public static class Placement
     {
-        public static MainWindow mainWindow = Init.mainWindow;
-        public static Dictionary<int, int> shipsLeft = Data.shipsLeft;
         public static Dictionary<Player, Button[,]> buttons = Init.buttons;
-        public static Dictionary<Player, Ship[,]> field = Data.field;
-        public static Dictionary<int, int> shipsPlaced = new Dictionary<int, int>     //key - size, value - count
-        {
-            { 1,0 },
-            { 2,0 },
-            { 3,0 },
-            { 4,0 }
-        };
 
         public static int selectedShipSize = 0;
 
@@ -37,7 +27,7 @@ namespace Battleship
             return true;
         }
 
-        static List<Tuple<int, int>> prevCoords = new List<Tuple<int, int>>();
+        public static List<Tuple<int, int>> prevPlacementCoords = new List<Tuple<int, int>>();
 
         public static void PlaceModeClicker(object sender, EventArgs e, int row, int column)
         {
@@ -45,73 +35,94 @@ namespace Battleship
 
             if (pressedButton == null) throw new Exception("You clicked on a non-existent button");
 
-            if (prevCoords.Contains(new Tuple<int, int>(row, column)))
+            if (prevPlacementCoords.Contains(new Tuple<int, int>(row, column)))
             {
-                prevCoords.Remove(new Tuple<int, int>(row, column));
+                prevPlacementCoords.Remove(new Tuple<int, int>(row, column));
             }
             else if (field[Player.Player][row, column] != null)
             {
-
-                RemoveShip();
+                RemoveShip(row, column);
+                UpdatePlacementsNotes();
+                UpdatePlacementButtons();
             }
             else
             {
                 pressedButton.Background = Brushes.Blue;
-                prevCoords.Add(new Tuple<int, int>(row, column));
+                prevPlacementCoords.Add(new Tuple<int, int>(row, column));
+                PaintCells();
             }
-            if (prevCoords.Count == selectedShipSize)
+            if (prevPlacementCoords.Count == selectedShipSize)
             {
-                AddShip(prevCoords);
+                AddShip(prevPlacementCoords);
+                UpdatePlacementsNotes();
+                UpdatePlacementButtons();
 
-                prevCoords.Clear();
+                prevPlacementCoords.Clear();
 
-                if (IsFull(selectedShipSize))
-                {
-                    prevPlacementButton.IsEnabled = false;
-                }
                 prevPlacementButton = null;
-                DisableButtons(Player.Player);
+                DisableEmptyCells(Player.Player);
                 selectedShipSize = 0;
                 //if (AllFull) // ClearNote(); DisableButtons(); StartGame();
-                return;
             }
-            PaintCells();
+
         }
 
+        public static void UpdatePlacementButtons()
+        {
+            foreach (var placementButton in placementButtonsToSize)
+            {
+                if (IsFull(placementButton.Value)) placementButton.Key.IsEnabled = false;
+                else placementButton.Key.IsEnabled = true;
+            }
+        }
 
         public static void AddShip(List<Tuple<int, int>> coords)
         {
-            foreach (var coord in coords)
-            {
-                field[Player.Player][coord.Item1, coord.Item2] = new Ship(selectedShipSize, prevCoords, Player.Player);
-            }
+            foreach (var coord in coords) field[Player.Player][coord.Item1, coord.Item2] = new Ship(selectedShipSize, prevPlacementCoords, Player.Player);
 
             PaintShip(coords);
             shipsPlaced[selectedShipSize]++;
         }
 
-        public static void RemoveShip(List<Tuple<int, int>> coords)
+        public static void RemoveShip(int row, int column)
         {
 
-            shipsPlaced[co]--;
-            foreach (var coord in coords)
-            {
-                field[Player.Player][coord.Item1, coord.Item2] = new Ship(selectedShipSize, prevCoords, Player.Player);
-            }
+            var coords = field[Player.Player][row, column].shipCoords;
+            shipsPlaced[field[Player.Player][row, column].shipSize]--;
 
-            PaintShip(coords);
+            foreach (var coord in coords) field[Player.Player][coord.Item1, coord.Item2] = null;
+
+            UnPaintShip(coords);
         }
         public static void PaintShip(List<Tuple<int, int>> coords)
         {
+            foreach (var coord in coords)
+            {
+                Border? border = (Border?)GetGridBorder(grids[Player.Player], coord.Item1, coord.Item2);
 
+                if (border == null) throw new Exception("Can't paint ship!");
+
+                border.Background = Brushes.Blue;
+            }
         }
 
         public static void UnPaintShip(List<Tuple<int, int>> coords)
         {
+            foreach (var coord in coords)
+            {
+                Border? border = (Border?)GetGridBorder(grids[Player.Player], coord.Item1, coord.Item2);
 
+                if (border == null) throw new Exception("Can't unpaint ship!");
+
+                border.Background = Brushes.Transparent;
+            }
         }
 
-        public static void StartPlacement() => UpdateNote();
+        public static void StartPlacement()
+        {
+            UpdateNote();
+            UpdatePlacementsNotes();
+        }
 
         public static void UpdateNote() => mainWindow.Note.Text = $"Расставьте корабли!";
 
@@ -119,8 +130,8 @@ namespace Battleship
 
         public static void PaintCells()
         {
-            if (prevCoords.Count == 0) PaintPlacements();
-            else if (prevCoords.Count == 1) PaintNextPlacements();
+            if (prevPlacementCoords.Count == 0) PaintPlacements();
+            else if (prevPlacementCoords.Count == 1) PaintNextPlacements();
             else PaintNextNextPlacements();
         }
         public static void PaintPlacements()
@@ -129,14 +140,14 @@ namespace Battleship
             {
                 for (int column = 1; column <= fieldSize; column++)
                 {
-                    if ((field[Player.Player][row, column] == null) && (IsPlacementGood(row, column))) EnableButton(row, column);
+                    if ((field[Player.Player][row, column] == null) && (IsPlacementGood(row, column))) AllowToPlace(row, column);
                     else if (field[Player.Player][row, column] != null) buttons[Player.Player][row, column].IsEnabled = true;
                     else buttons[Player.Player][row, column].IsEnabled = false;
                 }
             }
         }
 
-        public static void EnableButton(int row, int column)
+        public static void AllowToPlace(int row, int column)
         {
             buttons[Player.Player][row, column].IsEnabled = true;
             buttons[Player.Player][row, column].Background = (Brush)(new BrushConverter().ConvertFrom("#FF6A5ACD"));
@@ -220,6 +231,11 @@ namespace Battleship
         public static void UpdateShipsLeft()
         {
 
+        }
+
+        public static void UpdatePlacementsNotes()
+        {
+            foreach (var shipSize in shipsPlaced) sizeToPlacementNotes[shipSize.Key].Text = $"Осталось: {5 - shipSize.Key - shipSize.Value}";
         }
     }
 }

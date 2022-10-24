@@ -20,23 +20,47 @@ namespace Battleship
 {
     public static class Init
     {
-        public static Grid playerGrid;
-        public static Grid opponentGrid;
         public static Dictionary<Player, Button[,]> buttons = Data.buttons;
         public static MainWindow mainWindow;
-        public static Dictionary<int, int> shipsLeft = Data.shipsLeft;
+        public static Dictionary<Player, Grid> grids;
+        public static Dictionary<Button, int> placementButtonsToSize;
+        public static Dictionary<int, TextBlock> sizeToPlacementNotes;
 
         public static void InitAll(MainWindow mainWindow)
         {
-            if (mainWindow==null) throw new Exception("MainWindow is null!");
+            if (mainWindow == null) throw new Exception("MainWindow is null!");
 
             Init.mainWindow = mainWindow;
-            playerGrid = mainWindow.PlayerGrid;
-            opponentGrid = mainWindow.OpponentGrid;
+
+            grids = new Dictionary<Player, Grid>()
+            {
+                {Player.Player, mainWindow.PlayerGrid},
+                {Player.Opponent, mainWindow.OpponentGrid}
+            };
+            placementButtonsToSize = new Dictionary<Button, int>()
+            {
+                {mainWindow.PlacementButton1, 1 },
+                {mainWindow.PlacementButton2, 2 },
+                {mainWindow.PlacementButton3, 3 },
+                {mainWindow.PlacementButton4, 4 }
+            };
+            sizeToPlacementNotes = new Dictionary<int, TextBlock>()
+            {
+                {1, mainWindow.PlacementNote1 },
+                {2, mainWindow.PlacementNote2 },
+                {3, mainWindow.PlacementNote3 },
+                {4, mainWindow.PlacementNote4 }
+            };
+
             InitCells();
+            InitPlacementButtons();
             StartPlacement();
         }
 
+        public static void InitPlacementButtons()
+        {
+            foreach (var placementButton in placementButtonsToSize) placementButton.Key.Click += new RoutedEventHandler(PlacementButtonsClicker);
+        }
         public static void InitCells()
         {
             for (int row = 1; row <= fieldSize; row++)
@@ -64,13 +88,13 @@ namespace Battleship
             Button button = MakeButton(row, column);
             button.Click += new RoutedEventHandler((sender, e) => PlaceModeClicker(sender, e, row, column));
 
-            playerGrid.Children.Add(button);
+            grids[Player.Player].Children.Add(button);
             buttons[Player.Player][row, column] = button;
 
             button = MakeButton(row, column);
             button.Click += new RoutedEventHandler((sender, e) => ClickOnOpponentCell(sender, e, row, column));
 
-            opponentGrid.Children.Add(button);
+            grids[Player.Player].Children.Add(button);
             buttons[Player.Opponent][row, column] = button;
         }
 

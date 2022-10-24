@@ -16,7 +16,7 @@
             Ваше поле
         </TextBlock>
 
-        <Button Name="PlacementButton4" Margin="158,86,1085,677" Click="PlacementButtonsClicker" >
+        <Button Name="PlacementButton4" Margin="158,86,1085,677" >
             <TextBlock FontFamily="Adobe Hebrew" Margin="0,2,0,0">
                 4-палубный
             </TextBlock>
@@ -26,7 +26,7 @@
                 Осталось: 1
         </TextBlock>
 
-        <Button Name="PlacementButton3" Margin="248,86,995,677" Click="PlacementButtonsClicker" >
+        <Button Name="PlacementButton3" Margin="248,86,995,677"  >
             <TextBlock FontFamily="Adobe Hebrew" Margin="0,2,0,0">
                 3-палубный
             </TextBlock>
@@ -36,7 +36,7 @@
                 Осталось: 2
         </TextBlock>
 
-        <Button Name="PlacementButton2" Margin="338,86,905,677" Click="PlacementButtonsClicker" >
+        <Button Name="PlacementButton2" Margin="338,86,905,677" >
             <TextBlock FontFamily="Adobe Hebrew" Margin="0,2,0,0">
                 2-палубный
             </TextBlock>
@@ -47,7 +47,7 @@
         </TextBlock>
 
 
-        <Button Name="PlacementButton1" Margin="428,86,815,677" Click="PlacementButtonsClicker" >
+        <Button Name="PlacementButton1" Margin="428,86,815,677"  >
             <TextBlock FontFamily="Adobe Hebrew" Margin="0,2,0,0">
                 1-палубный
             </TextBlock>
