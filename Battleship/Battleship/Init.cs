@@ -87,6 +87,7 @@ namespace Battleship
         {
             Button button = MakeButton(row, column);
             button.Click += new RoutedEventHandler((sender, e) => PlaceModeClicker(sender, e, row, column));
+            
 
             grids[Player.Player].Children.Add(button);
             buttons[Player.Player][row, column] = button;
@@ -94,7 +95,7 @@ namespace Battleship
             button = MakeButton(row, column);
             button.Click += new RoutedEventHandler((sender, e) => ClickOnOpponentCell(sender, e, row, column));
 
-            grids[Player.Player].Children.Add(button);
+            grids[Player.Opponent].Children.Add(button);
             buttons[Player.Opponent][row, column] = button;
         }
 

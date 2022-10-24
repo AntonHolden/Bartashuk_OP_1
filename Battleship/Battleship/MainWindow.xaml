@@ -16,44 +16,44 @@
             Ваше поле
         </TextBlock>
 
-        <Button Name="PlacementButton4" Margin="158,86,1085,677" >
+        <Button Name="PlacementButton4" Margin="158,86,1085,651" >
             <TextBlock FontFamily="Adobe Hebrew" Margin="0,2,0,0">
                 4-палубный
             </TextBlock>
         </Button>
 
-        <TextBlock Name="PlacementNote4" FontFamily="Adobe Hebrew" Margin="158,70,836,689" Width="Auto" Height="Auto" HorizontalAlignment="Left">
+        <TextBlock Name="PlacementNote4" FontFamily="Adobe Hebrew" Margin="158,70,836,677" Width="Auto" Height="Auto" HorizontalAlignment="Left">
                 Осталось: 1
         </TextBlock>
 
-        <Button Name="PlacementButton3" Margin="248,86,995,677"  >
+        <Button Name="PlacementButton3" Margin="248,86,995,651"  >
             <TextBlock FontFamily="Adobe Hebrew" Margin="0,2,0,0">
                 3-палубный
             </TextBlock>
         </Button>
 
-        <TextBlock Name="PlacementNote3" FontFamily="Adobe Hebrew" Margin="248,70,0,689" Width="89" Height="Auto" HorizontalAlignment="Left">
+        <TextBlock Name="PlacementNote3" FontFamily="Adobe Hebrew" Margin="248,70,0,677" Width="89" Height="Auto" HorizontalAlignment="Left">
                 Осталось: 2
         </TextBlock>
 
-        <Button Name="PlacementButton2" Margin="338,86,905,677" >
+        <Button Name="PlacementButton2" Margin="338,86,905,651" >
             <TextBlock FontFamily="Adobe Hebrew" Margin="0,2,0,0">
                 2-палубный
             </TextBlock>
         </Button>
 
-        <TextBlock Name="PlacementNote2" FontFamily="Adobe Hebrew" Margin="338,70,0,689" Width="89" Height="Auto" HorizontalAlignment="Left">
+        <TextBlock Name="PlacementNote2" FontFamily="Adobe Hebrew" Margin="338,70,0,677" Width="89" Height="Auto" HorizontalAlignment="Left">
                 Осталось: 3
         </TextBlock>
 
 
-        <Button Name="PlacementButton1" Margin="428,86,815,677"  >
+        <Button Name="PlacementButton1" Margin="428,86,815,651"  >
             <TextBlock FontFamily="Adobe Hebrew" Margin="0,2,0,0">
                 1-палубный
             </TextBlock>
         </Button>
 
-        <TextBlock Name="PlacementNote1" FontFamily="Adobe Hebrew" Margin="428,70,0,689" Width="89" Height="Auto" HorizontalAlignment="Left">
+        <TextBlock Name="PlacementNote1" FontFamily="Adobe Hebrew" Margin="428,70,0,677" Width="89" Height="Auto" HorizontalAlignment="Left">
                 Осталось: 4
         </TextBlock>
 

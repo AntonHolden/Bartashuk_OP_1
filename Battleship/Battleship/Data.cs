@@ -117,7 +117,7 @@ namespace Battleship
             {
                 DisableEmptyCells(Player.Player);
                 prevPlacementButton = null;
-                selectedShipSize = 0;
+                selectedShipSize = -1;
             }
             else
             {
