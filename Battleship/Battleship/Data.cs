@@ -246,11 +246,11 @@ namespace Battleship
             }
             return true;
         }
-        public static void EnableAllButtons(Player player)
+        public static void AllPlayerButtonsAreEnabled(Player player, bool isEnabled)
         {
             for (int i = 1; i <= fieldSize; i++)
             {
-                for (int j = 1; j <= fieldSize; j++) buttons[player][i, j].IsEnabled = true;
+                for (int j = 1; j <= fieldSize; j++) buttons[player][i, j].IsEnabled = isEnabled;
             }
         }
 

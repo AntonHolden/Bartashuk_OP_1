@@ -22,6 +22,7 @@ namespace Battleship
         public static Dictionary<Player, Button[,]> buttons = Placement.buttons;
         public static List<Tuple<int, int>> possibleCoords = new List<Tuple<int, int>>();
         public static List<Tuple<int, int>> hittedCoords = new List<Tuple<int, int>>();
+
         public static List<Tuple<int, int>> enabledButtonsCoords = new List<Tuple<int, int>>();
 
         //TODO:
@@ -40,8 +41,8 @@ namespace Battleship
             FillCoords(possibleCoords);
             FillCoords(enabledButtonsCoords);
 
-            DisableAllButtons(Player.Player);
-            EnableAllButtons(Player.Opponent);
+            AllPlayerButtonsAreEnabled(Player.Player, false);
+            AllPlayerButtonsAreEnabled(Player.Opponent, true);
             UpdateShipsLeftNotes();
         }
 
@@ -73,13 +74,13 @@ namespace Battleship
             return true;
         }
 
-        public static void EnableButtons(Player player)
+        public static void EnableOpponentButtons()
         {
             for (int i = 1; i <= fieldSize; i++)
             {
                 for (int j = 1; j <= fieldSize; j++)
                 {
-                    if (enabledButtonsCoords.Contains(new Tuple<int, int>(i, j))) buttons[player][i, j].IsEnabled = true;
+                    if (enabledButtonsCoords.Contains(new Tuple<int, int>(i, j))) buttons[Player.Opponent][i, j].IsEnabled = true;
                 }
             }
         }
@@ -89,7 +90,7 @@ namespace Battleship
             DisableAllButtons(Player.Opponent);
             await Task.Delay(1);
             Thread.Sleep(999);
-            EnableButtons(Player.Opponent);
+            EnableOpponentButtons();
 
             Tuple<int, int> coord;
             if (hittedCoords.Count > 0) coord = LookForPlayerShip();
@@ -164,9 +165,7 @@ namespace Battleship
         }
 
         public static bool IsCanHit(int row, int column) =>
-            ((InRange(row)) &&
-            (InRange(column)) &&
-            (possibleCoords.Contains(new Tuple<int, int>(row, column))) &&
+            ((possibleCoords.Contains(new Tuple<int, int>(row, column))) &&
             (AreNotAroundShipsDefeated(row, column)));
 
         public static bool AreNotAroundShipsDefeated(int row, int column)
@@ -180,7 +179,10 @@ namespace Battleship
                     int newRow = row + rowDiff;
                     int newColumn = column + columnDiff;
 
-                    if ((field[Player.Player][newRow, newColumn] != null) && (field[Player.Player][newRow, newColumn].isDefeated)) return false;
+                    if ((InRange(newRow)) &&
+                        (InRange(newColumn)) &&
+                        (field[Player.Player][newRow, newColumn] != null) &&
+                        (field[Player.Player][newRow, newColumn].isDefeated)) return false;
                 }
             }
             return true;

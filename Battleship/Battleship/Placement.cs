@@ -28,7 +28,7 @@ namespace Battleship
 
             if (prevPlacementCoords.Contains(new Tuple<int, int>(row, column)))
             {
-                UnPaintBorder(row, column);
+                UnPaintBorder(Player.Player, row, column);
                 prevPlacementCoords.Remove(new Tuple<int, int>(row, column));
                 PaintCells();
             }
@@ -37,6 +37,7 @@ namespace Battleship
                 RemoveShip(row, column);
                 UpdateNotes();
                 UpdateButtons();
+                DisableEmptyCells(Player.Player);
             }
             else
             {
@@ -135,13 +136,14 @@ namespace Battleship
             UpdateButtons();
         }
 
-        public static void UnPaintBorder(int row,int column)
+        public static void UnPaintBorder(Player player, int row, int column)
         {
-            Border? border = (Border?)GetGridBorder(grids[Player.Player], row, column);
+            Border? border = (Border?)GetGridBorder(grids[player], row, column);
 
             if (border == null) throw new Exception($"Can't UnPaintBorder in {row} row in {column} column!");
 
             border.Background = Brushes.Transparent;
+            border.Child = null;
         }
 
         public static void PaintBorder(int row, int column)
@@ -210,11 +212,11 @@ namespace Battleship
 
         public static bool InRange(int x) => ((x >= 1) && (x <= fieldSize));
 
-        
-        public static void UnAllowToPlace(Player player,int row,int column)
+
+        public static void UnAllowToPlace(Player player, int row, int column)
         {
             buttons[player][row, column].IsEnabled = false;
-            UnPaintBorder(row, column);
+            UnPaintBorder(player, row, column);
         }
         public static void PaintCells()
         {
@@ -231,7 +233,7 @@ namespace Battleship
                 {
                     if ((field[Player.Player][row, column] == null) && (IsPlacementGood(selectedShipSize, row, column))) AllowToPlace(row, column);
                     else if (field[Player.Player][row, column] != null) buttons[Player.Player][row, column].IsEnabled = false;
-                    else UnAllowToPlace(Player.Player,row, column);
+                    else UnAllowToPlace(Player.Player, row, column);
                 }
             }
         }
@@ -292,7 +294,7 @@ namespace Battleship
                 {
                     if (!prevPlacementCoords.Contains(new Tuple<int, int>(i, j)))
                     {
-                        if (field[Player.Player][i,j]!=null) buttons[Player.Player][i, j].IsEnabled = false;
+                        if (field[Player.Player][i, j] != null) buttons[Player.Player][i, j].IsEnabled = false;
                         else UnAllowToPlace(Player.Player, i, j);
                     }
                     else if (advancedCheck)
