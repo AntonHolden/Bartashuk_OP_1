@@ -90,9 +90,9 @@ namespace Battleship
 
         public static void AddShip(List<Tuple<int, int>> coords)
         {
-            foreach (var coord in coords) field[Player.Player][coord.Item1, coord.Item2] = new Ship(selectedShipSize, prevPlacementCoords.Select(i => new Tuple<int, int>(i.Item1, i.Item2)).ToList(), Player.Player);
+            foreach (var coord in coords)
+                field[Player.Player][coord.Item1, coord.Item2] = new Ship(selectedShipSize, prevPlacementCoords.Select(i => new Tuple<int, int>(i.Item1, i.Item2)).ToList(), Player.Player);
 
-            //PaintShip(coords);
             shipsPlaced[Player.Player][selectedShipSize]++;
         }
 
@@ -106,17 +106,6 @@ namespace Battleship
 
             UnPaintShip(coords);
         }
-        //public static void PaintShip(List<Tuple<int, int>> coords)
-        //{
-        //    foreach (var coord in coords)
-        //    {
-        //        Border? border = (Border?)GetGridBorder(grids[Player.Player], coord.Item1, coord.Item2);
-
-        //        if (border == null) throw new Exception("Can't paint ship!");
-
-        //        border.Background = Brushes.Blue;
-        //    }
-        //}
 
         public static void UnPaintShip(List<Tuple<int, int>> coords)
         {
@@ -311,20 +300,6 @@ namespace Battleship
                 }
             }
         }
-        //public static void PaintVertical()
-        //{
-        //    //PaintUp();
-        //}
-
-        //public static void PaintHorizontal()
-        //{
-
-        //}
-
-        //public static void UpdateShipsLeft()
-        //{
-
-        //}
 
         public static void UpdatePlacementsNotes()
         {

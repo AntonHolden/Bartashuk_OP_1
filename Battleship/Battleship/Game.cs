@@ -25,11 +25,6 @@ namespace Battleship
 
         public static List<Tuple<int, int>> enabledButtonsCoords = new List<Tuple<int, int>>();
 
-        //TODO:
-        //1. Fix async delay (new list)
-        //2. Fix State.Width --- Done
-        //3. Make smarter botmoves --- Done
-
         public static void StartGame()
         {
             mainWindow.StartButton.Visibility = Visibility.Hidden;
