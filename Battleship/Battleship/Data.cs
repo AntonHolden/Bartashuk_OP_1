@@ -30,6 +30,7 @@ namespace Battleship
             public int shipSize;
             public List<Tuple<int, int>> shipCoords;
             public bool isHitted = false;
+            public bool isDefeated = false;
             private Player player;
             public Ship(int shipSize, List<Tuple<int, int>> shipCoords, Player player)
             {
@@ -43,7 +44,11 @@ namespace Battleship
                 isHitted = true;
                 if (IsDefeat())
                 {
-                    foreach (var coord in shipCoords) MakeDefeatImage(player, coord.Item1, coord.Item2);
+                    foreach (var coord in shipCoords)
+                    {
+                        MakeDefeatImage(player, coord.Item1, coord.Item2);
+                        field[player][coord.Item1, coord.Item2].isDefeated = true;
+                    }
 
                     if (player == Player.Opponent)
                     {
@@ -167,7 +172,7 @@ namespace Battleship
             else
             {
                 MakeHitImage(Player.Opponent, row, column);
-                field[Player.Opponent][row, column].Hit(row,column);
+                field[Player.Opponent][row, column].Hit(row, column);
             }
 
             buttons[Player.Opponent][row, column].IsEnabled = false;

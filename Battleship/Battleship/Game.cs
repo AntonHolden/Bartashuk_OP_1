@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using static Battleship.Data;
 using static Battleship.Init;
 using static Battleship.BotPlacement;
+using static Battleship.Placement;
 using System.Data.Common;
 using System.Threading;
 
@@ -74,40 +75,99 @@ namespace Battleship
             await Task.Delay(1);
             Thread.Sleep(999);
 
-            if (hittedCoords.Count != 0) LookForPlayerShip();
+            Tuple<int, int> coord;
+            if (hittedCoords.Count != 0) coord = LookForPlayerShip();
+            else coord = possibleCoords[randomizer.Next(possibleCoords.Count)];
+
+            if (coord == null) throw new Exception("Something wrong with looking for player's ship by bot!");
+
+            possibleCoords.Remove(coord);
+
+            if (field[Player.Player][coord.Item1, coord.Item2] == null)
+            {
+                MakeMissImage(Player.Player, coord.Item1, coord.Item2);
+                mainWindow.State.Foreground = Brushes.Blue;
+                mainWindow.State.Text = $"Ход:{columnToLetter[coord.Item2]}{coord.Item1}\nПротивник промахнулся!";
+            }
             else
             {
-                var coord = possibleCoords[randomizer.Next(possibleCoords.Count)];
-                possibleCoords.Remove(coord);
-
-                if (field[Player.Player][coord.Item1, coord.Item2] == null)
-                {
-                    MakeMissImage(Player.Player, coord.Item1, coord.Item2);
-                    mainWindow.State.Foreground = Brushes.Blue;
-                    mainWindow.State.Text = $"Ход:{columnToLetter[coord.Item2]}{coord.Item1}\nПротивник промахнулся!";
-                }
-                else
-                {
-                    MakeHitImage(Player.Player, coord.Item1, coord.Item2);
-                    field[Player.Player][coord.Item1, coord.Item2].Hit(coord.Item1, coord.Item2);
-                }
+                MakeHitImage(Player.Player, coord.Item1, coord.Item2);
+                field[Player.Player][coord.Item1, coord.Item2].Hit(coord.Item1, coord.Item2);
+                if (field[Player.Player][coord.Item1, coord.Item2].isDefeated) hittedCoords.Clear();
+                else hittedCoords.Add(coord);
             }
 
             if (IsPlayerWon(Player.Opponent)) End(false);
         }
 
-        public static void LookForPlayerShip()
+        public static Tuple<int, int> LookForPlayerShip()
         {
-            if (hittedCoords.Count > 1) LookForPlayerShipNext();
-            else
-            {
-                
-            }
+            if (hittedCoords.Count > 1) return LookForPlayerShipNext();
+
+            var coords = new List<Tuple<int, int>>();
+            int row = hittedCoords[0].Item1, column = hittedCoords[0].Item2;
+
+            if (IsCanHit(row, column - 1)) coords.Add(new Tuple<int, int>(row, column - 1));
+            if (IsCanHit(row, column + 1)) coords.Add(new Tuple<int, int>(row, column + 1));
+            if (IsCanHit(row - 1, column)) coords.Add(new Tuple<int, int>(row - 1, column));
+            if (IsCanHit(row + 1, column)) coords.Add(new Tuple<int, int>(row + 1, column));
+
+            return coords[randomizer.Next(coords.Count)];
         }
 
-        public static void LookForPlayerShipNext()
-        {
+        public static bool IsCanHit(int row, int column) =>
+            ((InRange(row)) &&
+            (InRange(column)) &&
+            (possibleCoords.Contains(new Tuple<int, int>(row, column))) &&
+            (AreNotAroundShipsDefeated(row, column)));
 
+        public static bool AreNotAroundShipsDefeated(int row, int column)
+        {
+            foreach (int rowDiff in new List<int> { -1, 0, 1 })
+            {
+                foreach (int columnDiff in new List<int> { -1, 0, 1 })
+                {
+                    if ((rowDiff == 0) && (columnDiff == 0)) continue;
+
+                    int newRow = row + rowDiff;
+                    int newColumn = column + columnDiff;
+
+                    if ((field[Player.Player][newRow, newColumn] != null) && (field[Player.Player][newRow, newColumn].isDefeated)) return false;
+                }
+            }
+            return true;
+        }
+
+        public static Tuple<int, int> LookForPlayerShipNext()
+        {
+            var coords = new List<Tuple<int, int>>();
+
+            if (hittedCoords[0].Item1 == hittedCoords[1].Item1)       //horizontal
+            {
+                int rightCoord = 1, leftCoord = fieldSize, row = hittedCoords[0].Item1;
+                foreach (var coord in hittedCoords)
+                {
+                    rightCoord = Math.Max(rightCoord, coord.Item2);
+                    leftCoord = Math.Min(leftCoord, coord.Item2);
+                }
+
+                if (IsCanHit(row, leftCoord - 1)) coords.Add(new Tuple<int, int>(row, leftCoord - 1));
+                if (IsCanHit(row, rightCoord + 1)) coords.Add(new Tuple<int, int>(row, rightCoord + 1));
+            }
+            else                                                                    //vertical
+            {
+                int downCoord = 1, upCoord = fieldSize, column = hittedCoords[1].Item2;
+                foreach (var coord in hittedCoords)
+                {
+                    downCoord = Math.Max(downCoord, coord.Item1);
+                    upCoord = Math.Min(upCoord, coord.Item1);
+                }
+
+                if (IsCanHit(upCoord - 1, column)) coords.Add(new Tuple<int, int>(upCoord - 1, column));
+                if (IsCanHit(downCoord + 1, column)) coords.Add(new Tuple<int, int>(downCoord + 1, column));
+            }
+
+            return coords[randomizer.Next(coords.Count)];
         }
 
         public static void End(bool isPlayerWon)
