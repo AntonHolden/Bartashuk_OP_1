@@ -20,6 +20,11 @@ namespace Battleship
     {
         public static Dictionary<Player, Button[,]> buttons = Placement.buttons;
         public static List<Tuple<int, int>> possibleCoords = new List<Tuple<int, int>>();
+        public static List<Tuple<int, int>> hittedCoords = new List<Tuple<int, int>>();
+        //TODO:
+        //1. Fix async delay (new list)
+        //2. Fix State.Width
+        //3. Make smarter botmoves
 
         public static void StartGame()
         {
@@ -69,22 +74,40 @@ namespace Battleship
             await Task.Delay(1);
             Thread.Sleep(999);
 
-            var coord = possibleCoords[randomizer.Next(possibleCoords.Count)];
-            possibleCoords.Remove(coord);
-
-            if (field[Player.Player][coord.Item1, coord.Item2] == null)
-            {
-                MakeMissImage(Player.Player, coord.Item1, coord.Item2);
-                mainWindow.State.Foreground = Brushes.Blue;
-                mainWindow.State.Text = $"Ход:{columnToLetter[coord.Item2]}{coord.Item1}\nПротивник промахнулся!";
-            }
+            if (hittedCoords.Count != 0) LookForPlayerShip();
             else
             {
-                MakeHitImage(Player.Player, coord.Item1, coord.Item2);
-                field[Player.Player][coord.Item1, coord.Item2].Hit(coord.Item1, coord.Item2);
+                var coord = possibleCoords[randomizer.Next(possibleCoords.Count)];
+                possibleCoords.Remove(coord);
+
+                if (field[Player.Player][coord.Item1, coord.Item2] == null)
+                {
+                    MakeMissImage(Player.Player, coord.Item1, coord.Item2);
+                    mainWindow.State.Foreground = Brushes.Blue;
+                    mainWindow.State.Text = $"Ход:{columnToLetter[coord.Item2]}{coord.Item1}\nПротивник промахнулся!";
+                }
+                else
+                {
+                    MakeHitImage(Player.Player, coord.Item1, coord.Item2);
+                    field[Player.Player][coord.Item1, coord.Item2].Hit(coord.Item1, coord.Item2);
+                }
             }
 
             if (IsPlayerWon(Player.Opponent)) End(false);
+        }
+
+        public static void LookForPlayerShip()
+        {
+            if (hittedCoords.Count > 1) LookForPlayerShipNext();
+            else
+            {
+                
+            }
+        }
+
+        public static void LookForPlayerShipNext()
+        {
+
         }
 
         public static void End(bool isPlayerWon)
