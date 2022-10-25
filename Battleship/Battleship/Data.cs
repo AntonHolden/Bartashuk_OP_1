@@ -53,12 +53,12 @@ namespace Battleship
                     if (player == Player.Opponent)
                     {
                         mainWindow.State.Foreground = Brushes.Green;
-                        mainWindow.State.Text = $"Ход:{columnToLetter[column]}{row}\nВы потопили корабль противника!";
+                        mainWindow.State.Text = $"Ваш ход: {columnToLetter[column]}{row}\nВы потопили корабль!";
                     }
                     else
                     {
                         mainWindow.State.Foreground = Brushes.Red;
-                        mainWindow.State.Text = $"Ход:{columnToLetter[column]}{row}\nПротивник потопил ваш корабль!";
+                        mainWindow.State.Text = $"Ход противника: {columnToLetter[column]}{row}\nВаш корабль потопили!";
                     }
                     shipsPlaced[player][shipSize]--;
                     UpdateShipsLeftNotes();
@@ -68,12 +68,12 @@ namespace Battleship
                     if (player == Player.Opponent)
                     {
                         mainWindow.State.Foreground = Brushes.Green;
-                        mainWindow.State.Text = $"Ход:{columnToLetter[column]}{row}\nВы попали по кораблю противника!";
+                        mainWindow.State.Text = $"Ваш ход: {columnToLetter[column]}{row}\nПопадание!";
                     }
                     else
                     {
                         mainWindow.State.Foreground = Brushes.Red;
-                        mainWindow.State.Text = $"Ход:{columnToLetter[column]}{row}\nПротивник попал по вашему кораблю!";
+                        mainWindow.State.Text = $"Ход противника: {columnToLetter[column]}{row}\nПопадание!";
                     }
                 }
             }
@@ -167,7 +167,7 @@ namespace Battleship
             {
                 MakeMissImage(Player.Opponent, row, column);
                 mainWindow.State.Foreground = Brushes.Blue;
-                mainWindow.State.Text = $"Ход:{columnToLetter[column]}{row}\nВы промахнулись";
+                mainWindow.State.Text = $"Ваш ход: {columnToLetter[column]}{row}\nПромах!";
             }
             else
             {
@@ -176,6 +176,7 @@ namespace Battleship
             }
 
             buttons[Player.Opponent][row, column].IsEnabled = false;
+            enabledButtonsCoords.Remove(new Tuple<int, int>(row, column));
 
             if (IsPlayerWon(Player.Player)) End(true);
             else BotMove();
@@ -314,6 +315,8 @@ namespace Battleship
             mainWindow.State.Foreground = Brushes.DarkRed;
 
             possibleCoords.Clear();
+            hittedCoords.Clear();
+            enabledButtonsCoords.Clear();
 
             StartBotPlacement();
             StartPlacement();

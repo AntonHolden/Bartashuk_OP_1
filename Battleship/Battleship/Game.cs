@@ -22,10 +22,12 @@ namespace Battleship
         public static Dictionary<Player, Button[,]> buttons = Placement.buttons;
         public static List<Tuple<int, int>> possibleCoords = new List<Tuple<int, int>>();
         public static List<Tuple<int, int>> hittedCoords = new List<Tuple<int, int>>();
+        public static List<Tuple<int, int>> enabledButtonsCoords = new List<Tuple<int, int>>();
+
         //TODO:
         //1. Fix async delay (new list)
-        //2. Fix State.Width
-        //3. Make smarter botmoves
+        //2. Fix State.Width --- Done
+        //3. Make smarter botmoves --- Done
 
         public static void StartGame()
         {
@@ -35,18 +37,19 @@ namespace Battleship
             mainWindow.PlayerShipsLeftNote.Visibility = Visibility.Visible;
             mainWindow.OpponentShipsLeftNote.Visibility = Visibility.Visible;
 
-            FillPossibleCoords();
+            FillCoords(possibleCoords);
+            FillCoords(enabledButtonsCoords);
 
             DisableAllButtons(Player.Player);
             EnableAllButtons(Player.Opponent);
             UpdateShipsLeftNotes();
         }
 
-        public static void FillPossibleCoords()
+        public static void FillCoords(List<Tuple<int, int>> coords)
         {
             for (int i = 1; i <= fieldSize; i++)
             {
-                for (int j = 1; j <= fieldSize; j++) possibleCoords.Add(new Tuple<int, int>(i, j));
+                for (int j = 1; j <= fieldSize; j++) coords.Add(new Tuple<int, int>(i, j));
             }
         }
 
@@ -70,13 +73,26 @@ namespace Battleship
             return true;
         }
 
+        public static void EnableButtons(Player player)
+        {
+            for (int i = 1; i <= fieldSize; i++)
+            {
+                for (int j = 1; j <= fieldSize; j++)
+                {
+                    if (enabledButtonsCoords.Contains(new Tuple<int, int>(i, j))) buttons[player][i, j].IsEnabled = true;
+                }
+            }
+        }
+
         async public static void BotMove()
         {
+            DisableAllButtons(Player.Opponent);
             await Task.Delay(1);
             Thread.Sleep(999);
+            EnableButtons(Player.Opponent);
 
             Tuple<int, int> coord;
-            if (hittedCoords.Count != 0) coord = LookForPlayerShip();
+            if (hittedCoords.Count > 0) coord = LookForPlayerShip();
             else coord = possibleCoords[randomizer.Next(possibleCoords.Count)];
 
             if (coord == null) throw new Exception("Something wrong with looking for player's ship by bot!");
@@ -87,7 +103,7 @@ namespace Battleship
             {
                 MakeMissImage(Player.Player, coord.Item1, coord.Item2);
                 mainWindow.State.Foreground = Brushes.Blue;
-                mainWindow.State.Text = $"Ход:{columnToLetter[coord.Item2]}{coord.Item1}\nПротивник промахнулся!";
+                mainWindow.State.Text = $"Ход противника: {columnToLetter[coord.Item2]}{coord.Item1}\nПромах!";
             }
             else
             {
@@ -113,29 +129,6 @@ namespace Battleship
             if (IsCanHit(row + 1, column)) coords.Add(new Tuple<int, int>(row + 1, column));
 
             return coords[randomizer.Next(coords.Count)];
-        }
-
-        public static bool IsCanHit(int row, int column) =>
-            ((InRange(row)) &&
-            (InRange(column)) &&
-            (possibleCoords.Contains(new Tuple<int, int>(row, column))) &&
-            (AreNotAroundShipsDefeated(row, column)));
-
-        public static bool AreNotAroundShipsDefeated(int row, int column)
-        {
-            foreach (int rowDiff in new List<int> { -1, 0, 1 })
-            {
-                foreach (int columnDiff in new List<int> { -1, 0, 1 })
-                {
-                    if ((rowDiff == 0) && (columnDiff == 0)) continue;
-
-                    int newRow = row + rowDiff;
-                    int newColumn = column + columnDiff;
-
-                    if ((field[Player.Player][newRow, newColumn] != null) && (field[Player.Player][newRow, newColumn].isDefeated)) return false;
-                }
-            }
-            return true;
         }
 
         public static Tuple<int, int> LookForPlayerShipNext()
@@ -168,6 +161,29 @@ namespace Battleship
             }
 
             return coords[randomizer.Next(coords.Count)];
+        }
+
+        public static bool IsCanHit(int row, int column) =>
+            ((InRange(row)) &&
+            (InRange(column)) &&
+            (possibleCoords.Contains(new Tuple<int, int>(row, column))) &&
+            (AreNotAroundShipsDefeated(row, column)));
+
+        public static bool AreNotAroundShipsDefeated(int row, int column)
+        {
+            foreach (int rowDiff in new List<int> { -1, 0, 1 })
+            {
+                foreach (int columnDiff in new List<int> { -1, 0, 1 })
+                {
+                    if ((rowDiff == 0) && (columnDiff == 0)) continue;
+
+                    int newRow = row + rowDiff;
+                    int newColumn = column + columnDiff;
+
+                    if ((field[Player.Player][newRow, newColumn] != null) && (field[Player.Player][newRow, newColumn].isDefeated)) return false;
+                }
+            }
+            return true;
         }
 
         public static void End(bool isPlayerWon)

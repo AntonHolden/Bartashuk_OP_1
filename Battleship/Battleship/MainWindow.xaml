@@ -33,7 +33,7 @@
                 Осталось: 2
         </TextBlock>
 
-        <TextBlock Name="State" FontSize="40" TextWrapping="Wrap" Margin="0,17,0,634" HorizontalAlignment="Center" FontFamily="Adobe Hebrew" Height="Auto" Width="Auto" Foreground="DarkRed">
+        <TextBlock Name="State" FontSize="40" TextWrapping="Wrap" Margin="0,17,0,634" TextAlignment="Center" HorizontalAlignment="Center" FontFamily="Adobe Hebrew" Height="Auto" Width="Auto" Foreground="DarkRed">
 
         </TextBlock>
 
