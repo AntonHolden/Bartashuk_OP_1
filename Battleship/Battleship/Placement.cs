@@ -22,10 +22,6 @@ namespace Battleship
 
         public static void PlaceModeClicker(object sender, EventArgs e, int row, int column)
         {
-            Button? pressedButton = sender as Button;
-
-            if (pressedButton == null) throw new Exception("You clicked on a non-existent button");
-
             if (prevPlacementCoords.Contains(new Tuple<int, int>(row, column)))
             {
                 UnPaintBorder(Player.Player, row, column);
