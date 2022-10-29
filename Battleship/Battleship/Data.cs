@@ -118,8 +118,8 @@ namespace Battleship
 
             Image image = new Image();
             image.Source = new BitmapImage(new Uri("Resources/miss.png", UriKind.Relative));
-            image.Width = 20;
-            image.Height = 20;
+            image.Width = cellSize*0.39;
+            image.Height = cellSize*0.39;
 
             border.Child = image;
         }
@@ -130,8 +130,8 @@ namespace Battleship
 
             Image image = new Image();
             image.Source = new BitmapImage(new Uri("Resources/hit.png", UriKind.Relative));
-            image.Width = 30;
-            image.Height = 30;
+            image.Width = cellSize * 0.54;
+            image.Height = cellSize * 0.54;
 
             border.Child = image;
         }
@@ -142,8 +142,8 @@ namespace Battleship
 
             Image image = new Image();
             image.Source = new BitmapImage(new Uri("Resources/defeat.png", UriKind.Relative));
-            image.Width = 55;
-            image.Height = 55;
+            image.Width = cellSize * 0.9;
+            image.Height = cellSize * 0.9;
 
             border.Child = image;
         }
@@ -208,6 +208,8 @@ namespace Battleship
             Button? pressedButton = sender as Button;
             if (pressedButton == null) throw new Exception("You clicked on a non-existent placementButton");
 
+            prevPlacementCoords.Clear();
+
             if (pressedButton == prevPlacementButton)
             {
                 DisableEmptyCells(Player.Player);
@@ -220,7 +222,6 @@ namespace Battleship
                 selectedShipSize = placementButtonsToSize[pressedButton];
                 PaintCells();
             }
-            prevPlacementCoords.Clear();
         }
 
         public static bool IsFull(Player player, int size) => shipsPlaced[player][size] == 5 - size;

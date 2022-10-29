@@ -28,12 +28,14 @@ namespace Battleship
         {
             InitializeComponent();
             ChangeCellsColor((Brush)(new BrushConverter().ConvertFrom("#FF2F4F4F")));
-            FitScreenSize();
 
             InitAll(this);
+
+            FitScreenSize();
         }
 
         public static double stateFontSize = (SystemParameters.PrimaryScreenWidth * 0.8) / 36;
+        public static double cellSize = SystemParameters.PrimaryScreenWidth * 0.8 * 0.47 / 11;
 
         void FitScreenSize()
         {
@@ -69,41 +71,20 @@ namespace Battleship
             OpponentFieldNote.Margin = new Thickness(0, fieldNoteGapUp, gridHorizontalGap, 0);
             OpponentFieldNote.FontSize = fieldNoteFontSize;
 
-            PlacementButton4.Width = placementButtonWidth;
-            PlacementButton4.Height = placementButtonHeight;
-            PlacementButton4.Margin = new Thickness(placementButtonHorizontalGap, placementButtonsGapUp, 0, 0);
+            foreach (var button in placementButtonsToSize)
+            {
+                button.Key.Width = placementButtonWidth;
+                button.Key.Height = placementButtonHeight;
+                button.Key.Margin = new Thickness(placementButtonHorizontalGap + (4 - button.Value) * placementButtonWidth + (4 - button.Value) * placementButtonsGap, placementButtonsGapUp, 0, 0);
+            }
 
-            PlacementNote4.Width = placementButtonWidth;
-            PlacementNote4.Height = placementButtonHeight / 2;
-            PlacementNote4.FontSize = placementNoteFontSize;
-            PlacementNote4.Margin = new Thickness(placementButtonHorizontalGap, placementNotesGapUp, 0, 0);
-
-            PlacementButton3.Width = placementButtonWidth;
-            PlacementButton3.Height = placementButtonHeight;
-            PlacementButton3.Margin = new Thickness(placementButtonHorizontalGap + placementButtonWidth + placementButtonsGap, placementButtonsGapUp, 0, 0);
-
-            PlacementNote3.Width = placementButtonWidth;
-            PlacementNote3.Height = placementButtonHeight / 2;
-            PlacementNote3.FontSize = placementNoteFontSize;
-            PlacementNote3.Margin = new Thickness(placementButtonHorizontalGap + placementButtonWidth + placementButtonsGap, placementNotesGapUp, 0, 0);
-
-            PlacementButton2.Width = placementButtonWidth;
-            PlacementButton2.Height = placementButtonHeight;
-            PlacementButton2.Margin = new Thickness(placementButtonHorizontalGap + 2 * placementButtonWidth + 2 * placementButtonsGap, placementButtonsGapUp, 0, 0);
-
-            PlacementNote2.Width = placementButtonWidth;
-            PlacementNote2.Height = placementButtonHeight / 2;
-            PlacementNote2.FontSize = placementNoteFontSize;
-            PlacementNote2.Margin = new Thickness(placementButtonHorizontalGap + 2 * placementButtonWidth + 2 * placementButtonsGap, placementNotesGapUp, 0, 0);
-
-            PlacementButton1.Width = placementButtonWidth;
-            PlacementButton1.Height = placementButtonHeight;
-            PlacementButton1.Margin = new Thickness(placementButtonHorizontalGap + 3 * placementButtonWidth + 3 * placementButtonsGap, placementButtonsGapUp, 0, 0);
-
-            PlacementNote1.Width = placementButtonWidth;
-            PlacementNote1.Height = placementButtonHeight / 2;
-            PlacementNote1.FontSize = placementNoteFontSize;
-            PlacementNote1.Margin = new Thickness(placementButtonHorizontalGap + 3 * placementButtonWidth + 3 * placementButtonsGap, placementNotesGapUp, 0, 0);
+            foreach (var note in sizeToPlacementNotes)
+            {
+                note.Value.Width = placementButtonWidth;
+                note.Value.Height = placementButtonHeight / 2;
+                note.Value.FontSize = placementNoteFontSize;
+                note.Value.Margin = new Thickness(placementButtonHorizontalGap + (4 - note.Key) * placementButtonWidth + (4 - note.Key) * placementButtonsGap, placementNotesGapUp, 0, 0);
+            }
 
             PlacementButton1TextBlock.FontSize = placementButtonFontSize;
             PlacementButton2TextBlock.FontSize = placementButtonFontSize;
@@ -129,7 +110,7 @@ namespace Battleship
             State.FontSize = stateFontSize;
 
             var shipsLeftNoteGapUp = this.Height * 0.074;
-            var shipsLeftNoteHorizontalGap = gridHorizontalGap * 8.3;
+            var shipsLeftNoteHorizontalGap = gridHorizontalGap * 9;
             var shipsLeftNoteHeight = this.Height * 0.2;
             var shipsLeftNoteWidth = this.Width * 0.2;
             var shipsLeftNoteFontSize = this.Width / 94;

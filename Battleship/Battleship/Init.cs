@@ -58,6 +58,7 @@ namespace Battleship
             InitColumnToLetter();
             StartBotPlacement();
             StartPlacement();
+            Game.StartGame();
         }
 
         public static void InitMainWindowButtons()
