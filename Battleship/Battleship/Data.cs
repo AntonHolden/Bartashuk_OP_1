@@ -142,8 +142,8 @@ namespace Battleship
 
             Image image = new Image();
             image.Source = new BitmapImage(new Uri("Resources/defeat.png", UriKind.Relative));
-            image.Width = cellSize * 0.9;
-            image.Height = cellSize * 0.9;
+            image.Width = cellSize * 0.85;
+            image.Height = cellSize * 0.85;
 
             border.Child = image;
         }
@@ -222,6 +222,8 @@ namespace Battleship
                 selectedShipSize = placementButtonsToSize[pressedButton];
                 PaintCells();
             }
+
+            UpdateNotes();
         }
 
         public static bool IsFull(Player player, int size) => shipsPlaced[player][size] == 5 - size;

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using static Battleship.Init;
 using static Battleship.Data;
+using static Battleship.MainWindow;
 using System.Windows.Media;
 using System.Data.Common;
 using System.Reflection;
@@ -48,7 +49,6 @@ namespace Battleship
             if (prevPlacementCoords.Count == selectedShipSize)
             {
                 AddShip(prevPlacementCoords);
-                UpdateNotes();
                 UpdateButtons();
 
                 prevPlacementCoords.Clear();
@@ -56,6 +56,7 @@ namespace Battleship
                 prevPlacementButton = null;
                 DisableEmptyCells(Player.Player);
                 selectedShipSize = -1;
+                UpdateNotes();
             }
         }
 
@@ -71,7 +72,8 @@ namespace Battleship
         {
             UpdatePlacementsNotes();
 
-            if (!AllFull(Player.Player)) mainWindow.State.Text = "Расставьте корабли!";
+            if (prevPlacementButton != null) mainWindow.State.Text = $"Расставьте {placementButtonsToSize[prevPlacementButton]}-палубный корабль!";
+            else if (!AllFull(Player.Player)) mainWindow.State.Text = "Расставьте корабли!";
             else mainWindow.State.Text = string.Empty;
         }
 
@@ -119,6 +121,8 @@ namespace Battleship
         {
             UpdateNotes();
             UpdateButtons();
+
+            mainWindow.State.FontSize = stateFontSize*0.76;
         }
 
         public static void UnPaintBorder(Player player, int row, int column)
@@ -134,10 +138,12 @@ namespace Battleship
         public static void PaintBorder(int row, int column)
         {
             Border? border = (Border?)GetGridBorder(grids[Player.Player], row, column);
-
             if (border == null) throw new Exception($"Can't PaintBorder in {row} row in {column} column!");
 
-            border.Background = (Brush)(new BrushConverter().ConvertFrom("#FF6A5ACD"));
+            Brush? newColor = (Brush?)(new BrushConverter().ConvertFrom("#FF6A5ACD"));
+            if (newColor == null) throw new Exception($"Can't get newColor in PaintBorder!");
+
+            border.Background = newColor;
         }
         public static void AllowToPlace(int row, int column)
         {
@@ -287,12 +293,15 @@ namespace Battleship
                         if (isHorizontal)
                         {
                             if ((j != firstBorder) && (j != secondBorder)) buttons[Player.Player][i, j].IsEnabled = false;
+                            else buttons[Player.Player][i, j].IsEnabled = true;
                         }
                         else
                         {
                             if ((i != firstBorder) && (i != secondBorder)) buttons[Player.Player][i, j].IsEnabled = false;
+                            else buttons[Player.Player][i, j].IsEnabled = true;
                         }
                     }
+                    else buttons[Player.Player][i, j].IsEnabled = true;
                 }
             }
         }

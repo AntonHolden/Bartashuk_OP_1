@@ -27,7 +27,7 @@ namespace Battleship
         public MainWindow()
         {
             InitializeComponent();
-            ChangeCellsColor((Brush)(new BrushConverter().ConvertFrom("#FF2F4F4F")));
+            ChangeCellsColor((Brush?)(new BrushConverter().ConvertFrom("#FF2F4F4F")));
 
             InitAll(this);
 
@@ -107,7 +107,6 @@ namespace Battleship
             RestartButton.Margin = new Thickness(0, startButtonsGapUp, gridHorizontalGap, 0);
 
             State.Margin = new Thickness(0, startButtonsGapUp, 0, 0);
-            State.FontSize = stateFontSize;
 
             var shipsLeftNoteGapUp = this.Height * 0.074;
             var shipsLeftNoteHorizontalGap = gridHorizontalGap * 9;
@@ -150,8 +149,10 @@ namespace Battleship
             }
         }
 
-        void ChangeCellsColor(Brush color)
+        void ChangeCellsColor(Brush? color)
         {
+            if (color == null) throw new Exception("Can't get color in ChangeCellsColor!");
+
             for (int i = 1; i <= fieldSize; i++)
             {
                 for (int j = 1; j <= fieldSize; j++)

@@ -33,6 +33,7 @@ namespace Battleship
             foreach (var placementNote in sizeToPlacementNotes) placementNote.Value.Visibility = Visibility.Hidden;
             mainWindow.PlayerShipsLeftNote.Visibility = Visibility.Visible;
             mainWindow.OpponentShipsLeftNote.Visibility = Visibility.Visible;
+            mainWindow.State.FontSize = stateFontSize;
 
             FillCoords(possibleCoords);
             FillCoords(enabledButtonsCoords);
