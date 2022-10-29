@@ -12,6 +12,7 @@ using static Battleship.Data;
 using static Battleship.Init;
 using static Battleship.BotPlacement;
 using static Battleship.Placement;
+using static Battleship.MainWindow;
 using System.Data.Common;
 using System.Threading;
 
@@ -82,7 +83,7 @@ namespace Battleship
 
         async public static void BotMove()
         {
-            DisableAllButtons(Player.Opponent);
+            AllPlayerButtonsAreEnabled(Player.Opponent, false);
             await Task.Delay(1);
             Thread.Sleep(999);
             EnableOpponentButtons();
@@ -188,16 +189,16 @@ namespace Battleship
             if (isPlayerWon)
             {
                 mainWindow.State.Foreground = Brushes.Green;
-                mainWindow.State.FontSize = 42;
+                mainWindow.State.FontSize = stateFontSize * 1.2;
                 mainWindow.State.Text = "Вы победили!";
             }
             else
             {
                 mainWindow.State.Foreground = Brushes.Red;
-                mainWindow.State.FontSize = 42;
+                mainWindow.State.FontSize = stateFontSize * 1.2;
                 mainWindow.State.Text = "Вы проиграли!";
             }
-            DisableAllButtons(Player.Opponent);
+            AllPlayerButtonsAreEnabled(Player.Opponent, false);
         }
     }
 }

@@ -3,41 +3,41 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:Battleship"
     ResizeMode="CanMinimize"
-    Title="Battleship" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" Width="1328" Height="803" >
+    Title="Battleship" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" Width="1328" Height="803">
 
 
 
-    <Grid HorizontalAlignment="Center" Width="1328"  >
+    <Grid>
 
-        <TextBlock FontSize="20" Margin="15,86,736,634" TextWrapping="Wrap" FontFamily="Adobe Hebrew" HorizontalAlignment="Left" FontStyle="Italic" Width="Auto" Height="Auto" >
+        <TextBlock Name="YourFieldNote" FontSize="20" Margin="15,86,736,634" TextWrapping="Wrap" FontFamily="Adobe Hebrew" HorizontalAlignment="Left" FontStyle="Italic" Width="Auto" Height="Auto" >
             Ваше поле
         </TextBlock>
 
-        <Button Name="PlacementButton4" Margin="158,86,1065,651" >
-            <TextBlock FontFamily="Adobe Hebrew" Margin="0,2,0,0">
+        <Button Name="PlacementButton4" Margin="158,86,1065,651" HorizontalAlignment="Left" VerticalAlignment="Top" >
+            <TextBlock Name="PlacementButton4TextBlock" FontFamily="Adobe Hebrew" Margin="0,2,0,0">
                 4-палубный
             </TextBlock>
         </Button>
 
-        <TextBlock Name="PlacementNote4" FontSize="19" FontFamily="Adobe Hebrew" Margin="158,62,0,677" Width="105" Height="Auto" HorizontalAlignment="Left">
+        <TextBlock Name="PlacementNote4" FontSize="19" FontFamily="Adobe Hebrew" Margin="158,62,0,677" Width="105" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top">
                 Осталось: 1
         </TextBlock>
 
-        <Button Name="PlacementButton3" Margin="268,86,955,651"  >
-            <TextBlock FontFamily="Adobe Hebrew" Margin="0,2,0,0">
+        <Button Name="PlacementButton3" Margin="268,86,955,651" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <TextBlock Name="PlacementButton3TextBlock" FontFamily="Adobe Hebrew" Margin="0,2,0,0">
                 3-палубный
             </TextBlock>
         </Button>
 
-        <TextBlock Name="PlacementNote3" FontSize="19" FontFamily="Adobe Hebrew" Margin="268,62,0,677" Width="107" Height="Auto" HorizontalAlignment="Left">
+        <TextBlock Name="PlacementNote3" FontSize="19" FontFamily="Adobe Hebrew" Margin="268,62,0,677" Width="107" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top">
                 Осталось: 2
         </TextBlock>
 
-        <TextBlock Name="State" FontSize="40" TextWrapping="Wrap" Margin="0,17,0,634" TextAlignment="Center" HorizontalAlignment="Center" FontFamily="Adobe Hebrew" Height="Auto" Width="Auto" Foreground="DarkRed">
+        <TextBlock Name="State" FontSize="40" TextWrapping="Wrap" Margin="0,17,0,0" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Adobe Hebrew" Height="Auto" Width="Auto" Foreground="DarkRed">
 
         </TextBlock>
 
-        <TextBlock Name="PlayerShipsLeftNote" FontSize="15" TextWrapping="Wrap" Margin="125,17,0,614" HorizontalAlignment="Left" FontFamily="Adobe Hebrew" Height="Auto" Width="680" Visibility="Hidden">
+        <TextBlock Name="PlayerShipsLeftNote" FontSize="15" TextWrapping="Wrap" Margin="125,17,0,614" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Adobe Hebrew" Height="Auto" Width="680" Visibility="Hidden">
             <!--У вас осталось: <LineBreak/>
             4-палубных кораблей: 1 <LineBreak/>
             3-палубных кораблей: 2 <LineBreak/>
@@ -45,7 +45,7 @@
             1-палубных кораблей: 4-->
         </TextBlock>
 
-        <TextBlock Name="OpponentShipsLeftNote" FontSize="15" TextWrapping="Wrap" Margin="968,17,0,614" HorizontalAlignment="Left" FontFamily="Adobe Hebrew" Height="Auto" Width="180" Visibility="Hidden">
+        <TextBlock Name="OpponentShipsLeftNote" FontSize="15" TextWrapping="Wrap" Margin="968,17,0,614" HorizontalAlignment="Right" VerticalAlignment="Top" FontFamily="Adobe Hebrew" Height="Auto" Width="180" Visibility="Hidden">
             <!--У противника осталось: <LineBreak/>
             4-палубных кораблей: 1 <LineBreak/>
             3-палубных кораблей: 2 <LineBreak/>
@@ -53,71 +53,71 @@
             1-палубных кораблей: 4-->
         </TextBlock>
 
-        <Button Name="PlacementButton2" Margin="378,86,845,651" >
-            <TextBlock FontFamily="Adobe Hebrew" Margin="0,2,0,0">
+        <Button Name="PlacementButton2" Margin="378,86,845,651" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <TextBlock Name="PlacementButton2TextBlock" FontFamily="Adobe Hebrew" Margin="0,2,0,0">
                 2-палубный
             </TextBlock>
         </Button>
 
-        <TextBlock Name="PlacementNote2" FontSize="19" FontFamily="Adobe Hebrew" Margin="380,62,0,677" Width="103" Height="Auto" HorizontalAlignment="Left">
+        <TextBlock Name="PlacementNote2" FontSize="19" FontFamily="Adobe Hebrew" Margin="380,62,0,677" Width="103" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top">
                 Осталось: 3
         </TextBlock>
 
 
-        <Button Name="PlacementButton1" Margin="488,86,735,651"  >
-            <TextBlock FontFamily="Adobe Hebrew" Margin="0,2,0,0">
+        <Button Name="PlacementButton1" Margin="488,86,735,651" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <TextBlock Name="PlacementButton1TextBlock" FontFamily="Adobe Hebrew" Margin="0,2,0,0">
                 1-палубный
             </TextBlock>
         </Button>
 
-        <Button Name="RestartButton" Margin="1148,10,15,708" >
-            <TextBlock FontSize="24" FontFamily="Adobe Hebrew" Margin="0,2,0,0">
+        <Button Name="RestartButton" Margin="1148,10,15,708" HorizontalAlignment="Right" VerticalAlignment="Top" >
+            <TextBlock FontSize="24" Name="RestartButtonTextBlock" FontFamily="Adobe Hebrew" Margin="0,2,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                 Рестарт
             </TextBlock>
         </Button>
 
-        <Button Name="StartButton" Margin="968,10,195,708" IsEnabled="False" >
-            <TextBlock FontSize="24" FontFamily="Adobe Hebrew" Margin="0,2,0,0">
+        <Button Name="StartButton" Margin="968,10,195,708" IsEnabled="False" HorizontalAlignment="Right" VerticalAlignment="Top" >
+            <TextBlock Name="StartButtonTextBlock" FontSize="24" FontFamily="Adobe Hebrew" Margin="0,2,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                 Начать игру
             </TextBlock>
         </Button>
 
-        <TextBlock Name="PlacementNote1" FontSize="19" FontFamily="Adobe Hebrew" Margin="488,62,0,677" Width="106" Height="Auto" HorizontalAlignment="Left">
+        <TextBlock Name="PlacementNote1" FontSize="19" FontFamily="Adobe Hebrew" Margin="488,62,0,677" Width="106" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top">
                 Осталось: 4
         </TextBlock>
 
-        <TextBlock FontSize="20" Margin="858,86,15,634" TextWrapping="Wrap" FontStyle="Italic" HorizontalAlignment="Right" FontFamily="Adobe Hebrew" Width="Auto" Height="Auto">
+        <TextBlock Name="OpponentFieldNote" FontSize="20" Margin="858,86,15,634" TextWrapping="Wrap" FontStyle="Italic" HorizontalAlignment="Right" FontFamily="Adobe Hebrew" Width="Auto" Height="Auto">
             Поле противника
         </TextBlock>
 
-        <Border  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,115,0,0" BorderBrush="Black" BorderThickness="2">
-            <Grid Name="PlayerGrid">
+        <Border Name="PlayerGridBorder" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,115,0,0" BorderBrush="Black" BorderThickness="2">
+            <Grid Name="PlayerGrid" Width="500">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40" />
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="40*" />
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="60*" />
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
+                    <RowDefinition Height="40*" />
+                    <RowDefinition Height="60*" />
+                    <RowDefinition Height="60*" />
+                    <RowDefinition Height="60*" />
+                    <RowDefinition Height="60*" />
+                    <RowDefinition Height="60*" />
+                    <RowDefinition Height="60*" />
+                    <RowDefinition Height="60*" />
+                    <RowDefinition Height="60*" />
+                    <RowDefinition Height="60*" />
+                    <RowDefinition Height="60*" />
                 </Grid.RowDefinitions>
 
                 <Border Grid.Column="0" Grid.Row="0" BorderThickness="0,0,1,1" BorderBrush="Black"/>
@@ -342,34 +342,34 @@
 
             </Grid>
         </Border>
-        <Border  HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,115,15,0" BorderBrush="Black" BorderThickness="2">
-            <Grid Name="OpponentGrid">
+        <Border Name="OpponentGridBorder" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,115,15,0" BorderBrush="Black" BorderThickness="2">
+            <Grid Name="OpponentGrid" Width="500">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40" />
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="40*" />
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="60*" />
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
+                    <RowDefinition Height="40*" />
+                    <RowDefinition Height="60*" />
+                    <RowDefinition Height="60*" />
+                    <RowDefinition Height="60*" />
+                    <RowDefinition Height="60*" />
+                    <RowDefinition Height="60*" />
+                    <RowDefinition Height="60*" />
+                    <RowDefinition Height="60*" />
+                    <RowDefinition Height="60*" />
+                    <RowDefinition Height="60*" />
+                    <RowDefinition Height="60*" />
                 </Grid.RowDefinitions>
 
                 <Border Grid.Column="0" Grid.Row="0" BorderThickness="0,0,1,1" BorderBrush="Black"/>

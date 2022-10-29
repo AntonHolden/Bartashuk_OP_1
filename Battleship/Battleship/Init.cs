@@ -71,10 +71,7 @@ namespace Battleship
         {
             for (int row = 1; row <= fieldSize; row++)
             {
-                for (int column = 1; column <= fieldSize; column++)
-                {
-                    InitButton(row, column);
-                }
+                for (int column = 1; column <= fieldSize; column++) InitButton(row, column);
             }
         }
 

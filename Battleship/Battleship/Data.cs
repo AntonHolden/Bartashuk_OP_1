@@ -12,6 +12,7 @@ using static Battleship.Placement;
 using static Battleship.BotPlacement;
 using static Battleship.Init;
 using static Battleship.Game;
+using static Battleship.MainWindow;
 using System.Data.Common;
 using System.Threading;
 
@@ -184,23 +185,9 @@ namespace Battleship
 
         public static Dictionary<Player, Dictionary<int, int>> shipsPlaced = new Dictionary<Player, Dictionary<int, int>>     //value.key - size, value.value - count
         {
-            {Player.Player, new Dictionary<int, int>()
-            {
-                { 1,0 },
-                { 2,0 },
-                { 3,0 },
-                { 4,0 }
-            }
-            },
+            {Player.Player, GetZeroShipsPlacedCount()},
 
-            {Player.Opponent, new Dictionary<int, int>()
-            {
-                { 1,0 },
-                { 2,0 },
-                { 3,0 },
-                { 4,0 }
-            }
-            }
+            {Player.Opponent, GetZeroShipsPlacedCount()}
         };
 
         public static void DisableEmptyCells(Player player)
@@ -254,21 +241,19 @@ namespace Battleship
             }
         }
 
-        public static void DisableAllButtons(Player player)
-        {
-            for (int i = 1; i <= fieldSize; i++)
-            {
-                for (int j = 1; j <= fieldSize; j++) buttons[player][i, j].IsEnabled = false;
-            }
-        }
-        public static void StartButtonClicker(object sender, EventArgs e)
-        {
-            StartGame();
-        }
+        public static void StartButtonClicker(object sender, EventArgs e) => StartGame();
 
-        public static void RestartButtonClicker(object sender, EventArgs e)
+        public static void RestartButtonClicker(object sender, EventArgs e) => Restart();
+
+        public static Dictionary<int, int> GetZeroShipsPlacedCount()
         {
-            Restart();
+            return new Dictionary<int, int>()
+                {
+                    { 1,0 },
+                    { 2,0 },
+                    { 3,0 },
+                    { 4,0 }
+                };
         }
 
         public static void Restart()
@@ -279,23 +264,8 @@ namespace Battleship
 
             shipsPlaced = new Dictionary<Player, Dictionary<int, int>>
             {
-                {Player.Player, new Dictionary<int, int>()
-                {
-                    { 1,0 },
-                    { 2,0 },
-                    { 3,0 },
-                    { 4,0 }
-                }
-                },
-
-                {Player.Opponent, new Dictionary<int, int>()
-                {
-                    { 1,0 },
-                    { 2,0 },
-                    { 3,0 },
-                    { 4,0 }
-                }
-                }
+                {Player.Player, GetZeroShipsPlacedCount()},
+                {Player.Opponent, GetZeroShipsPlacedCount()}
             };
 
             field = new Dictionary<Player, Ship[,]>()
@@ -311,7 +281,7 @@ namespace Battleship
             foreach (var placementNote in sizeToPlacementNotes) placementNote.Value.Visibility = Visibility.Visible;
             mainWindow.PlayerShipsLeftNote.Visibility = Visibility.Hidden;
             mainWindow.OpponentShipsLeftNote.Visibility = Visibility.Hidden;
-            mainWindow.State.FontSize = 40;
+            mainWindow.State.FontSize = stateFontSize;
             mainWindow.State.Foreground = Brushes.DarkRed;
 
             possibleCoords.Clear();
