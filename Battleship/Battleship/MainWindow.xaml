@@ -9,7 +9,7 @@
 
     <Grid>
 
-        <TextBlock Name="YourFieldNote" FontSize="20" Margin="15,86,736,634" TextWrapping="Wrap" FontFamily="Adobe Hebrew" HorizontalAlignment="Left" FontStyle="Italic" Width="Auto" Height="Auto" >
+        <TextBlock Name="PlayerFieldNote" FontSize="20" Margin="15,86,736,634" TextWrapping="Wrap" FontFamily="Adobe Hebrew" HorizontalAlignment="Left" FontStyle="Italic" Width="Auto" Height="Auto" >
             Ваше поле
         </TextBlock>
 

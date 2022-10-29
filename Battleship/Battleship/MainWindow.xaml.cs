@@ -50,9 +50,10 @@ namespace Battleship
             var placementButtonHorizontalGap = gridWidth / 5;
             var gridHeight = this.Height * 0.73;
             var placementButtonsGap = 7;
-            var fieldNoteGapUp = gridGapUp * 0.85;
+            var fieldNoteGapUp = gridGapUp * 0.82;
             var placementButtonsGapUp = gridGapUp * 0.647;
             var placementNotesGapUp = placementButtonsGapUp * 0.78;
+            var fieldNoteFontSize = this.Width / 75;
 
             PlayerGrid.Height = gridHeight;
             PlayerGrid.Width = gridWidth;
@@ -62,8 +63,11 @@ namespace Battleship
             OpponentGrid.Width = gridWidth;
             OpponentGridBorder.Margin = new Thickness(0, gridGapUp, gridHorizontalGap, 0);
 
-            YourFieldNote.Margin = new Thickness(gridHorizontalGap, fieldNoteGapUp, 0, 0);
+            PlayerFieldNote.Margin = new Thickness(gridHorizontalGap, fieldNoteGapUp, 0, 0);
+            PlayerFieldNote.FontSize = fieldNoteFontSize;
+
             OpponentFieldNote.Margin = new Thickness(0, fieldNoteGapUp, gridHorizontalGap, 0);
+            OpponentFieldNote.FontSize = fieldNoteFontSize;
 
             PlacementButton4.Width = placementButtonWidth;
             PlacementButton4.Height = placementButtonHeight;
@@ -139,6 +143,30 @@ namespace Battleship
             OpponentShipsLeftNote.Width = shipsLeftNoteWidth;
             OpponentShipsLeftNote.FontSize = shipsLeftNoteFontSize;
             OpponentShipsLeftNote.Margin = new Thickness(0, shipsLeftNoteGapUp, shipsLeftNoteHorizontalGap, 0);
+
+            for (int column = 0; column <= fieldSize; column++)
+            {
+                for (int row = 0; row <= fieldSize; row++)
+                {
+                    if ((row > 0) && (column > 0)) continue;
+
+                    Border? border = (Border?)GetGridBorder(PlayerGrid, row, column);
+                    ChangeTextBlockFontSize(ref border);
+
+                    border = (Border?)GetGridBorder(OpponentGrid, row, column);
+                    ChangeTextBlockFontSize(ref border);
+                }
+            }
+
+            void ChangeTextBlockFontSize(ref Border? border)
+            {
+                if (border != null)
+                {
+                    TextBlock textBlock = (TextBlock)border.Child;
+
+                    if (textBlock != null) textBlock.FontSize = this.Width / 57;
+                }
+            }
         }
 
         void ChangeCellsColor(Brush color)
