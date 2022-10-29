@@ -590,8 +590,6 @@
                 <Border Grid.Column="8" Grid.Row="10" BorderThickness="0,0,1,1" BorderBrush="Aquamarine" />
                 <Border Grid.Column="9" Grid.Row="10" BorderThickness="0,0,1,1" BorderBrush="Aquamarine" />
                 <Border Grid.Column="10" Grid.Row="10" BorderThickness="0,0,1,1" BorderBrush="Aquamarine" />
-
-
             </Grid>
         </Border>
     </Grid>
