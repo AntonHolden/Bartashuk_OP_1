@@ -34,9 +34,6 @@ namespace Battleship
             FitScreenSize();
         }
 
-        public static double stateFontSize = (SystemParameters.PrimaryScreenWidth * 0.8) / 36;
-        public static double cellSize = SystemParameters.PrimaryScreenWidth * 0.8 * 0.47 / 11;
-
         void FitScreenSize()
         {
             this.Height = SystemParameters.PrimaryScreenHeight * 0.8;

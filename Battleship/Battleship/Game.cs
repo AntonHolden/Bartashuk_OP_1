@@ -12,7 +12,6 @@ using static Battleship.Data;
 using static Battleship.Init;
 using static Battleship.BotPlacement;
 using static Battleship.Placement;
-using static Battleship.MainWindow;
 using System.Data.Common;
 using System.Threading;
 

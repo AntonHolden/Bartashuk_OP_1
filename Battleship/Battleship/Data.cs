@@ -12,7 +12,6 @@ using static Battleship.Placement;
 using static Battleship.BotPlacement;
 using static Battleship.Init;
 using static Battleship.Game;
-using static Battleship.MainWindow;
 using System.Data.Common;
 using System.Threading;
 
@@ -98,6 +97,9 @@ namespace Battleship
             }
             return null;
         }
+
+        public static double stateFontSize = (SystemParameters.PrimaryScreenWidth * 0.8) / 36;
+        public static double cellSize = SystemParameters.PrimaryScreenWidth * 0.8 * 0.47 / 11;
 
         public static Dictionary<int, string> columnToLetter = new Dictionary<int, string>();
 

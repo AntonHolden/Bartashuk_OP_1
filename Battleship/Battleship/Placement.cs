@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using static Battleship.Init;
 using static Battleship.Data;
-using static Battleship.MainWindow;
 using System.Windows.Media;
 using System.Data.Common;
 using System.Reflection;
@@ -122,7 +121,7 @@ namespace Battleship
             UpdateNotes();
             UpdateButtons();
 
-            mainWindow.State.FontSize = stateFontSize*0.76;
+            mainWindow.State.FontSize = stateFontSize*0.75;
         }
 
         public static void UnPaintBorder(Player player, int row, int column)
