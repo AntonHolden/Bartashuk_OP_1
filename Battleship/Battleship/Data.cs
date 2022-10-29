@@ -120,8 +120,8 @@ namespace Battleship
 
             Image image = new Image();
             image.Source = new BitmapImage(new Uri("Resources/miss.png", UriKind.Relative));
-            image.Width = cellSize*0.39;
-            image.Height = cellSize*0.39;
+            image.Width = cellSize * 0.39;
+            image.Height = cellSize * 0.39;
 
             border.Child = image;
         }

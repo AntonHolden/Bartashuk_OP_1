@@ -90,7 +90,7 @@ namespace Battleship
         {
             Button button = MakeButton(row, column);
             button.Click += new RoutedEventHandler((sender, e) => PlaceModeClicker(sender, e, row, column));
-            
+
             grids[Player.Player].Children.Add(button);
             buttons[Player.Player][row, column] = button;
 

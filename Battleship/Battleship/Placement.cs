@@ -121,7 +121,7 @@ namespace Battleship
             UpdateNotes();
             UpdateButtons();
 
-            mainWindow.State.FontSize = stateFontSize*0.75;
+            mainWindow.State.FontSize = stateFontSize * 0.75;
         }
 
         public static void UnPaintBorder(Player player, int row, int column)
