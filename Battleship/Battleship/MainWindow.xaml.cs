@@ -27,7 +27,7 @@ namespace Battleship
         public MainWindow()
         {
             InitializeComponent();
-            ChangeCellsColor((Brush?)(new BrushConverter().ConvertFrom("#FF2F4F4F")));
+            ChangeCellsColor((Brush?)(new BrushConverter().ConvertFrom("#FF00BFFF")));
 
             InitAll(this);
 
